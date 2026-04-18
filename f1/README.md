@@ -39,6 +39,6 @@
 </div>
 * Отправка письма на почту покупателю:
 <div align="center">
-  <img src="img/phone-mail.png">
+  <img src="img/phone-mail.jpg">
 </div>
 
