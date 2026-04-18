@@ -46,7 +46,7 @@ function getImagePath($path, $placeholder = 'img/placeholder.jpg') {
                 <?php foreach ($addons as $key => $addon): ?>
                 <label class="card small">
                     <input type="checkbox" name="addons[]" value="<?= $key ?>" data-price="<?= $addon['price'] ?>">
-                    <img src="<?= $addon['img'] ?>" alt="<?= $addon['name'] ?>" onerror="this.src='img/placeholder.jpg'">
+                    <img src="<?= getImagePath($addon['img']) ?>" alt="<?= $addon['name'] ?>">
                     <span class="title"><?= $addon['name'] ?></span>
                     <span class="price">+<?= number_format($addon['price'], 0, ',', ' ') ?> ₽</span>
                 </label>
