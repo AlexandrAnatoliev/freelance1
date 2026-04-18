@@ -2,7 +2,7 @@
   <a id="russian"></a>
   <h1>Скрипт php</h1>
 
-  ![Version 0.1.1](https://img.shields.io/badge/Version-0.1.1-orange.svg)
+  ![Version 0.1.2](https://img.shields.io/badge/Version-0.1.2-orange.svg)
   ![Stars](https://img.shields.io/github/stars/AlexandrAnatoliev/freelance.svg?style=flat)
   ![Forks](https://img.shields.io/github/forks/AlexandrAnatoliev/freelance.svg?style=flat)
   ![GitHub repo size](https://img.shields.io/github/repo-size/AlexandrAnatoliev/freelance)
@@ -23,3 +23,22 @@
 сохранения покупателем из письма в pdf) на почту покупателя и админа. 
 Проведение онлайн оплаты не нужно, только отправка.
 ```
+
+#### Реализовано:
+* Страница заказа
+<div align="center">
+  <img src="/img/index.png">
+</div>
+* Счет на оплату:
+<div align="center">
+  <img src="/img/calculate.png">
+</div>
+* Сохранение в pdf-файл:
+<div align="center">
+  <img src="/img/save-in-pdf.png">
+</div>
+* Отправка письма на почту покупателю:
+<div align="center">
+  <img src="/img/phone-mail.png">
+</div>
+
