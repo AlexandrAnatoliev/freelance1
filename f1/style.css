@@ -1,0 +1,34 @@
+body { font-family: Arial, sans-serif; background: #f5f7fa; padding: 20px; }
+.calculator { max-width: 900px; margin: 0 auto; background: white; padding: 30px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+h1 { text-align: center; color: #2c3e50; }
+h2 { font-size: 1.3rem; margin-top: 30px; border-bottom: 2px solid #ecf0f1; padding-bottom: 10px; }
+
+.radio-group, .checkbox-group { display: flex; gap: 20px; flex-wrap: wrap; }
+.card { 
+    flex: 1; min-width: 160px; border: 2px solid #ddd; border-radius: 16px; 
+    padding: 20px 10px; text-align: center; cursor: pointer; background: #fff;
+    transition: all 0.2s; display: flex; flex-direction: column; align-items: center;
+}
+.card.small { min-width: 120px; }
+.card img { width: 100px; height: 100px; object-fit: cover; border-radius: 50%; margin-bottom: 10px; background: #f0f0f0; }
+.card .title { font-weight: bold; margin: 5px 0; }
+.card .price { font-size: 1.2rem; color: #27ae60; font-weight: bold; }
+.card input { display: none; }
+.card:has(input:checked) { border-color: #3498db; background: #ebf5ff; box-shadow: 0 0 0 3px rgba(52,152,219,0.2); }
+.card:hover { border-color: #3498db; }
+
+.quantity-block { margin: 20px 0; display: flex; align-items: center; gap: 15px; }
+.quantity-block input { width: 80px; padding: 10px; font-size: 1.2rem; text-align: center; border: 1px solid #ccc; border-radius: 8px; }
+
+.total-block { font-size: 2rem; font-weight: bold; text-align: right; margin: 20px 0; padding: 20px; background: #f8f9fa; border-radius: 12px; }
+.total-block span { color: #e67e22; }
+
+input[type="text"], input[type="email"], input[type="tel"] {
+    width: 100%; padding: 14px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 8px;
+    font-size: 1rem; box-sizing: border-box;
+}
+button {
+    background: #27ae60; color: white; border: none; padding: 16px 30px; font-size: 1.2rem;
+    border-radius: 50px; width: 100%; cursor: pointer; font-weight: bold; transition: 0.2s;
+}
+button:hover { background: #2ecc71; }
