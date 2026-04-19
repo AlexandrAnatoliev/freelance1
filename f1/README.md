@@ -21,6 +21,7 @@
 
 * [Техническое задание](#technical-specifications)
 * [Общая архитектура](#architecture)
+* [Требования к серверу](#requirements)
 
 ---
 
@@ -62,7 +63,6 @@
   <h2>Общая архитектура</h2>
 </div>
 
-
 ```mermaid
 classDiagram
   
@@ -82,3 +82,15 @@ classDiagram
   calculate.php --|> mail_config.php
   mail_config.php --|> SMTP-сервер
 ```
+
+---
+
+<div align="center">
+  <a id="requirements"></a>
+  <h2>Требования к серверу</h2>
+</div>
+
+* PHP: версия 7.4 и выше
+* Расширения PHP: openssl, sockets
+* Composer: менеджер пакетов PHP
+* Права доступа: возможность записи в папку проекта
