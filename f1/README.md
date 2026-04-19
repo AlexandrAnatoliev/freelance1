@@ -279,21 +279,8 @@ MAIL_PASSWORD=abcd1234efgh5678
 # ============================================
 # Если не указаны, используются значения по умолчанию для Gmail
 
-# MAIL_HOST=smtp.gmail.com
-# MAIL_PORT=587
-# MAIL_ENCRYPTION=tls
-# MAIL_CHARSET=UTF-8
-
-# ============================================
-# АДРЕСА ДЛЯ ОТПРАВКИ УВЕДОМЛЕНИЙ
-# ============================================
-ADMIN_EMAIL=admin@mycompany.com
-ADMIN_NAME=Администратор
-
-# ============================================
-# РЕЖИМ РАБОТЫ
-# ============================================
-# APP_ENV=production   # Не показывать ошибки
-# APP_ENV=development  # Показывать SMTP-отладку
-APP_ENV=production
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=587
+MAIL_ENCRYPTION=tls
+MAIL_CHARSET=UTF-8
 ```
