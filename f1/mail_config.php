@@ -24,7 +24,16 @@ function sendInvoiceEmail($toEmail, $toName, $subject, $htmlBody) {
   try {
     // для вывода диагностики в браузер включить DEBUG_SERVER
     $mail->SMTPDebug = SMTP::DEBUG_OFF;
-    $mail->Debugoutput = function($str, $level = null) {
+    $mail->Debugoutput = function($str, $level) {
+      $colors = [
+        SMTP::DEBUG_CLIENT     => '#3498db', // Синий
+        SMTP::DEBUG_SERVER     => '#2ecc71', // Зеленый
+        SMTP::DEBUG_CONNECTION => '#9b59b6', // Фиолетовый
+        SMTP::DEBUG_LOWLEVEL   => '#e74c3c', // Красный
+      ];
+
+      $color = $colors[$level] ?? '#f5f5f5';
+
       echo "<pre style='background:#f5f5f5; padding:3px; margin:2px; font-family:monospace;'>"
         . htmlspecialchars($str) . "</pre>";
     };
