@@ -41,7 +41,7 @@ foreach ($selectedAddons as $addonKey) {
 $total = $subtotal * $quantity;
 
 $orderDate = date('d.m.Y H:i');
-$orderNumber = 'INV-' . date('Ymd') . '-' . rand(100, 999);
+$orderNumber = 'INV-' . date('Ymd-His');
 
 // Формируем HTML-счет
 $htmlContent = "
