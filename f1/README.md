@@ -2,7 +2,7 @@
   <a id="russian"></a>
   <h1>Скрипт php</h1>
 
-  ![Version 0.1.4](https://img.shields.io/badge/Version-0.1.4-orange.svg)
+  ![Version 0.1.5](https://img.shields.io/badge/Version-0.1.5-orange.svg)
   ![Stars](https://img.shields.io/github/stars/AlexandrAnatoliev/freelance.svg?style=flat)
   ![Forks](https://img.shields.io/github/forks/AlexandrAnatoliev/freelance.svg?style=flat)
   ![GitHub repo size](https://img.shields.io/github/repo-size/AlexandrAnatoliev/freelance)
@@ -22,6 +22,8 @@
 * [Техническое задание](#technical-specifications)
 * [Общая архитектура](#architecture)
 * [Требования к серверу](#requirements)
+* [Установка PHPMailer](#PHPMailer-install)
+* [Настройка почтового сервиса](#mail-service-setup)
 
 ---
 
@@ -121,6 +123,7 @@ sudo apt update
 sudo apt install php-openssl php-sockets
 sudo systemctl restart apache2
 ```
+
 #### Windows (XAMPP)
 
 Раскомментировать строки в `xampp\php\php.ini`:
@@ -129,3 +132,122 @@ sudo systemctl restart apache2
 extension=openssl
 extension=sockets
 ```
+
+---
+
+<div align="center">
+  <a id="PHPMailer-install"></a>
+  <h2>Установка PHPMailer</h2>
+</div>
+
+<div align="center">
+  <h3>Установка Composer</h3>
+</div>
+
+#### Ubuntu/Debian
+
+```
+sudo apt update
+sudo apt install composer -y
+```
+
+#### Windows (XAMPP)
+
+Скачать установщик с **getcomposer.org**
+
+<div align="center">
+  <h3>Установка библиотеки</h3>
+</div>
+
+#### Ubuntu/Debian
+
+В корневой папке проекта выполнить:
+
+```
+composer require phpmailer/phpmailer
+```
+
+После установки структура папок будет выглядеть:
+
+```
+/project/
+│── vendor/
+│   ├── phpmailer/
+│   └── autoload.php
+│── composer.json
+│── composer.lock
+│── index.php
+│── calculate.php
+│── mail_config.php
+│── style.css
+└── img/
+```
+
+---
+
+<div align="center">
+  <a id="mail-service-setup"></a>
+  <h2>Настройка почтового сервиса</h2>
+</div>
+
+<div align="center">
+  <h3>Gmail</h3>
+</div>
+
+#### Получение пароля приложения:
+* Включить двухфакторную аутентификацию в Google-аккаунте:
+
+```
+Настройки → Безопасность → Двухфакторная аутентификация
+```
+
+* Создать пароль приложения:
+  - myaccount.google.com/apppasswords
+  - Приложение: Почта
+  - Устройство: Другое (ввести "PHP Calculator")
+  - Скопировать 16-значный пароль
+
+#### Конфигурация Gmail SMTP:
+
+| Параметр	          | Значение                              |
+|---------------------|---------------------------------------|
+| SMTP-сервер	        | smtp.gmail.com                        |
+| Порт	              | 587 (TLS) или 465 (SSL)               |
+| Шифрование	        | STARTTLS (для 587) или SSL (для 465)  |
+| Лимит писем/день	  | 500                                   |
+
+<div align="center">
+  <h3>Яндекс Почта</h3>
+</div>
+
+#### Получение пароля приложения:
+
+* Яндекс ID → Безопасность → Пароли приложений
+* Создать пароль → Выбрать "Почта"
+* Скопировать пароль
+
+#### Конфигурация Яндекс SMTP:
+| Параметр	          | Значение        |
+|---------------------|-----------------|
+| SMTP-сервер	        | smtp.yandex.ru  |
+| Порт	              | 465 (SSL)       |
+| Шифрование	        | SSL             |
+| Лимит писем/день	  | 5000            |
+
+<div align="center">
+  <h3>Mail.ru</h3>
+</div>
+
+#### Получение пароля:
+
+* Настройки → Безопасность → Пароли для внешних приложений
+* Создать пароль
+* Скопировать пароль
+
+#### Конфигурация Mail.ru SMTP:
+
+| Параметр	          | Значение      |
+|---------------------|---------------|
+| SMTP-сервер	        | smtp.mail.ru  |
+| Порт	              | 465 (SSL)     |
+| Шифрование	        | SSL           |
