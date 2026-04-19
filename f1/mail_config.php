@@ -16,14 +16,14 @@ function sendInvoiceEmail($toEmail, $toName, $subject, $htmlBody) {
   $password = $_ENV['MAIL_PASSWORD'] ?? getenv('MAIL_PASSWORD');
   $host = $_ENV['MAIL_HOST'] ?? 'smtp.gmail.com';
   $port = $_ENV['MAIL_PORT'] ?? 587;
-  $encryption = $_ENV['MAIL_ENCRYPTION'] === 'ssl' 
-    ? PHPMailer::ENCRYPTION_SMTPS 
+  $encryption = $_ENV['MAIL_ENCRYPTION'] === 'ssl'
+    ? PHPMailer::ENCRYPTION_SMTPS
     : PHPMailer::ENCRYPTION_STARTTLS;
   $charset = $_ENV['MAIL_CHARSET'] ?? 'UTF-8';
 
   try {
     // для вывода диагностики в браузер включить DEBUG_SERVER
-    $mail->SMTPDebug = SMTP::DEBUG_OFF; 
+    $mail->SMTPDebug = SMTP::DEBUG_OFF;
     $mail->Debugoutput = function($str, $level) {
       echo "<pre style='background:#f5f5f5; padding:3px; margin:2px; font-family:monospace;'>"
         . htmlspecialchars($str) . "</pre>";
