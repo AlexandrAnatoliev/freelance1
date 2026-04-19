@@ -1,4 +1,3 @@
 *.swp
-mail_config.php
 vendor/
 .env
