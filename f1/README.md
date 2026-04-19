@@ -20,6 +20,7 @@
 </div>
 
 * [Техническое задание](#technical-specifications)
+* [Общая архитектура](#architecture)
 
 ---
 
@@ -54,3 +55,34 @@
   <img src="img/phone-mail.jpg" width=320>
 </div>
 
+---
+
+<div align="center">
+  <a id="architecture"></a>
+  <h2>Общая архитектура</h2>
+</div>
+
+
+```mermaid
+classDiagram
+  
+  class index.php {
+    (Форма заказа)
+  }
+
+  class calculate.php {
+    (Обработчик)
+  }
+
+  class mail_config.php {
+    (PHPMailer)
+  }
+
+  class SMTP-сервер {
+    (Gmail/Yandex)
+  }
+
+  index.php --|> calculate.php
+  calculate.php --|> mail_config.php
+  mail_config.php --|> SMTP-сервер
+```
