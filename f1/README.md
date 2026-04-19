@@ -2,7 +2,7 @@
   <a id="russian"></a>
   <h1>Скрипт php</h1>
 
-  ![Version 0.1.3](https://img.shields.io/badge/Version-0.1.3-orange.svg)
+  ![Version 0.1.4](https://img.shields.io/badge/Version-0.1.4-orange.svg)
   ![Stars](https://img.shields.io/github/stars/AlexandrAnatoliev/freelance.svg?style=flat)
   ![Forks](https://img.shields.io/github/forks/AlexandrAnatoliev/freelance.svg?style=flat)
   ![GitHub repo size](https://img.shields.io/github/repo-size/AlexandrAnatoliev/freelance)
@@ -15,7 +15,18 @@
 
 ---
 
-#### Задание:
+<div align="center">
+  <h2>Навигация</h2>
+</div>
+
+* [Техническое задание](#technical-specifications)
+
+---
+
+<div align="center">
+  <a id="technical-specifications"></a>
+  <h2>Техническое задание</h2>
+</div>
 ```
 Нужен скрипт калькулятора-заказа на php с радиокнопками, чекбоксами, 
 картинками, полем ввода количества, расчётом итоговой суммы заказа 
