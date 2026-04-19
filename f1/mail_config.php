@@ -1,0 +1,70 @@
+<?php
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
+require 'vendor/autoload.php';
+
+// ===== ЗАГРУЗКА .env ФАЙЛА =====
+// Используем полный путь к классу
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
+// Проверка загрузки
+echo "<!-- ДИАГНОСТИКА .env -->\n";
+echo "MAIL_USERNAME: " . ($_ENV['MAIL_USERNAME'] ?? 'НЕ НАЙДЕН') . "<br>\n";
+echo "MAIL_PASSWORD: " . (isset($_ENV['MAIL_PASSWORD']) ? 'НАЙДЕН (длина: ' . strlen($_ENV['MAIL_PASSWORD']) . ')' : 'НЕ НАЙДЕН') . "<br>\n";
+echo "<!-- КОНЕЦ ДИАГНОСТИКИ -->\n";
+// ================================
+
+function sendInvoiceEmail($toEmail, $toName, $subject, $htmlBody) {
+    $mail = new PHPMailer(true);
+
+    $username = $_ENV['MAIL_USERNAME'] ?? getenv('MAIL_USERNAME');
+    $password = $_ENV['MAIL_PASSWORD'] ?? getenv('MAIL_PASSWORD');
+
+    try {
+        $mail->SMTPDebug = SMTP::DEBUG_CLIENT; // Включим для диагностики
+        $mail->Debugoutput = function($str, $level) {
+            echo "<pre style='background:#f5f5f5; padding:3px; margin:2px; font-family:monospace;'>"
+                 . htmlspecialchars($str) . "</pre>";
+        };
+
+        $mail->isSMTP();
+        $mail->Host       = 'smtp.gmail.com';
+        $mail->SMTPAuth   = true;
+        $mail->Username   = $username;
+        $mail->Password   = $password;
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port       = 587;
+        $mail->CharSet    = 'UTF-8';
+
+        $mail->SMTPOptions = [
+            'ssl' => [
+                'verify_peer' => false,
+                'verify_peer_name' => false,
+                'allow_self_signed' => true
+            ]
+        ];
+
+        $mail->setFrom($username, 'Калькулятор заказа');
+        $mail->addAddress($toEmail, $toName);
+        $mail->addReplyTo($username, 'Поддержка');
+
+        $mail->isHTML(true);
+        $mail->Subject = $subject;
+        $mail->Body    = $htmlBody;
+        $mail->AltBody = strip_tags($htmlBody);
+
+        $mail->send();
+        return true;
+
+    } catch (Exception $e) {
+        echo "<div style='color:red; padding:10px; border:1px solid red;'>";
+        echo "<strong>Ошибка отправки:</strong><br>";
+        echo $mail->ErrorInfo;
+        echo "</div>";
+        return false;
+    }
+}
+?>
