@@ -66,16 +66,16 @@
 ```mermaid
 classDiagram
   
-  class index.php (Форма заказа) {
+  class index.php {
   }
 
-  class calculate.php (Обработчик) {
+  class calculate.php {
   }
 
-  class mail_config.php (PHPMailer) {
+  class mail_config.php {
   }
 
-  class SMTP-сервер (Gmail/Yandex) {
+  class SMTP-сервер {
   }
 
   index.php --|> calculate.php
