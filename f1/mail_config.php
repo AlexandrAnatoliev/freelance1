@@ -34,7 +34,7 @@ function sendInvoiceEmail($toEmail, $toName, $subject, $htmlBody) {
 
       $color = $colors[$level] ?? '#f5f5f5';
 
-      echo "<pre style='background:#f5f5f5; padding:3px; margin:2px; font-family:monospace;'>"
+      echo "<pre style='background:{$color}; padding:3px; margin:2px; font-family:monospace;'>"
         . htmlspecialchars($str) . "</pre>";
     };
 
