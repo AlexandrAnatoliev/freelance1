@@ -24,7 +24,7 @@ function sendInvoiceEmail($toEmail, $toName, $subject, $htmlBody) {
   try {
     // для вывода диагностики в браузер включить DEBUG_SERVER
     $mail->SMTPDebug = SMTP::DEBUG_OFF;
-    $mail->Debugoutput = function($str, $level) {
+    $mail->Debugoutput = function($str, $level = null) {
       echo "<pre style='background:#f5f5f5; padding:3px; margin:2px; font-family:monospace;'>"
         . htmlspecialchars($str) . "</pre>";
     };
@@ -66,4 +66,3 @@ function sendInvoiceEmail($toEmail, $toName, $subject, $htmlBody) {
     return false;
   }
 }
-?>
