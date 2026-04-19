@@ -94,3 +94,38 @@ classDiagram
 * Расширения PHP: openssl, sockets
 * Composer: менеджер пакетов PHP
 * Права доступа: возможность записи в папку проекта
+
+<div align="center">
+  <h3>Проверка установленных расширений</h3>
+</div>
+
+```
+php -m | grep -E "openssl|sockets"
+```
+
+#### Ожидаемый вывод
+
+```
+openssl
+sockets
+```
+
+<div align="center">
+  <h3>Установка недостающих расширений</h3>
+</div>
+
+#### Ubuntu/Debian
+
+```
+sudo apt update
+sudo apt install php-openssl php-sockets
+sudo systemctl restart apache2
+```
+#### Windows (XAMPP)
+
+Раскомментировать строки в `xampp\php\php.ini`:
+
+```
+extension=openssl
+extension=sockets
+```
