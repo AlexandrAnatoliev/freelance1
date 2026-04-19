@@ -38,18 +38,18 @@
 #### Реализовано:
 * Страница заказа
 <div align="center">
-  <img src="img/index.png">
+  <img src="img/index.png" width=640>
 </div>
 * Счет на оплату:
 <div align="center">
-  <img src="img/calculate.png">
+  <img src="img/calculate.png" width=640>
 </div>
 * Сохранение в pdf-файл:
 <div align="center">
-  <img src="img/save-in-pdf.png">
+  <img src="img/save-in-pdf.png" width=640>
 </div>
 * Отправка письма на почту покупателю:
 <div align="center">
-  <img src="img/phone-mail.jpg">
+  <img src="img/phone-mail.jpg" width=320>
 </div>
 
