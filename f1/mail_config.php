@@ -14,18 +14,18 @@ function sendInvoiceEmail($toEmail, $toName, $subject, $htmlBody) {
 
   $username = $_ENV['MAIL_USERNAME'] ?? getenv('MAIL_USERNAME');
   $password = $_ENV['MAIL_PASSWORD'] ?? getenv('MAIL_PASSWORD');
+  $host = $_ENV['MAIL_HOST'] ?? 'smtp.gmail.com';
 
   try {
+    // для вывода диагностики в браузер включить DEBUG_SERVER
     $mail->SMTPDebug = SMTP::DEBUG_OFF; 
-    // для диагностики включить DEBUG_SERVER
-    // вывод диагностики в браузер
     $mail->Debugoutput = function($str, $level) {
       echo "<pre style='background:#f5f5f5; padding:3px; margin:2px; font-family:monospace;'>"
         . htmlspecialchars($str) . "</pre>";
     };
 
     $mail->isSMTP();
-    $mail->Host       = 'smtp.gmail.com';
+    $mail->Host       = $host;
     $mail->SMTPAuth   = true;
     $mail->Username   = $username;
     $mail->Password   = $password;
