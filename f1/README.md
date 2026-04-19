@@ -2,7 +2,7 @@
   <a id="russian"></a>
   <h1>Скрипт php</h1>
 
-  ![Version 0.1.4](https://img.shields.io/badge/Version-0.1.4-orange.svg)
+  ![Version 0.1.5](https://img.shields.io/badge/Version-0.1.5-orange.svg)
   ![Stars](https://img.shields.io/github/stars/AlexandrAnatoliev/freelance.svg?style=flat)
   ![Forks](https://img.shields.io/github/forks/AlexandrAnatoliev/freelance.svg?style=flat)
   ![GitHub repo size](https://img.shields.io/github/repo-size/AlexandrAnatoliev/freelance)
@@ -22,6 +22,7 @@
 * [Техническое задание](#technical-specifications)
 * [Общая архитектура](#architecture)
 * [Требования к серверу](#requirements)
+* [Установка PHPMailer](#PHPMailer-install)
 
 ---
 
@@ -121,6 +122,7 @@ sudo apt update
 sudo apt install php-openssl php-sockets
 sudo systemctl restart apache2
 ```
+
 #### Windows (XAMPP)
 
 Раскомментировать строки в `xampp\php\php.ini`:
@@ -128,4 +130,54 @@ sudo systemctl restart apache2
 ```
 extension=openssl
 extension=sockets
+```
+
+---
+
+<div align="center">
+  <a id="PHPMailer-install"></a>
+  <h2>Установка PHPMailer</h2>
+</div>
+
+<div align="center">
+  <h3>Установка Composer</h3>
+</div>
+
+#### Ubuntu/Debian
+
+```
+sudo apt update
+sudo apt install composer -y
+```
+
+#### Windows (XAMPP)
+
+Скачать установщик с **getcomposer.org**
+
+<div align="center">
+  <h3>Установка библиотеки</h3>
+</div>
+
+#### Ubuntu/Debian
+
+В корневой папке проекта выполнить:
+
+```
+composer require phpmailer/phpmailer
+```
+
+После установки структура папок будет выглядеть:
+
+```
+/project/
+│── vendor/
+│   ├── phpmailer/
+│   └── autoload.php
+│── composer.json
+│── composer.lock
+│── index.php
+│── calculate.php
+│── mail_config.php
+│── style.css
+└── img/
 ```
