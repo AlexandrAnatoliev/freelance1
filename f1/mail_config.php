@@ -9,12 +9,6 @@ require 'vendor/autoload.php';
 // Используем полный путь к классу
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
-
-// Проверка загрузки
-echo "<!-- ДИАГНОСТИКА .env -->\n";
-echo "MAIL_USERNAME: " . ($_ENV['MAIL_USERNAME'] ?? 'НЕ НАЙДЕН') . "<br>\n";
-echo "MAIL_PASSWORD: " . (isset($_ENV['MAIL_PASSWORD']) ? 'НАЙДЕН (длина: ' . strlen($_ENV['MAIL_PASSWORD']) . ')' : 'НЕ НАЙДЕН') . "<br>\n";
-echo "<!-- КОНЕЦ ДИАГНОСТИКИ -->\n";
 // ================================
 
 function sendInvoiceEmail($toEmail, $toName, $subject, $htmlBody) {
@@ -24,7 +18,7 @@ function sendInvoiceEmail($toEmail, $toName, $subject, $htmlBody) {
     $password = $_ENV['MAIL_PASSWORD'] ?? getenv('MAIL_PASSWORD');
 
     try {
-        $mail->SMTPDebug = SMTP::DEBUG_CLIENT; // Включим для диагностики
+        $mail->SMTPDebug = SMTP::DEBUG_OFF; // Включим для диагностики
         $mail->Debugoutput = function($str, $level) {
             echo "<pre style='background:#f5f5f5; padding:3px; margin:2px; font-family:monospace;'>"
                  . htmlspecialchars($str) . "</pre>";
