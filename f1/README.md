@@ -2,7 +2,7 @@
   <a id="russian"></a>
   <h1>Скрипт php</h1>
 
-  ![Version 0.1.6](https://img.shields.io/badge/Version-0.1.6-orange.svg)
+  ![Version 0.1.7](https://img.shields.io/badge/Version-0.1.7-orange.svg)
   ![Stars](https://img.shields.io/github/stars/AlexandrAnatoliev/freelance.svg?style=flat)
   ![Forks](https://img.shields.io/github/forks/AlexandrAnatoliev/freelance.svg?style=flat)
   ![GitHub repo size](https://img.shields.io/github/repo-size/AlexandrAnatoliev/freelance)
@@ -24,6 +24,7 @@
 * [Требования к серверу](#requirements)
 * [Установка PHPMailer](#PHPMailer-install)
 * [Настройка почтового сервиса](#mail-service-setup)
+* [Переменные окружения](#env)
 
 ---
 
@@ -137,7 +138,7 @@ extension=sockets
 
 <div align="center">
   <a id="PHPMailer-install"></a>
-  <h2>Установка PHPMailer</h2>
+  <h2>Установка PHPMailer и phpdotenv</h2>
 </div>
 
 <div align="center">
@@ -156,7 +157,7 @@ sudo apt install composer -y
 Скачать установщик с **getcomposer.org**
 
 <div align="center">
-  <h3>Установка библиотеки</h3>
+  <h3>Установка библиотек</h3>
 </div>
 
 #### Ubuntu/Debian
@@ -165,6 +166,10 @@ sudo apt install composer -y
 
 ```
 composer require phpmailer/phpmailer
+```
+
+```
+composer require vlucas/phpdotenv
 ```
 
 После установки структура папок будет выглядеть:
@@ -251,3 +256,18 @@ composer require phpmailer/phpmailer
 | SMTP-сервер	        | smtp.mail.ru  |
 | Порт	              | 465 (SSL)     |
 | Шифрование	        | SSL           |
+
+---
+
+<div align="center">
+  <a id="env"></a>
+  <h2>Переменные окружения</h2>
+</div>
+
+Не храните пароли в коде. Используйте .env файлы:
+
+```
+# .env (не добавлять в Git!)
+MAIL_USERNAME=your-email@gmail.com
+MAIL_PASSWORD=your-16-char-password
+```
