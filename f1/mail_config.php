@@ -66,4 +66,3 @@ function sendInvoiceEmail($toEmail, $toName, $subject, $htmlBody) {
     return false;
   }
 }
-?>
