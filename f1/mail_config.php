@@ -16,6 +16,10 @@ function sendInvoiceEmail($toEmail, $toName, $subject, $htmlBody) {
   $password = $_ENV['MAIL_PASSWORD'] ?? getenv('MAIL_PASSWORD');
   $host = $_ENV['MAIL_HOST'] ?? 'smtp.gmail.com';
   $port = $_ENV['MAIL_PORT'] ?? 587;
+  $encryption = $_ENV['MAIL_ENCRYPTION'] === 'ssl' 
+    ? PHPMailer::ENCRYPTION_SMTPS 
+    : PHPMailer::ENCRYPTION_STARTTLS;
+  $charset = $_ENV['MAIL_CHARSET'] ?? 'UTF-8';
 
   try {
     // для вывода диагностики в браузер включить DEBUG_SERVER
@@ -30,9 +34,9 @@ function sendInvoiceEmail($toEmail, $toName, $subject, $htmlBody) {
     $mail->SMTPAuth   = true;
     $mail->Username   = $username;
     $mail->Password   = $password;
-    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+    $mail->SMTPSecure = $encryption;
     $mail->Port       = $port;
-    $mail->CharSet    = 'UTF-8';
+    $mail->CharSet    = $charset;
 
     $mail->SMTPOptions = [
       'ssl' => [
