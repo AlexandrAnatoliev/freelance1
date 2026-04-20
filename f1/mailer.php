@@ -5,19 +5,15 @@ use PHPMailer\PHPMailer\Exception;
 
 require_once 'vendor/autoload.php';
 require_once 'configs/mail.php';
-// $mailSettings = getMailSettings();
 
 function sendInvoiceEmail($toEmail, $toName, $subject, $htmlBody) {
   $mail = new PHPMailer(true);
 
   $mailSettings = getMailSettings();
-//   global $username;
-  global $password;
   global $host;
   global $port;
   global $encryption;
   global $charset;
-//   global $mailSettings;
 
   try {
     // для вывода диагностики в браузер включить DEBUG_SERVER
@@ -39,9 +35,8 @@ function sendInvoiceEmail($toEmail, $toName, $subject, $htmlBody) {
     $mail->isSMTP();
     $mail->Host       = $host;
     $mail->SMTPAuth   = true;
-//     $mail->Username   = $username;
     $mail->Username   = $mailSettings['username'];
-    $mail->Password   = $password;
+    $mail->Password   = $mailSettings['password'];
     $mail->SMTPSecure = $encryption;
     $mail->Port       = $port;
     $mail->CharSet    = $charset;
