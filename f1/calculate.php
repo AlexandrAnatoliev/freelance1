@@ -9,11 +9,6 @@ require_once 'configs/items.php';
 require_once 'configs/addons.php';
 $items = getItems();
 $addons = getAddons();
-// $addons = [
-//     'support' => ['name' => 'Поддержка 24/7', 'price' => 500],
-//     'backup'  => ['name' => 'Резервное копирование', 'price' => 300],
-//     'seo'     => ['name' => 'SEO-аудит', 'price' => 700]
-// ];
 
 // Получаем данные из формы
 $tariffKey = $_POST['tariff'] ?? null;
