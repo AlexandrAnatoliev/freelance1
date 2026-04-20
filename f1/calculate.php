@@ -119,7 +119,7 @@ $htmlContent .= "
 ";
 
 // Подключаем PHPMailer
-require_once 'mail_config.php';
+require_once 'mailer.php';
 
 $subject = "Счет на оплату №{$orderNumber} от " . date('d.m.Y');
 
