@@ -7,11 +7,6 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 // Данные товаров
 require_once 'configs/items.php';
 $items = getItems();
-// $items = [
-//     'standart' => ['name' => 'Тариф Стандарт', 'price' => 1000],
-//     'pro'      => ['name' => 'Тариф Про', 'price' => 2500],
-//     'vip'      => ['name' => 'Тариф VIP', 'price' => 5000]
-// ];
 $addons = [
     'support' => ['name' => 'Поддержка 24/7', 'price' => 500],
     'backup'  => ['name' => 'Резервное копирование', 'price' => 300],
