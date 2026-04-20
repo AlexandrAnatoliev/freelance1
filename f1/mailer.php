@@ -8,13 +8,7 @@ require_once 'configs/mail.php';
 
 function sendInvoiceEmail($toEmail, $toName, $subject, $htmlBody) {
   $mail = new PHPMailer(true);
-
-  global $username;
-  global $password;
-  global $host;
-  global $port;
-  global $encryption;
-  global $charset;
+  $mailSettings = getMailSettings();
 
   try {
     // для вывода диагностики в браузер включить DEBUG_SERVER
@@ -34,13 +28,13 @@ function sendInvoiceEmail($toEmail, $toName, $subject, $htmlBody) {
     };
 
     $mail->isSMTP();
-    $mail->Host       = $host;
+    $mail->Host       = $mailSettings['host'];
     $mail->SMTPAuth   = true;
-    $mail->Username   = $username;
-    $mail->Password   = $password;
-    $mail->SMTPSecure = $encryption;
-    $mail->Port       = $port;
-    $mail->CharSet    = $charset;
+    $mail->Username   = $mailSettings['username'];
+    $mail->Password   = $mailSettings['password'];
+    $mail->SMTPSecure = $mailSettings['encryption'];
+    $mail->Port       = $mailSettings['port'];
+    $mail->CharSet    = $mailSettings['charset'];
 
     $mail->SMTPOptions = [
       'ssl' => [
@@ -50,9 +44,9 @@ function sendInvoiceEmail($toEmail, $toName, $subject, $htmlBody) {
       ]
     ];
 
-    $mail->setFrom($username, 'Калькулятор заказа');
+    $mail->setFrom($mailSettings['username'], 'Калькулятор заказа');
     $mail->addAddress($toEmail, $toName);
-    $mail->addReplyTo($username, 'Поддержка');
+    $mail->addReplyTo($mailSettings['username'], 'Поддержка');
 
     $mail->isHTML(true);
     $mail->Subject = $subject;
