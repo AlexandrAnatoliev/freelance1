@@ -2,7 +2,7 @@
   <a id="russian"></a>
   <h1>Скрипт php</h1>
 
-  ![Version 0.1.15](https://img.shields.io/badge/Version-0.1.15-orange.svg)
+  ![Version 0.1.16](https://img.shields.io/badge/Version-0.1.16-orange.svg)
   ![Stars](https://img.shields.io/github/stars/AlexandrAnatoliev/freelance.svg?style=flat)
   ![Forks](https://img.shields.io/github/forks/AlexandrAnatoliev/freelance.svg?style=flat)
   ![GitHub repo size](https://img.shields.io/github/repo-size/AlexandrAnatoliev/freelance)
@@ -271,16 +271,16 @@ composer require vlucas/phpdotenv
 # ============================================
 # НАСТРОЙКИ ПОЧТЫ (ОБЯЗАТЕЛЬНЫЕ)
 # ============================================
-MAIL_USERNAME=mycompany@gmail.com
-MAIL_PASSWORD=abcd1234efgh5678
+MAILER_USERNAME=mycompany@gmail.com
+MAILER_PASSWORD=abcd1234efgh5678
 
 # ============================================
 # НАСТРОЙКИ ПОЧТЫ (ОПЦИОНАЛЬНЫЕ)
 # ============================================
 # Если не указаны, используются значения по умолчанию для Gmail
 
-MAIL_HOST=smtp.gmail.com
-MAIL_PORT=587
-MAIL_ENCRYPTION=tls
-MAIL_CHARSET=UTF-8
+MAILER_HOST=smtp.gmail.com
+MAILER_PORT=587
+MAILER_ENCRYPTION=tls
+MAILER_CHARSET=UTF-8
 ```

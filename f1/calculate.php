@@ -6,12 +6,9 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 // Данные товаров
 require_once 'configs/items.php';
+require_once 'configs/addons.php';
 $items = getItems();
-$addons = [
-    'support' => ['name' => 'Поддержка 24/7', 'price' => 500],
-    'backup'  => ['name' => 'Резервное копирование', 'price' => 300],
-    'seo'     => ['name' => 'SEO-аудит', 'price' => 700]
-];
+$addons = getAddons();
 
 // Получаем данные из формы
 $tariffKey = $_POST['tariff'] ?? null;
