@@ -8,12 +8,7 @@ require_once 'configs/mail.php';
 
 function sendInvoiceEmail($toEmail, $toName, $subject, $htmlBody) {
   $mail = new PHPMailer(true);
-
   $mailSettings = getMailSettings();
-  global $host;
-  global $port;
-  global $encryption;
-  global $charset;
 
   try {
     // для вывода диагностики в браузер включить DEBUG_SERVER
@@ -33,13 +28,13 @@ function sendInvoiceEmail($toEmail, $toName, $subject, $htmlBody) {
     };
 
     $mail->isSMTP();
-    $mail->Host       = $host;
+    $mail->Host       = $mailSettings['host'];
     $mail->SMTPAuth   = true;
     $mail->Username   = $mailSettings['username'];
     $mail->Password   = $mailSettings['password'];
-    $mail->SMTPSecure = $encryption;
-    $mail->Port       = $port;
-    $mail->CharSet    = $charset;
+    $mail->SMTPSecure = $mailSettings['encryption'];
+    $mail->Port       = $mailSettings['port'];
+    $mail->CharSet    = $mailSettings['charset'];
 
     $mail->SMTPOptions = [
       'ssl' => [
