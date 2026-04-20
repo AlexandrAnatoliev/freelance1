@@ -271,16 +271,16 @@ composer require vlucas/phpdotenv
 # ============================================
 # НАСТРОЙКИ ПОЧТЫ (ОБЯЗАТЕЛЬНЫЕ)
 # ============================================
-MAIL_USERNAME=mycompany@gmail.com
-MAIL_PASSWORD=abcd1234efgh5678
+MAILER_USERNAME=mycompany@gmail.com
+MAILER_PASSWORD=abcd1234efgh5678
 
 # ============================================
 # НАСТРОЙКИ ПОЧТЫ (ОПЦИОНАЛЬНЫЕ)
 # ============================================
 # Если не указаны, используются значения по умолчанию для Gmail
 
-MAIL_HOST=smtp.gmail.com
-MAIL_PORT=587
-MAIL_ENCRYPTION=tls
-MAIL_CHARSET=UTF-8
+MAILER_HOST=smtp.gmail.com
+MAILER_PORT=587
+MAILER_ENCRYPTION=tls
+MAILER_CHARSET=UTF-8
 ```
