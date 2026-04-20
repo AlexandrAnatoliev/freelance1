@@ -75,15 +75,15 @@ classDiagram
   class calculate.php {
   }
 
-  class mail_config.php {
+  class mailer.php {
   }
 
   class SMTP-сервер {
   }
 
   index.php --|> calculate.php
-  calculate.php --|> mail_config.php
-  mail_config.php --|> SMTP-сервер
+  calculate.php --|> mailer.php
+  mailer.php --|> SMTP-сервер
 ```
 
 ---
@@ -183,7 +183,7 @@ composer require vlucas/phpdotenv
 │── composer.lock
 │── index.php
 │── calculate.php
-│── mail_config.php
+│── mailer.php
 │── style.css
 └── img/
 ```
