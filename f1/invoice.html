@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Таблица 3x3 · объединённые ячейки</title>
+  <title>Таблица 3x3 · банковские реквизиты</title>
   <style>
     * {
       margin: 0;
@@ -26,33 +26,44 @@
       background: #ffffff;
       border-radius: 16px;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
-      padding: 24px 24px 28px 24px;
-      max-width: 650px;
+      padding: 20px 20px 24px 20px;
+      max-width: 1000px;
       width: 100%;
     }
 
     h2 {
       font-family: Arial, Helvetica, sans-serif;
       font-weight: 500;
-      font-size: 1.8rem;
+      font-size: 1.6rem;
       letter-spacing: -0.01em;
       color: #000000;
       margin-top: 0;
-      margin-bottom: 18px;
+      margin-bottom: 16px;
       text-align: center;
       border-bottom: 1px solid #e2e2e2;
-      padding-bottom: 14px;
+      padding-bottom: 12px;
     }
 
-    /* главная таблица 3x3 (фактически теперь с изменённой структурой) */
+    /* главная таблица — пропорции 9 : 1 : 3 */
     .main-table {
       width: 100%;
       border-collapse: collapse;
       font-family: Arial, Helvetica, sans-serif;
-      font-size: 1.2rem;
+      font-size: 0.95rem;
       color: #000000;
       text-align: center;
       table-layout: fixed;
+    }
+
+    /* ширина колонок */
+    .main-table colgroup col:first-child {
+      width: 69.23%;
+    }
+    .main-table colgroup col:nth-child(2) {
+      width: 7.69%;
+    }
+    .main-table colgroup col:nth-child(3) {
+      width: 23.08%;
     }
 
     /* все ячейки главной таблицы */
@@ -63,14 +74,45 @@
       vertical-align: middle;
     }
 
-    /* обычные ячейки без вложенности */
+    /* обычные ячейки — уменьшенные вертикальные отступы */
     .main-table td:not(.split-cell-vertical):not(.split-cell-horizontal) {
-      padding: 20px 12px;
+      padding: 8px 10px;
     }
 
-    /* объединённые ячейки — отступы делаем комфортными */
+    /* ячейка A1 */
+    .cell-a1 {
+      padding: 8px 12px !important;
+      line-height: 1.4;
+      text-align: left !important;
+      font-size: 0.95rem;
+    }
+
+    /* ячейка A3 */
+    .cell-a3 {
+      padding: 8px 12px !important;
+      line-height: 1.4;
+      text-align: left !important;
+      font-size: 0.95rem;
+    }
+
+    /* ячейка C1 */
+    .cell-c1 {
+      padding: 0 !important;
+    }
+
+    /* объединённые ячейки */
     .merged-cell {
-      padding: 30px 16px !important;
+      padding: 8px 10px !important;
+      font-size: 0.95rem;
+      vertical-align: top !important;
+    }
+
+    /* ячейка для счёта получателя — прижато к верху */
+    .account-cell {
+      padding: 8px 12px !important;
+      font-size: 0.95rem;
+      letter-spacing: 0.3px;
+      vertical-align: top !important;
     }
 
     /* ячейки со вложенными таблицами */
@@ -79,56 +121,84 @@
       padding: 0 !important;
     }
 
-    /* ===== ВЛОЖЕННАЯ ТАБЛИЦА ДЛЯ B1 (горизонтальное деление) ===== */
-    .inner-table-horizontal {
+    /* ===== ВЛОЖЕННАЯ ТАБЛИЦА B1 ===== */
+    .inner-table-b1 {
       width: 100%;
       height: 100%;
       border-collapse: collapse;
       font-family: Arial, Helvetica, sans-serif;
       color: #000000;
-      font-size: 1.1rem;
+      font-size: 0.95rem;
       table-layout: fixed;
     }
 
-    .inner-table-horizontal td {
+    .inner-table-b1 td {
       border: none;
-      padding: 14px 8px;
+      padding: 6px 4px;
       text-align: center;
       vertical-align: middle;
       background-color: #ffffff;
+      font-size: 0.95rem;
     }
 
-    .inner-table-horizontal tr:first-child td {
+    .inner-table-b1 tr:first-child td {
       border-bottom: 2px solid #000000;
     }
 
-    /* ===== ВЛОЖЕННАЯ ТАБЛИЦА ДЛЯ A2 (вертикальное деление) ===== */
-    .inner-table-vertical {
+    /* ===== ВЛОЖЕННАЯ ТАБЛИЦА C1 ===== */
+    .inner-table-c1 {
       width: 100%;
       height: 100%;
       border-collapse: collapse;
       font-family: Arial, Helvetica, sans-serif;
       color: #000000;
-      font-size: 1.1rem;
+      font-size: 0.95rem;
       table-layout: fixed;
     }
 
-    .inner-table-vertical td {
+    .inner-table-c1 td {
       border: none;
-      padding: 14px 6px;
+      padding: 6px 8px;
+      text-align: left;
+      vertical-align: middle;
+      background-color: #ffffff;
+      letter-spacing: 0.2px;
+      font-size: 0.95rem;
+    }
+
+    .inner-table-c1 tr:first-child td {
+      border-bottom: 2px solid #000000;
+    }
+
+    /* ===== ВЛОЖЕННАЯ ТАБЛИЦА A2 ===== */
+    .inner-table-a2 {
+      width: 100%;
+      height: 100%;
+      border-collapse: collapse;
+      font-family: Arial, Helvetica, sans-serif;
+      color: #000000;
+      font-size: 0.95rem;
+      table-layout: fixed;
+    }
+
+    .inner-table-a2 td {
+      border: none;
+      padding: 8px 6px;
       text-align: center;
       vertical-align: middle;
       background-color: #ffffff;
+      font-size: 0.95rem;
     }
 
-    .inner-table-vertical td:first-child {
+    .inner-table-a2 td:first-child {
       border-right: 2px solid #000000;
     }
 
-    /* ховер для наглядности */
+    /* ховер */
     .main-table td:hover,
-    .inner-table-horizontal td:hover,
-    .inner-table-vertical td:hover {
+    .inner-table-b1 td:hover,
+    .inner-table-c1 td:hover,
+    .inner-table-a2 td:hover {
       background-color: #f4f4f4;
     }
 
@@ -136,89 +206,96 @@
       font-family: Arial, Helvetica, sans-serif;
       color: #000000;
       text-align: center;
-      margin-top: 20px;
-      font-size: 0.95rem;
+      margin-top: 16px;
+      font-size: 0.85rem;
       opacity: 0.75;
     }
 
     /* адаптивность */
-    @media (max-width: 480px) {
-      .main-table td:not(.split-cell-vertical):not(.split-cell-horizontal):not(.merged-cell) {
-        padding: 14px 6px;
-        font-size: 1rem;
+    @media (max-width: 700px) {
+      .main-table {
+        font-size: 0.75rem;
       }
-      .merged-cell {
-        padding: 20px 10px !important;
+      .cell-a1, .cell-a3 {
+        font-size: 0.75rem !important;
+        padding: 6px 6px !important;
       }
-      .inner-table-horizontal td,
-      .inner-table-vertical td {
-        padding: 12px 4px;
-        font-size: 0.95rem;
+      .inner-table-b1 td,
+      .inner-table-c1 td {
+        padding: 5px 3px;
+        font-size: 0.75rem;
+      }
+      .merged-cell, .account-cell {
+        padding: 8px 6px !important;
+        font-size: 0.75rem !important;
+      }
+      .inner-table-a2 td {
+        padding: 6px 3px;
+        font-size: 0.75rem;
       }
       h2 {
-        font-size: 1.5rem;
+        font-size: 1.3rem;
       }
     }
   </style>
 </head>
 <body>
 <div class="table-wrapper">
-  <h2>📋 3×3 · объединения B2+B3, C2+C3</h2>
 
-  <!-- Основная таблица — структура изменена rowspan'ами -->
   <table class="main-table">
+    <colgroup>
+      <col style="width: 69.23%">
+      <col style="width: 7.69%">
+      <col style="width: 23.08%">
+    </colgroup>
+
     <!-- строка 1 -->
     <tr>
-      <td>A1</td>
-      <!-- B1 — разделена по горизонтали (верх/низ) -->
+      <td class="cell-a1">
+        ФИЛИАЛ "ЕКАТЕРИНБУРГСКИЙ" АО "АЛЬФА-БАНК" г. Екатеринбург<br><br>
+        Банк получателя
+      </td>
+
       <td class="split-cell-horizontal">
-        <table class="inner-table-horizontal">
-          <tr><td>B1 ↑</td></tr>
-          <tr><td>B1 ↓</td></tr>
+        <table class="inner-table-b1">
+          <tr><td>БИК</td></tr>
+          <tr><td>Сч. №</td></tr>
         </table>
       </td>
-      <td>C1</td>
+
+      <td class="cell-c1">
+        <table class="inner-table-c1">
+          <tr><td>046577964</td></tr>
+          <tr><td>30101810100000000964</td></tr>
+        </table>
+      </td>
     </tr>
 
     <!-- строка 2 -->
     <tr>
-      <!-- A2 — разделена по вертикали (лево/право) -->
       <td class="split-cell-vertical">
-        <table class="inner-table-vertical">
+        <table class="inner-table-a2">
           <tr>
-            <td>A2 ←</td>
-            <td>A2 →</td>
+            <td>ИНН</td>
+            <td>КПП</td>
           </tr>
         </table>
       </td>
-      
-      <!-- B2 объединена с B3 (rowspan="2") -->
-      <td class="merged-cell" rowspan="2">B2 + B3<br><span style="font-size:0.85rem; opacity:0.7;">(объединено)</span></td>
-      
-      <!-- C2 объединена с C3 (rowspan="2") -->
-      <td class="merged-cell" rowspan="2">C2 + C3<br><span style="font-size:0.85rem; opacity:0.7;">(объединено)</span></td>
+
+      <td class="merged-cell" rowspan="2">Сч. №</td>
+
+      <td class="account-cell" rowspan="2">40802810538140003080</td>
     </tr>
 
     <!-- строка 3 -->
     <tr>
-      <td>A3</td>
-      <!-- B3 и C3 уже учтены rowspan'ами, поэтому ячейки пропущены -->
+      <td class="cell-a3">
+        ИП Шибицкий Александр<br><br>
+        Получатель
+      </td>
     </tr>
   </table>
 
-  <div class="caption-note">
-    Шрифт Arial · цвет чёрный · B2+B3 и C2+C3 объединены по вертикали
-  </div>
 </div>
-
-<!-- 
-  Полная картина:
-  – Таблица 3x3 с заданными модификациями.
-  – B1: горизонтальное деление.
-  – A2: вертикальное деление.
-  – B2 и B3 объединены (rowspan="2").
-  – C2 и C3 объединены (rowspan="2").
-  – Все стили: Arial, чёрный текст, чёткие границы.
--->
 </body>
 </html>
