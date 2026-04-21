@@ -424,8 +424,6 @@ return '<!DOCTYPE html>
           <div class="pdf24_01" style="left:2.98em;top:7.921em;"><span class="pdf24_13 pdf24_08 pdf24_14">ИНН &nbsp;</span></div>
           <div class="pdf24_01" style="left:15.29em;top:7.921em;"><span class="pdf24_13 pdf24_08 pdf24_18">КПП &nbsp;</span></div>
           <div class="pdf24_01" style="left:2.96em;top:9.0744em;"><span class="pdf24_07 pdf24_08 pdf24_19" style="word-spacing:-0.0011em;">ИП Шибицкий Александр &nbsp;</span></div>
-          <div class="pdf24_01" style="left:37.41em;top:10.3568em;"><span class="pdf24_16 pdf24_08 pdf24_20" style="word-spacing:0.0019em;">Отсканируйте для &nbsp;</span></div>
-          <div class="pdf24_01" style="left:39.18em;top:11.1268em;"><span class="pdf24_16 pdf24_08 pdf24_21">оплаты &nbsp;</span></div>
           <div class="pdf24_01" style="left:2.95em;top:11.1787em;"><span class="pdf24_22 pdf24_08 pdf24_23">Получатель &nbsp;</span></div>
           <div class="pdf24_01" style="left:3.08em;top:13.1661em;"><span class="pdf24_24 pdf24_08 pdf24_12" style="word-spacing:0.0006em;">Счет на оплату № 21 &nbsp;</span></div>
           <div class="pdf24_01" style="left:18.6428em;top:13.1661em;z-index:266;"><span class="pdf24_24 pdf24_08 pdf24_25" style="word-spacing:0.0061em;">от 30 июня 2025 </span><span class="pdf24_24 pdf24_08 pdf24_26">г</span><span class="pdf24_24 pdf24_08 pdf24_26">. &nbsp;</span></div>
