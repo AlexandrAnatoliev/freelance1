@@ -64,7 +64,11 @@ $resultAdmin = sendInvoiceEmail($adminEmail, 'Администратор', "Ко
 
         <hr style="margin: 30px 0;">
         <h2>Ваш счет</h2>
-        <?= $htmlContent ?>
+        <div style="display: flex; justify-content: center; overflow-x: auto;">
+          <div style="position: relative; width: 49.58333em; transform-origin: top left;">
+            <?= $htmlContent ?>
+          </div>
+        </div>
         <p><a href="index.php">← Вернуться к калькулятору</a></p>
     </div>
 </body>
