@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Таблица 3x3 · объединённые ячейки</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      color: #000000;
+      background: #f8f9fa;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 16px;
+    }
+
+    .table-wrapper {
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+      padding: 24px 24px 28px 24px;
+      max-width: 650px;
+      width: 100%;
+    }
+
+    h2 {
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 500;
+      font-size: 1.8rem;
+      letter-spacing: -0.01em;
+      color: #000000;
+      margin-top: 0;
+      margin-bottom: 18px;
+      text-align: center;
+      border-bottom: 1px solid #e2e2e2;
+      padding-bottom: 14px;
+    }
+
+    /* главная таблица 3x3 (фактически теперь с изменённой структурой) */
+    .main-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 1.2rem;
+      color: #000000;
+      text-align: center;
+      table-layout: fixed;
+    }
+
+    /* все ячейки главной таблицы */
+    .main-table td {
+      border: 2px solid #000000;
+      padding: 0;
+      background-color: #ffffff;
+      vertical-align: middle;
+    }
+
+    /* обычные ячейки без вложенности */
+    .main-table td:not(.split-cell-vertical):not(.split-cell-horizontal) {
+      padding: 20px 12px;
+    }
+
+    /* объединённые ячейки — отступы делаем комфортными */
+    .merged-cell {
+      padding: 30px 16px !important;
+    }
+
+    /* ячейки со вложенными таблицами */
+    .split-cell-horizontal,
+    .split-cell-vertical {
+      padding: 0 !important;
+    }
+
+    /* ===== ВЛОЖЕННАЯ ТАБЛИЦА ДЛЯ B1 (горизонтальное деление) ===== */
+    .inner-table-horizontal {
+      width: 100%;
+      height: 100%;
+      border-collapse: collapse;
+      font-family: Arial, Helvetica, sans-serif;
+      color: #000000;
+      font-size: 1.1rem;
+      table-layout: fixed;
+    }
+
+    .inner-table-horizontal td {
+      border: none;
+      padding: 14px 8px;
+      text-align: center;
+      vertical-align: middle;
+      background-color: #ffffff;
+    }
+
+    .inner-table-horizontal tr:first-child td {
+      border-bottom: 2px solid #000000;
+    }
+
+    /* ===== ВЛОЖЕННАЯ ТАБЛИЦА ДЛЯ A2 (вертикальное деление) ===== */
+    .inner-table-vertical {
+      width: 100%;
+      height: 100%;
+      border-collapse: collapse;
+      font-family: Arial, Helvetica, sans-serif;
+      color: #000000;
+      font-size: 1.1rem;
+      table-layout: fixed;
+    }
+
+    .inner-table-vertical td {
+      border: none;
+      padding: 14px 6px;
+      text-align: center;
+      vertical-align: middle;
+      background-color: #ffffff;
+    }
+
+    .inner-table-vertical td:first-child {
+      border-right: 2px solid #000000;
+    }
+
+    /* ховер для наглядности */
+    .main-table td:hover,
+    .inner-table-horizontal td:hover,
+    .inner-table-vertical td:hover {
+      background-color: #f4f4f4;
+    }
+
+    .caption-note {
+      font-family: Arial, Helvetica, sans-serif;
+      color: #000000;
+      text-align: center;
+      margin-top: 20px;
+      font-size: 0.95rem;
+      opacity: 0.75;
+    }
+
+    /* адаптивность */
+    @media (max-width: 480px) {
+      .main-table td:not(.split-cell-vertical):not(.split-cell-horizontal):not(.merged-cell) {
+        padding: 14px 6px;
+        font-size: 1rem;
+      }
+      .merged-cell {
+        padding: 20px 10px !important;
+      }
+      .inner-table-horizontal td,
+      .inner-table-vertical td {
+        padding: 12px 4px;
+        font-size: 0.95rem;
+      }
+      h2 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="table-wrapper">
+  <h2>📋 3×3 · объединения B2+B3, C2+C3</h2>
+
+  <!-- Основная таблица — структура изменена rowspan'ами -->
+  <table class="main-table">
+    <!-- строка 1 -->
+    <tr>
+      <td>A1</td>
+      <!-- B1 — разделена по горизонтали (верх/низ) -->
+      <td class="split-cell-horizontal">
+        <table class="inner-table-horizontal">
+          <tr><td>B1 ↑</td></tr>
+          <tr><td>B1 ↓</td></tr>
+        </table>
+      </td>
+      <td>C1</td>
+    </tr>
+
+    <!-- строка 2 -->
+    <tr>
+      <!-- A2 — разделена по вертикали (лево/право) -->
+      <td class="split-cell-vertical">
+        <table class="inner-table-vertical">
+          <tr>
+            <td>A2 ←</td>
+            <td>A2 →</td>
+          </tr>
+        </table>
+      </td>
+      
+      <!-- B2 объединена с B3 (rowspan="2") -->
+      <td class="merged-cell" rowspan="2">B2 + B3<br><span style="font-size:0.85rem; opacity:0.7;">(объединено)</span></td>
+      
+      <!-- C2 объединена с C3 (rowspan="2") -->
+      <td class="merged-cell" rowspan="2">C2 + C3<br><span style="font-size:0.85rem; opacity:0.7;">(объединено)</span></td>
+    </tr>
+
+    <!-- строка 3 -->
+    <tr>
+      <td>A3</td>
+      <!-- B3 и C3 уже учтены rowspan'ами, поэтому ячейки пропущены -->
+    </tr>
+  </table>
+
+  <div class="caption-note">
+    Шрифт Arial · цвет чёрный · B2+B3 и C2+C3 объединены по вертикали
+  </div>
+</div>
+
+<!-- 
+  Полная картина:
+  – Таблица 3x3 с заданными модификациями.
+  – B1: горизонтальное деление.
+  – A2: вертикальное деление.
+  – B2 и B3 объединены (rowspan="2").
+  – C2 и C3 объединены (rowspan="2").
+  – Все стили: Arial, чёрный текст, чёткие границы.
+-->
+</body>
+</html>
