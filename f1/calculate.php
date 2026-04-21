@@ -68,279 +68,182 @@ function morph($n, $f1, $f2, $f5) {
   return $f5;
 }
 
-// Данные товаров
-$items = getItems();
-$addons = getAddons();
-
 // Получаем данные из формы
 $tariffKey = $_POST['tariff'] ?? null;
 $selectedAddons = $_POST['addons'] ?? [];
 $quantity = (int)($_POST['quantity'] ?? 1);
 $customerName = htmlspecialchars($_POST['customer_name'] ?? '');
-$customerEmail = filter_var($_POST['customer_email'] ?? '', FILTER_VALIDATE_EMAIL);
+$customerEmail = $_POST['customer_email'] ?? '';
 $customerPhone = htmlspecialchars($_POST['customer_phone'] ?? '');
 
 // Проверка обязательных полей
-if (!$tariffKey || !isset($items[$tariffKey]) || !$customerEmail) {
-  die('Ошибка: Не выбраны обязательные опции или неверный email.');
+if (!$tariffKey) {
+  die('Ошибка: Не выбран тариф.');
 }
 
-// Расчет стоимости
-$subtotal = $items[$tariffKey]['price'];
-$addonDetails = [];
-foreach ($selectedAddons as $addonKey) {
-  if (isset($addons[$addonKey])) {
-    $subtotal += $addons[$addonKey]['price'];
-    $addonDetails[] = $addons[$addonKey]['name'] . ' (' . number_format($addons[$addonKey]['price'], 0, ',', ' ') . ' ₽)';
-  }
+if (empty($customerEmail)) {
+  die('Ошибка: Не указан email.');
 }
-$total = $subtotal * $quantity;
 
-$orderDate = date('d.m.Y H:i');
 $orderNumber = 'INV-' . date('Ymd-His');
+$orderDate = date('d.m.Y H:i');
+$total = 10880.00; // Ваша сумма
 
-// Формируем HTML-счет
-$htmlContent = "
+// Создаем простой HTML-счет для email
+$simpleInvoiceHTML = '
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset='UTF-8'>
-    <title>Счет на оплату №{$orderNumber}</title>
-<style>
-    body {
-        font-family: 'Times New Roman', Times, serif;
-        color: #000;
-        background: #fff;
-        padding: 20px;
-    }
-    .invoice-box {
-        max-width: 800px;
-        margin: auto;
-        padding: 30px;
-        border: 1px solid #000;
-        background: #fff;
-    }
-    h2 {
-        color: #000;
-        text-align: center;
-        font-weight: bold;
-        text-transform: uppercase;
-        margin-bottom: 20px;
-        font-size: 20px;
-    }
-    table {
-        width: 100%;
-        line-height: 1.5;
-        border-collapse: collapse;
-        margin: 20px 0;
-        border: 1px solid #000;
-    }
-    td, th {
-        padding: 8px 10px;
-        border: 1px solid #000;
-        text-align: left;
-        vertical-align: top;
-    }
-    th {
-        background: #e0e0e0;
-        font-weight: bold;
-        text-align: center;
-        text-transform: uppercase;
-        font-size: 14px;
-    }
-    .total {
-        font-size: 1.2rem;
-        font-weight: bold;
-        text-align: right;
-    }
-    .footer {
-        margin-top: 30px;
-        font-size: 0.9rem;
-        color: #000;
-        border-top: 1px solid #000;
-        padding-top: 15px;
-    }
-    .print-btn {
-        background: #ccc;
-        color: #000;
-        padding: 8px 15px;
-        text-decoration: none;
-        border: 1px solid #000;
-        display: inline-block;
-        font-weight: normal;
-        text-transform: uppercase;
-        font-size: 14px;
-    }
-    .print-btn:hover {
-        background: #aaa;
-    }
-    .company-details {
-        margin-bottom: 20px;
-        border-bottom: 1px solid #000;
-        padding-bottom: 10px;
-    }
-    .invoice-header {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 20px;
-    }
-    .invoice-number {
-        font-weight: bold;
-        font-size: 16px;
-    }
-    .signature-line {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 50px;
-        font-size: 14px;
-    }
-    .signature-item {
-        width: 45%;
-        border-top: 1px solid #000;
-        padding-top: 5px;
-        text-align: center;
-    }
-    .bank-details {
-        font-family: 'Courier New', monospace;
-        background: #f8f8f8;
-        padding: 10px;
-        border: 1px solid #000;
-        margin: 20px 0;
-        font-size: 13px;
-    }
-    .total-row {
-        background: #e0e0e0;
-        font-weight: bold;
-    }
-    .text-center {
-        text-align: center;
-    }
-    .text-right {
-        text-align: right;
-    }
-    .uppercase {
-        text-transform: uppercase;
-    }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .invoice {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .header {
+            text-align: center;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .row {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+            padding: 5px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .total {
+            font-weight: bold;
+            font-size: 18px;
+            border-top: 2px solid #ddd;
+            padding-top: 10px;
+            margin-top: 20px;
+            border-bottom: none;
+        }
+        .bank-details {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+        .btn {
+            display: block;
+            background: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+        .footer {
+            text-align: center;
+            color: #666;
+            font-size: 12px;
+            margin-top: 20px;
+        }
+        .amount-words {
+            color: #666;
+            font-style: italic;
+            margin: 10px 0;
+        }
+    </style>
 </head>
 <body>
-<div class='invoice-box'>
-    <div class='invoice-header'>
-        <div class='company-name'><strong>ООО «ВАША КОМПАНИЯ»</strong></div>
-        <div class='invoice-number'>СЧЕТ-ФАКТУРА № {$orderNumber} от {$orderDate}</div>
-    </div>
-
-    <div class='company-details'>
-        <strong>Поставщик:</strong> ООО «Ваша Компания», ИНН 1234567890, КПП 123456789<br>
-        <strong>Адрес:</strong> 123456, г. Москва, ул. Примерная, д. 1, офис 101<br>
-        <strong>Тел:</strong> +7 (999) 123-45-67
-    </div>
-
-    <div style='margin-bottom: 20px;'>
-        <strong>Покупатель:</strong> {$customerName}<br>
-        <strong>Email:</strong> {$customerEmail}<br>
-        <strong>Телефон:</strong> {$customerPhone}
-    </div>
-
-    <table>
-        <thead>
-            <tr>
-                <th style='width: 5%;'>№</th>
-                <th style='width: 35%;'>Наименование товара (работ, услуг)</th>
-                <th style='width: 10%;'>Кол-во</th>
-                <th style='width: 10%;'>Ед.</th>
-                <th style='width: 20%;'>Цена (₽)</th>
-                <th style='width: 20%;'>Сумма (₽)</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td class='text-center'>1</td>
-                <td>{$items[$tariffKey]['name']}</td>
-                <td class='text-center'>{$quantity}</td>
-                <td class='text-center'>мес.</td>
-                <td class='text-right'>" . number_format($items[$tariffKey]['price'], 2, ',', ' ') . "</td>
-                <td class='text-right'>" . number_format($items[$tariffKey]['price'] * $quantity, 2, ',', ' ') . "</td>
-            </tr>";
-
-$rowNum = 2;
-foreach ($selectedAddons as $addonKey) {
-  if (isset($addons[$addonKey])) {
-    $htmlContent .= "
-            <tr>
-                <td class='text-center'>{$rowNum}</td>
-                <td>{$addons[$addonKey]['name']}</td>
-                <td class='text-center'>{$quantity}</td>
-                <td class='text-center'>мес.</td>
-                <td class='text-right'>" . number_format($addons[$addonKey]['price'], 2, ',', ' ') . "</td>
-                <td class='text-right'>" . number_format($addons[$addonKey]['price'] * $quantity, 2, ',', ' ') . "</td>
-            </tr>";
-    $rowNum++;
-  }
-}
-
-$htmlContent .= "
-            <tr class='total-row'>
-                <td colspan='5' class='text-right'><strong>ИТОГО:</strong></td>
-                <td class='text-right'><strong>" . number_format($total, 2, ',', ' ') . "</strong></td>
-            </tr>
-            <tr>
-                <td colspan='5' class='text-right'>В том числе НДС:</td>
-                <td class='text-right'>—</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <div class='bank-details'>
-        <strong>БАНКОВСКИЕ РЕКВИЗИТЫ:</strong><br>
-        Получатель: ООО «Ваша Компания»<br>
-        ИНН 1234567890 / КПП 123456789<br>
-        Р/с 40702810123456789012 в ПАО «БАНК» г. Москва<br>
-        К/с 30101810145250000411, БИК 044525225
-    </div>
-
-    <div style='margin: 20px 0;'>
-        <p><strong>Всего к оплате:</strong> " . number_format($total, 2, ',', ' ') . " руб.</p>
-        <p><em>" . num2words($total) . "</em></p>
-        <p>Счет действителен до: " . date('d.m.Y', strtotime('+3 days')) . "</p>
-    </div>
-
-    <div class='signature-line'>
-        <div class='signature-item'>
-            Руководитель ______________ / Иванов И.И. /
+    <div class="invoice">
+        <div class="header">
+            <h2>ИП Шибицкий Александр</h2>
+            <p>Счет на оплату №' . $orderNumber . '<br>от ' . $orderDate . '</p>
         </div>
-        <div class='signature-item'>
-            Главный бухгалтер ______________ / Петрова П.П. /
+
+        <div class="bank-details">
+            <strong>📋 Реквизиты для оплаты:</strong><br>
+            ФИЛИАЛ "ЕКАТЕРИНБУРГСКИЙ" АО "АЛЬФА-БАНК"<br>
+            БИК: 046577964<br>
+            Счет: 40802810538140003080<br>
+            ИНН: 743005310292<br>
+            Получатель: ИП Шибицкий Александр
+        </div>
+
+        <div class="row">
+            <span><strong>Покупатель:</strong></span>
+            <span>' . $customerName . '</span>
+        </div>
+
+        <div class="row">
+            <span><strong>Email:</strong></span>
+            <span>' . $customerEmail . '</span>
+        </div>
+
+        <div class="row">
+            <span><strong>Телефон:</strong></span>
+            <span>' . $customerPhone . '</span>
+        </div>
+
+        <div class="row">
+            <span><strong>Товар:</strong></span>
+            <span>Косынка с логотипом (20 шт)</span>
+        </div>
+
+        <div class="row">
+            <span><strong>Цена за ед.:</strong></span>
+            <span>544,00 ₽</span>
+        </div>
+
+        <div class="total row">
+            <span>💰 Итого к оплате:</span>
+            <span>' . number_format($total, 2, ',', ' ') . ' ₽</span>
+        </div>
+
+        <div class="amount-words">
+            ' . num2words($total) . '
+        </div>
+
+        <div style="background: #fff3cd; padding: 15px; border-radius: 5px; margin: 20px 0;">
+            <strong>📱 Для оплаты с телефона:</strong><br>
+            1. Скопируйте реквизиты выше<br>
+            2. Откройте приложение вашего банка<br>
+            3. Выберите "Оплата по реквизитам"
+        </div>
+
+        <div class="footer">
+            <p>Оплатить не позднее ' . date('d.m.Y', strtotime('+3 days')) . '</p>
+            <p>По вопросам: +7 900 086-66-98</p>
+            <p>Спасибо за заказ! ❤️</p>
         </div>
     </div>
-
-    <div style='margin-top: 20px; font-size: 12px;'>
-        <p>М.П.</p>
-    </div>
-
-    <div class='footer'>
-        <p style='text-align: center; margin-top: 30px;'>
-            <a href='#' onclick='window.print(); return false;' class='print-btn'>🖨️ ПЕЧАТЬ / СОХРАНИТЬ В PDF</a>
-        </p>
-        <p style='font-size: 12px; margin-top: 10px;'>Счет-фактура является основанием для оплаты. При оплате укажите номер счета.</p>
-    </div>
-</div>
-
 </body>
-</html>
-";
+</html>';
+
+// Загружаем полный счет для отображения на сайте
+$fullInvoiceHTML = file_get_contents('shet_obrasez.html');
 
 // Подключаем PHPMailer
 require_once 'mailer.php';
 
 $subject = "Счет на оплату №{$orderNumber} от " . date('d.m.Y');
 
-// Отправка покупателю
-$resultCustomer = sendInvoiceEmail($customerEmail, $customerName, $subject, $htmlContent);
+// Отправка покупателю (простая версия)
+$resultCustomer = sendInvoiceEmail($customerEmail, $customerName, $subject, $simpleInvoiceHTML);
 
-// Отправка админу (уведомление)
-$adminEmail = 'otetzalexandr1986@gmail.com'; // ← Ваша почта для теста
-$resultAdmin = sendInvoiceEmail($adminEmail, 'Администратор', "Копия: " . $subject, $htmlContent);
+// Отправка админу (полная версия счета)
+$adminEmail = 'otetzalexandr1986@gmail.com';
+$resultAdmin = sendInvoiceEmail($adminEmail, 'Администратор', "Копия: " . $subject, $fullInvoiceHTML);
 
 // Показываем результат
 ?>
@@ -348,22 +251,179 @@ $resultAdmin = sendInvoiceEmail($adminEmail, 'Администратор', "Ко
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Заказ оформлен</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Заказ оформлен - Счет на оплату</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .result-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #1e8449;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .success-message {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .email-status {
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .email-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .email-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .action-buttons {
+            margin: 30px 0 20px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .btn-print {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .btn-print:hover {
+            background-color: #45a049;
+        }
+
+        .btn-back {
+            background-color: #2196F3;
+            color: white;
+        }
+
+        .btn-back:hover {
+            background-color: #0b7dda;
+        }
+
+        .invoice-preview {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            overflow-x: auto;
+            border: 1px solid #e0e0e0;
+        }
+
+        .print-note {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+            font-style: italic;
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .result-container {
+                box-shadow: none;
+                padding: 0;
+                max-width: none;
+            }
+
+            .action-buttons,
+            .print-note,
+            h1,
+            .success-message,
+            .email-status {
+                display: none !important;
+            }
+
+            .invoice-preview {
+                border: none;
+                padding: 0;
+                overflow: visible;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div class="calculator" style="text-align: center;">
-        <h1 style="color: #1e8449;">✓ Заказ оформлен!</h1>
-        <p>Счет №<?= $orderNumber ?> отправлен на <strong><?= $customerEmail ?></strong>.</p>
-        <?php if (!$resultCustomer): ?>
-            <p style="color: red;">⚠ Внимание: Письмо не отправлено. Проверьте настройки почты.</p>
-        <?php endif; ?>
-        <p>Проверьте папку «Спам», если письма нет.</p>
+    <div class="result-container">
+        <h1>✓ Заказ оформлен!</h1>
 
-        <hr style="margin: 30px 0;">
-        <h2>Ваш счет</h2>
-        <?= $htmlContent ?>
-        <p><a href="index.php">← Вернуться к калькулятору</a></p>
+        <div class="success-message">
+            <p>Счет №<?= $orderNumber ?> отправлен на <strong><?= htmlspecialchars($customerEmail) ?></strong></p>
+            <?php if (!empty($customerPhone)): ?>
+                <p>Номер телефона: <strong><?= htmlspecialchars($customerPhone) ?></strong></p>
+            <?php endif; ?>
+        </div>
+
+        <?php if (!$resultCustomer): ?>
+            <div class="email-status email-error">
+                <strong>⚠ Внимание!</strong> Письмо не было отправлено. Проверьте настройки почты.
+            </div>
+        <?php else: ?>
+            <div class="email-status email-success">
+                <strong>✓ Письмо успешно отправлено!</strong> Проверьте папку «Спам», если не видите письма.
+            </div>
+        <?php endif; ?>
+
+        <div class="action-buttons">
+            <button class="btn btn-print" onclick="window.print()">
+                🖨️ РАСПЕЧАТАТЬ / СОХРАНИТЬ В PDF
+            </button>
+            <a href="index.php" class="btn btn-back">
+                ← Вернуться к калькулятору
+            </a>
+        </div>
+
+        <div class="print-note">
+            <p>💡 Нажмите кнопку выше, затем выберите "Сохранить как PDF" в списке принтеров</p>
+        </div>
+
+        <div class="invoice-preview">
+            <?= $fullInvoiceHTML ?>
+        </div>
+
+        <div class="print-note">
+            <p>📧 Простая версия счета отправлена на вашу почту для удобной оплаты с телефона</p>
+        </div>
     </div>
 </body>
 </html>
