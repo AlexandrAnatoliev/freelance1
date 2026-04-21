@@ -284,6 +284,72 @@
         padding: 5px 6px;
       }
     }
+    /* Стили для таблицы с товарами/услугами */
+    .items-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.95rem;
+      color: #000000;
+      margin-top: 24px;
+      table-layout: auto;
+      border: 2px solid #000000;
+    }
+
+    .items-table th,
+    .items-table td {
+      border: 1px solid #000000;
+      padding: 10px 8px;
+      vertical-align: top;
+      background-color: #ffffff;
+    }
+
+    .items-table thead tr {
+      background-color: #ffffff;
+    }
+
+    .items-table th {
+      font-weight: bold;
+      text-align: center;
+      background-color: #f2f2f2;
+    }
+
+    .items-table td {
+      font-weight: normal;
+    }
+
+    /* Выравнивание числовых колонок по правому краю */
+    .items-table td:nth-child(1),
+    .items-table td:nth-child(3),
+    .items-table td:nth-child(5),
+    .items-table td:nth-child(6) {
+      text-align: right;
+    }
+
+    .items-table td:nth-child(2) {
+      text-align: left;
+    }
+
+    .items-table td:nth-child(4) {
+      text-align: center;
+    }
+
+    /* Итоговые строки */
+    .items-table tfoot td {
+      background-color: #ffffff;
+      padding: 10px 8px;
+    }
+
+    /* Адаптивность */
+    @media (max-width: 700px) {
+      .items-table {
+        font-size: 0.75rem;
+      }
+      .items-table th,
+      .items-table td {
+        padding: 6px 4px;
+      }
+    }
     </style>
   </head>
   <body>
@@ -375,6 +441,60 @@
           <td>Основание:</td>
           <td>Основной договор</td>
         </tr>
+      </table>
+      <!-- ТАБЛИЦА С ГРАНИЦАМИ (6 колонок) -->
+      <!-- Первая строка — жирный шрифт, остальные — обычный -->
+      <table class="items-table">
+        <thead>
+          <tr>
+            <th>№</th>
+            <th>Товары (работы, услуги)</th>
+            <th>Кол-во</th>
+            <th>Ед.</th>
+            <th>Цена</th>
+            <th>Сумма</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Услуги по разработке дизайн-проекта</td>
+            <td>1</td>
+            <td>усл.</td>
+            <td>35 000,00</td>
+            <td>35 000,00</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Консультационные услуги (подготовка документации)</td>
+            <td>3</td>
+            <td>ч</td>
+            <td>2 500,00</td>
+            <td>7 500,00</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>Вёрстка и адаптация макетов</td>
+            <td>2</td>
+            <td>шт.</td>
+            <td>4 200,00</td>
+            <td>8 400,00</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="5" style="text-align:right; font-weight:bold;">Итого:</td>
+            <td style="font-weight:bold;">50 900,00</td>
+          </tr>
+          <tr>
+            <td colspan="5" style="text-align:right; font-weight:bold;">В том числе НДС:</td>
+            <td style="font-weight:bold;">—</td>
+          </tr>
+          <tr>
+            <td colspan="5" style="text-align:right; font-weight:bold;">Всего к оплате:</td>
+            <td style="font-weight:bold;">50 900,00</td>
+          </tr>
+        </tfoot>
       </table>
 
     </div>
