@@ -7,6 +7,67 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 require_once 'configs/items.php';
 require_once 'configs/addons.php';
 
+// Функция для преобразования числа в сумму прописью
+function num2words($num) {
+  $nul = 'ноль';
+  $ten = [
+    ['', 'один', 'два', 'три', 'четыре', 'пять', 'шесть', 'семь', 'восемь', 'девять'],
+    ['', 'одна', 'две', 'три', 'четыре', 'пять', 'шесть', 'семь', 'восемь', 'девять']
+  ];
+  $a20 = ['десять', 'одиннадцать', 'двенадцать', 'тринадцать', 'четырнадцать', 'пятнадцать', 'шестнадцать', 'семнадцать', 'восемнадцать', 'девятнадцать'];
+  $tens = ['', '', 'двадцать', 'тридцать', 'сорок', 'пятьдесят', 'шестьдесят', 'семьдесят', 'восемьдесят', 'девяносто'];
+  $hundred = ['', 'сто', 'двести', 'триста', 'четыреста', 'пятьсот', 'шестьсот', 'семьсот', 'восемьсот', 'девятьсот'];
+  $unit = [
+    ['копейка', 'копейки', 'копеек', 1],
+    ['рубль', 'рубля', 'рублей', 0],
+    ['тысяча', 'тысячи', 'тысяч', 1],
+    ['миллион', 'миллиона', 'миллионов', 0],
+    ['миллиард', 'миллиарда', 'миллиардов', 0]
+  ];
+
+  if (!is_numeric($num)) return 'ноль рублей 00 копеек';
+
+  $num = round($num, 2);
+  list($rub, $kop) = explode('.', sprintf("%015.2f", $num));
+
+  $out = [];
+  if (intval($rub) > 0) {
+    foreach (str_split($rub, 3) as $uk => $v) {
+      if (!intval($v)) continue;
+
+      $uk = sizeof($unit) - $uk - 1;
+      $gender = $unit[$uk][3];
+
+      list($i1, $i2, $i3) = array_map('intval', str_split($v, 1));
+
+      $out[] = $hundred[$i1];
+      if ($i2 > 1) {
+        $out[] = $tens[$i2] . ' ' . $ten[$gender][$i3];
+      } else {
+        $out[] = ($i2 > 0) ? $a20[$i3] : $ten[$gender][$i3];
+      }
+
+      if ($uk > 1) $out[] = morph($v, $unit[$uk][0], $unit[$uk][1], $unit[$uk][2]);
+    }
+  } else {
+    $out[] = $nul;
+  }
+
+  $out[] = morph(intval($rub), $unit[1][0], $unit[1][1], $unit[1][2]);
+  $out[] = $kop . ' ' . morph($kop, $unit[0][0], $unit[0][1], $unit[0][2]);
+
+  return trim(preg_replace('/ {2,}/', ' ', implode(' ', $out)));
+}
+
+function morph($n, $f1, $f2, $f5) {
+  $n = abs(intval($n)) % 100;
+  if ($n > 10 && $n < 20) return $f5;
+  $n = $n % 10;
+  if ($n > 1 && $n < 5) return $f2;
+  if ($n == 1) return $f1;
+  return $f5;
+}
+
 // Получаем данные из формы
 $tariffKey = $_POST['tariff'] ?? null;
 $selectedAddons = $_POST['addons'] ?? [];
@@ -24,25 +85,165 @@ if (empty($customerEmail)) {
   die('Ошибка: Не указан email.');
 }
 
-// Временно отключаем проверку тарифа для теста
-// if (!isset($items[$tariffKey])) {
-//   die('Ошибка: Тариф не найден.');
-// }
+$orderNumber = 'INV-' . date('Ymd-His');
+$orderDate = date('d.m.Y H:i');
+$total = 10880.00; // Ваша сумма
 
-// Просто загружаем шаблон счета как есть
-$htmlContent = file_get_contents('shet_obrasez.html');
+// Создаем простой HTML-счет для email
+$simpleInvoiceHTML = '
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .invoice {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .header {
+            text-align: center;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .row {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+            padding: 5px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .total {
+            font-weight: bold;
+            font-size: 18px;
+            border-top: 2px solid #ddd;
+            padding-top: 10px;
+            margin-top: 20px;
+            border-bottom: none;
+        }
+        .bank-details {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+        .btn {
+            display: block;
+            background: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+        .footer {
+            text-align: center;
+            color: #666;
+            font-size: 12px;
+            margin-top: 20px;
+        }
+        .amount-words {
+            color: #666;
+            font-style: italic;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="invoice">
+        <div class="header">
+            <h2>ИП Шибицкий Александр</h2>
+            <p>Счет на оплату №' . $orderNumber . '<br>от ' . $orderDate . '</p>
+        </div>
+
+        <div class="bank-details">
+            <strong>📋 Реквизиты для оплаты:</strong><br>
+            ФИЛИАЛ "ЕКАТЕРИНБУРГСКИЙ" АО "АЛЬФА-БАНК"<br>
+            БИК: 046577964<br>
+            Счет: 40802810538140003080<br>
+            ИНН: 743005310292<br>
+            Получатель: ИП Шибицкий Александр
+        </div>
+
+        <div class="row">
+            <span><strong>Покупатель:</strong></span>
+            <span>' . $customerName . '</span>
+        </div>
+
+        <div class="row">
+            <span><strong>Email:</strong></span>
+            <span>' . $customerEmail . '</span>
+        </div>
+
+        <div class="row">
+            <span><strong>Телефон:</strong></span>
+            <span>' . $customerPhone . '</span>
+        </div>
+
+        <div class="row">
+            <span><strong>Товар:</strong></span>
+            <span>Косынка с логотипом (20 шт)</span>
+        </div>
+
+        <div class="row">
+            <span><strong>Цена за ед.:</strong></span>
+            <span>544,00 ₽</span>
+        </div>
+
+        <div class="total row">
+            <span>💰 Итого к оплате:</span>
+            <span>' . number_format($total, 2, ',', ' ') . ' ₽</span>
+        </div>
+
+        <div class="amount-words">
+            ' . num2words($total) . '
+        </div>
+
+        <div style="background: #fff3cd; padding: 15px; border-radius: 5px; margin: 20px 0;">
+            <strong>📱 Для оплаты с телефона:</strong><br>
+            1. Скопируйте реквизиты выше<br>
+            2. Откройте приложение вашего банка<br>
+            3. Выберите "Оплата по реквизитам"
+        </div>
+
+        <div class="footer">
+            <p>Оплатить не позднее ' . date('d.m.Y', strtotime('+3 days')) . '</p>
+            <p>По вопросам: +7 900 086-66-98</p>
+            <p>Спасибо за заказ! ❤️</p>
+        </div>
+    </div>
+</body>
+</html>';
+
+// Загружаем полный счет для отображения на сайте
+$fullInvoiceHTML = file_get_contents('shet_obrasez.html');
 
 // Подключаем PHPMailer
 require_once 'mailer.php';
 
-$subject = "Счет на оплату №" . date('Ymd-His') . " от " . date('d.m.Y');
+$subject = "Счет на оплату №{$orderNumber} от " . date('d.m.Y');
 
-// Отправка покупателю
-$resultCustomer = sendInvoiceEmail($customerEmail, $customerName, $subject, $htmlContent);
+// Отправка покупателю (простая версия)
+$resultCustomer = sendInvoiceEmail($customerEmail, $customerName, $subject, $simpleInvoiceHTML);
 
-// Отправка админу (уведомление)
+// Отправка админу (полная версия счета)
 $adminEmail = 'otetzalexandr1986@gmail.com';
-$resultAdmin = sendInvoiceEmail($adminEmail, 'Администратор', "Копия: " . $subject, $htmlContent);
+$resultAdmin = sendInvoiceEmail($adminEmail, 'Администратор', "Копия: " . $subject, $fullInvoiceHTML);
 
 // Показываем результат
 ?>
@@ -50,10 +251,10 @@ $resultAdmin = sendInvoiceEmail($adminEmail, 'Администратор', "Ко
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Заказ оформлен - Счет на оплату</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Основные стили страницы */
         body {
             font-family: Arial, sans-serif;
             background-color: #f5f5f5;
@@ -81,10 +282,6 @@ $resultAdmin = sendInvoiceEmail($adminEmail, 'Администратор', "Ко
             margin-bottom: 20px;
         }
 
-        .success-message p {
-            margin: 5px 0;
-        }
-
         .email-status {
             padding: 15px;
             border-radius: 5px;
@@ -104,15 +301,6 @@ $resultAdmin = sendInvoiceEmail($adminEmail, 'Администратор', "Ко
             border: 1px solid #f5c6cb;
         }
 
-        .warning {
-            color: #856404;
-            background-color: #fff3cd;
-            border: 1px solid #ffeeba;
-            padding: 10px;
-            border-radius: 5px;
-        }
-
-        /* Стили для кнопок */
         .action-buttons {
             margin: 30px 0 20px;
             display: flex;
@@ -151,16 +339,6 @@ $resultAdmin = sendInvoiceEmail($adminEmail, 'Администратор', "Ко
             background-color: #0b7dda;
         }
 
-        .btn-new {
-            background-color: #ff9800;
-            color: white;
-        }
-
-        .btn-new:hover {
-            background-color: #e68900;
-        }
-
-        /* Контейнер для счета */
         .invoice-preview {
             background: white;
             padding: 20px;
@@ -170,12 +348,6 @@ $resultAdmin = sendInvoiceEmail($adminEmail, 'Администратор', "Ко
             border: 1px solid #e0e0e0;
         }
 
-        .invoice-preview h2 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 20px;
-        }
-
         .print-note {
             text-align: center;
             margin-top: 20px;
@@ -183,7 +355,6 @@ $resultAdmin = sendInvoiceEmail($adminEmail, 'Администратор', "Ко
             font-style: italic;
         }
 
-        /* Стили для печати */
         @media print {
             body {
                 background: white;
@@ -200,8 +371,7 @@ $resultAdmin = sendInvoiceEmail($adminEmail, 'Администратор', "Ко
             .print-note,
             h1,
             .success-message,
-            .email-status,
-            .invoice-preview h2 {
+            .email-status {
                 display: none !important;
             }
 
@@ -218,7 +388,7 @@ $resultAdmin = sendInvoiceEmail($adminEmail, 'Администратор', "Ко
         <h1>✓ Заказ оформлен!</h1>
 
         <div class="success-message">
-            <p>Счет отправлен на <strong><?= htmlspecialchars($customerEmail) ?></strong></p>
+            <p>Счет №<?= $orderNumber ?> отправлен на <strong><?= htmlspecialchars($customerEmail) ?></strong></p>
             <?php if (!empty($customerPhone)): ?>
                 <p>Номер телефона: <strong><?= htmlspecialchars($customerPhone) ?></strong></p>
             <?php endif; ?>
@@ -226,58 +396,34 @@ $resultAdmin = sendInvoiceEmail($adminEmail, 'Администратор', "Ко
 
         <?php if (!$resultCustomer): ?>
             <div class="email-status email-error">
-                <strong>⚠ Внимание!</strong> Письмо не было отправлено. Проверьте настройки почты или свяжитесь с нами.
+                <strong>⚠ Внимание!</strong> Письмо не было отправлено. Проверьте настройки почты.
             </div>
         <?php else: ?>
             <div class="email-status email-success">
-                <strong>✓ Письмо успешно отправлено!</strong> Проверьте папку «Спам», если не видите письма во входящих.
+                <strong>✓ Письмо успешно отправлено!</strong> Проверьте папку «Спам», если не видите письма.
             </div>
         <?php endif; ?>
 
         <div class="action-buttons">
             <button class="btn btn-print" onclick="window.print()">
-                🖨️ Распечатать / Сохранить как PDF
+                🖨️ РАСПЕЧАТАТЬ / СОХРАНИТЬ В PDF
             </button>
             <a href="index.php" class="btn btn-back">
                 ← Вернуться к калькулятору
             </a>
-            <button class="btn btn-new" onclick="window.location.href='index.php'">
-                ✨ Создать новый заказ
-            </button>
-        </div>
-
-        <div class="invoice-preview">
-            <h2>Счет на оплату №<?= date('Ymd-His') ?></h2>
-            <?= $htmlContent ?>
         </div>
 
         <div class="print-note">
-            <p>💡 Для сохранения в PDF: нажмите кнопку "Распечатать" и выберите "Сохранить как PDF" в списке принтеров.</p>
-            <p>📧 Счет также отправлен на вашу электронную почту.</p>
+            <p>💡 Нажмите кнопку выше, затем выберите "Сохранить как PDF" в списке принтеров</p>
+        </div>
+
+        <div class="invoice-preview">
+            <?= $fullInvoiceHTML ?>
+        </div>
+
+        <div class="print-note">
+            <p>📧 Простая версия счета отправлена на вашу почту для удобной оплаты с телефона</p>
         </div>
     </div>
-
-    <script>
-        // Дополнительный скрипт для улучшения взаимодействия
-        document.addEventListener('DOMContentLoaded', function() {
-            // Можно добавить автоматическое открытие диалога печати через 1 секунду
-            // setTimeout(function() {
-            //     window.print();
-            // }, 1000);
-
-            // Или просто оставить для ручного нажатия
-        });
-
-        // Обработка печати
-        window.onbeforeprint = function() {
-            // Перед печатью можно что-то подготовить
-            console.log('Подготовка к печати...');
-        };
-
-        window.onafterprint = function() {
-            // После печати
-            console.log('Печать завершена');
-        };
-    </script>
 </body>
 </html>
