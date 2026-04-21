@@ -2,7 +2,7 @@
   <a id="russian"></a>
   <h1>Скрипт php</h1>
 
-  ![Version 0.1.18](https://img.shields.io/badge/Version-0.1.18-orange.svg)
+  ![Version 0.1.19](https://img.shields.io/badge/Version-0.1.19-orange.svg)
   ![Stars](https://img.shields.io/github/stars/AlexandrAnatoliev/freelance.svg?style=flat)
   ![Forks](https://img.shields.io/github/forks/AlexandrAnatoliev/freelance.svg?style=flat)
   ![GitHub repo size](https://img.shields.io/github/repo-size/AlexandrAnatoliev/freelance)
@@ -257,6 +257,12 @@ composer require vlucas/phpdotenv
 | Порт	              | 465 (SSL)     |
 | Шифрование	        | SSL           |
 
+<div align="center">
+  <h3>TimeWeb</h3>
+</div>
+
+В TimeWeb закрыты некоторые порты - открывать через тех.поддержку.
+  
 ---
 
 <div align="center">
