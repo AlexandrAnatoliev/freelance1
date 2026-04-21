@@ -231,7 +231,8 @@ $simpleInvoiceHTML = '
 </html>';
 
 // Загружаем полный счет для отображения на сайте
-$fullInvoiceHTML = include 'shet.php';
+// $fullInvoiceHTML = include 'shet.php';
+$fullInvoiceHTML = include 'invoice.php';
 
 // Подключаем PHPMailer
 require_once 'mailer.php';
