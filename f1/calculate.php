@@ -88,247 +88,105 @@ if (!$tariffKey || !isset($items[$tariffKey]) || !$customerEmail) {
 // Расчет стоимости
 $subtotal = $items[$tariffKey]['price'];
 $addonDetails = [];
+$itemsList = []; // Для хранения позиций счета
+
+// Добавляем основной тариф
+$itemsList[] = [
+    'name' => $items[$tariffKey]['name'],
+    'quantity' => $quantity,
+    'unit' => 'мес.',
+    'price' => $items[$tariffKey]['price'],
+    'sum' => $items[$tariffKey]['price'] * $quantity
+];
+
 foreach ($selectedAddons as $addonKey) {
   if (isset($addons[$addonKey])) {
     $subtotal += $addons[$addonKey]['price'];
     $addonDetails[] = $addons[$addonKey]['name'] . ' (' . number_format($addons[$addonKey]['price'], 0, ',', ' ') . ' ₽)';
+    
+    $itemsList[] = [
+        'name' => $addons[$addonKey]['name'],
+        'quantity' => $quantity,
+        'unit' => 'мес.',
+        'price' => $addons[$addonKey]['price'],
+        'sum' => $addons[$addonKey]['price'] * $quantity
+    ];
   }
 }
 $total = $subtotal * $quantity;
 
-$orderDate = date('d.m.Y H:i');
+$orderDate = date('d.m.Y');
+$orderDateFull = date('d.m.Y H:i');
 $orderNumber = 'INV-' . date('Ymd-His');
+$dueDate = date('d.m.Y', strtotime('+3 days'));
 
-// Формируем HTML-счет
-$htmlContent = "
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset='UTF-8'>
-    <title>Счет на оплату №{$orderNumber}</title>
-<style>
-    body {
-        font-family: 'Times New Roman', Times, serif;
-        color: #000;
-        background: #fff;
-        padding: 20px;
-    }
-    .invoice-box {
-        max-width: 800px;
-        margin: auto;
-        padding: 30px;
-        border: 1px solid #000;
-        background: #fff;
-    }
-    h2 {
-        color: #000;
-        text-align: center;
-        font-weight: bold;
-        text-transform: uppercase;
-        margin-bottom: 20px;
-        font-size: 20px;
-    }
-    table {
-        width: 100%;
-        line-height: 1.5;
-        border-collapse: collapse;
-        margin: 20px 0;
-        border: 1px solid #000;
-    }
-    td, th {
-        padding: 8px 10px;
-        border: 1px solid #000;
-        text-align: left;
-        vertical-align: top;
-    }
-    th {
-        background: #e0e0e0;
-        font-weight: bold;
-        text-align: center;
-        text-transform: uppercase;
-        font-size: 14px;
-    }
-    .total {
-        font-size: 1.2rem;
-        font-weight: bold;
-        text-align: right;
-    }
-    .footer {
-        margin-top: 30px;
-        font-size: 0.9rem;
-        color: #000;
-        border-top: 1px solid #000;
-        padding-top: 15px;
-    }
-    .print-btn {
-        background: #ccc;
-        color: #000;
-        padding: 8px 15px;
-        text-decoration: none;
-        border: 1px solid #000;
-        display: inline-block;
-        font-weight: normal;
-        text-transform: uppercase;
-        font-size: 14px;
-    }
-    .print-btn:hover {
-        background: #aaa;
-    }
-    .company-details {
-        margin-bottom: 20px;
-        border-bottom: 1px solid #000;
-        padding-bottom: 10px;
-    }
-    .invoice-header {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 20px;
-    }
-    .invoice-number {
-        font-weight: bold;
-        font-size: 16px;
-    }
-    .signature-line {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 50px;
-        font-size: 14px;
-    }
-    .signature-item {
-        width: 45%;
-        border-top: 1px solid #000;
-        padding-top: 5px;
-        text-align: center;
-    }
-    .bank-details {
-        font-family: 'Courier New', monospace;
-        background: #f8f8f8;
-        padding: 10px;
-        border: 1px solid #000;
-        margin: 20px 0;
-        font-size: 13px;
-    }
-    .total-row {
-        background: #e0e0e0;
-        font-weight: bold;
-    }
-    .text-center {
-        text-align: center;
-    }
-    .text-right {
-        text-align: right;
-    }
-    .uppercase {
-        text-transform: uppercase;
-    }
-</style>
-</head>
-<body>
-<div class='invoice-box'>
-    <div class='invoice-header'>
-        <div class='company-name'><strong>ООО «ВАША КОМПАНИЯ»</strong></div>
-        <div class='invoice-number'>СЧЕТ-ФАКТУРА № {$orderNumber} от {$orderDate}</div>
-    </div>
-
-    <div class='company-details'>
-        <strong>Поставщик:</strong> ООО «Ваша Компания», ИНН 1234567890, КПП 123456789<br>
-        <strong>Адрес:</strong> 123456, г. Москва, ул. Примерная, д. 1, офис 101<br>
-        <strong>Тел:</strong> +7 (999) 123-45-67
-    </div>
-
-    <div style='margin-bottom: 20px;'>
-        <strong>Покупатель:</strong> {$customerName}<br>
-        <strong>Email:</strong> {$customerEmail}<br>
-        <strong>Телефон:</strong> {$customerPhone}
-    </div>
-
-    <table>
-        <thead>
-            <tr>
-                <th style='width: 5%;'>№</th>
-                <th style='width: 35%;'>Наименование товара (работ, услуг)</th>
-                <th style='width: 10%;'>Кол-во</th>
-                <th style='width: 10%;'>Ед.</th>
-                <th style='width: 20%;'>Цена (₽)</th>
-                <th style='width: 20%;'>Сумма (₽)</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td class='text-center'>1</td>
-                <td>{$items[$tariffKey]['name']}</td>
-                <td class='text-center'>{$quantity}</td>
-                <td class='text-center'>мес.</td>
-                <td class='text-right'>" . number_format($items[$tariffKey]['price'], 2, ',', ' ') . "</td>
-                <td class='text-right'>" . number_format($items[$tariffKey]['price'] * $quantity, 2, ',', ' ') . "</td>
-            </tr>";
-
-$rowNum = 2;
-foreach ($selectedAddons as $addonKey) {
-  if (isset($addons[$addonKey])) {
-    $htmlContent .= "
-            <tr>
-                <td class='text-center'>{$rowNum}</td>
-                <td>{$addons[$addonKey]['name']}</td>
-                <td class='text-center'>{$quantity}</td>
-                <td class='text-center'>мес.</td>
-                <td class='text-right'>" . number_format($addons[$addonKey]['price'], 2, ',', ' ') . "</td>
-                <td class='text-right'>" . number_format($addons[$addonKey]['price'] * $quantity, 2, ',', ' ') . "</td>
-            </tr>";
+// Формируем строку с товарами для счета
+$itemsRows = '';
+$rowNum = 1;
+foreach ($itemsList as $item) {
+    $itemsRows .= '
+                    <div class="pdf24_01" style="left:3.62em;top:' . (23.9968 + ($rowNum-1)*2.16) . 'em;"><span class="pdf24_16 pdf24_08 pdf24_14">' . $rowNum . '</span></div>
+                    <div class="pdf24_01" style="left:4.97em;top:' . (23.9968 + ($rowNum-1)*2.16) . 'em;"><span class="pdf24_16 pdf24_08 pdf24_32" style="word-spacing:0.0014em;">' . htmlspecialchars($item['name']) . '</span></div>
+                    <div class="pdf24_01" style="left:27.77em;top:' . (23.9968 + ($rowNum-1)*2.16) . 'em;"><span class="pdf24_16 pdf24_08 pdf24_12" style="word-spacing:0.1776em;">' . $item['quantity'] . ' ' . $item['unit'] . '</span></div>
+                    <div class="pdf24_01" style="left:34.51em;top:' . (23.9968 + ($rowNum-1)*2.16) . 'em;"><span class="pdf24_16 pdf24_08 pdf24_41">' . number_format($item['price'], 2, ',', ' ') . '</span></div>
+                    <div class="pdf24_01" style="left:39.81em;top:' . (23.9968 + ($rowNum-1)*2.16) . 'em;"><span class="pdf24_16 pdf24_08 pdf24_41" style="word-spacing:0.0002em;">' . number_format($item['sum'], 2, ',', ' ') . '</span></div>';
     $rowNum++;
-  }
 }
 
-$htmlContent .= "
-            <tr class='total-row'>
-                <td colspan='5' class='text-right'><strong>ИТОГО:</strong></td>
-                <td class='text-right'><strong>" . number_format($total, 2, ',', ' ') . "</strong></td>
-            </tr>
-            <tr>
-                <td colspan='5' class='text-right'>В том числе НДС:</td>
-                <td class='text-right'>—</td>
-            </tr>
-        </tbody>
-    </table>
+// Загружаем шаблон счета
+$template = file_get_contents('shet_obrasez.html');
 
-    <div class='bank-details'>
-        <strong>БАНКОВСКИЕ РЕКВИЗИТЫ:</strong><br>
-        Получатель: ООО «Ваша Компания»<br>
-        ИНН 1234567890 / КПП 123456789<br>
-        Р/с 40702810123456789012 в ПАО «БАНК» г. Москва<br>
-        К/с 30101810145250000411, БИК 044525225
-    </div>
+// Заменяем плейсхолдеры в шаблоне
+$replacements = [
+    // Номер счета и дата
+    '№ 21' => '№ ' . $orderNumber,
+    'от 30 июня 2025 г.' => 'от ' . date('d') . ' ' . getMonthName(date('m')) . ' ' . date('Y') . ' г.',
+    
+    // Данные покупателя
+    'ИП Васильева Наталья Александровна, ИНН 745100161206, 454045, Челябинская' => htmlspecialchars($customerName) . ', ',
+    'область, г Челябинск, ул Потребительская 2-я, д. 42' => '',
+    
+    // Суммы
+    '10 880,00' => number_format($total, 2, ',', ' '),
+    
+    // Сумма прописью (обновим через поиск точной фразы)
+    'Десять тысяч восемьсот восемьдесят рублей 00 копеек' => num2words($total),
+    
+    // Дата оплаты
+    '03.07.2025' => $dueDate,
+    
+    // Количество наименований
+    'Всего наименований 1' => 'Всего наименований ' . count($itemsList),
+];
 
-    <div style='margin: 20px 0;'>
-        <p><strong>Всего к оплате:</strong> " . number_format($total, 2, ',', ' ') . " руб.</p>
-        <p><em>" . num2words($total) . "</em></p>
-        <p>Счет действителен до: " . date('d.m.Y', strtotime('+3 days')) . "</p>
-    </div>
+// Применяем замены
+$htmlContent = str_replace(array_keys($replacements), array_values($replacements), $template);
 
-    <div class='signature-line'>
-        <div class='signature-item'>
-            Руководитель ______________ / Иванов И.И. /
-        </div>
-        <div class='signature-item'>
-            Главный бухгалтер ______________ / Петрова П.П. /
-        </div>
-    </div>
+// Заменяем блок с товарами - найдем позицию и вставим новые строки
+// Упростим - создадим полную замену секции товаров
+$pattern = '/<div class="pdf24_01" style="left:3.62em;top:23.9968em;">.*?<\/div>.*?<div class="pdf24_01" style="left:39.81em;top:23.9968em;">.*?<\/div>/s';
+if (preg_match($pattern, $htmlContent)) {
+    $htmlContent = preg_replace($pattern, $itemsRows, $htmlContent);
+}
 
-    <div style='margin-top: 20px; font-size: 12px;'>
-        <p>М.П.</p>
-    </div>
+// Обновляем данные покупателя более точно
+if (!empty($customerName)) {
+    $htmlContent = preg_replace(
+        '/<div class="pdf24_01" style="left:8.57em;top:18.631em;">.*?<\/div>/s',
+        '<div class="pdf24_01" style="left:8.57em;top:18.631em;"><span class="pdf24_29 pdf24_08 pdf24_35" style="word-spacing:0.0012em;">' . htmlspecialchars($customerName) . '</span></div>',
+        $htmlContent
+    );
+}
 
-    <div class='footer'>
-        <p style='text-align: center; margin-top: 30px;'>
-            <a href='#' onclick='window.print(); return false;' class='print-btn'>🖨️ ПЕЧАТЬ / СОХРАНИТЬ В PDF</a>
-        </p>
-        <p style='font-size: 12px; margin-top: 10px;'>Счет-фактура является основанием для оплаты. При оплате укажите номер счета.</p>
-    </div>
-</div>
-
-</body>
-</html>
-";
+// Вспомогательная функция для названия месяца
+function getMonthName($month) {
+    $months = [
+        '01' => 'января', '02' => 'февраля', '03' => 'марта', '04' => 'апреля',
+        '05' => 'мая', '06' => 'июня', '07' => 'июля', '08' => 'августа',
+        '09' => 'сентября', '10' => 'октября', '11' => 'ноября', '12' => 'декабря'
+    ];
+    return $months[$month] ?? '';
+}
 
 // Подключаем PHPMailer
 require_once 'mailer.php';
@@ -339,7 +197,7 @@ $subject = "Счет на оплату №{$orderNumber} от " . date('d.m.Y');
 $resultCustomer = sendInvoiceEmail($customerEmail, $customerName, $subject, $htmlContent);
 
 // Отправка админу (уведомление)
-$adminEmail = 'otetzalexandr1986@gmail.com'; // ← Ваша почта для теста
+$adminEmail = 'otetzalexandr1986@gmail.com';
 $resultAdmin = sendInvoiceEmail($adminEmail, 'Администратор', "Копия: " . $subject, $htmlContent);
 
 // Показываем результат
