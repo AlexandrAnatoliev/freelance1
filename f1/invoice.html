@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="ru">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Таблица 3x3 · банковские реквизиты</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Счёт на оплату · банковские реквизиты</title>
+    <style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
     body {
       font-family: Arial, Helvetica, sans-serif;
@@ -31,17 +31,28 @@
       width: 100%;
     }
 
-    h2 {
+    /* заголовок счёта */
+    .invoice-header {
       font-family: Arial, Helvetica, sans-serif;
-      font-weight: 500;
-      font-size: 1.6rem;
-      letter-spacing: -0.01em;
+      font-weight: bold;
+      font-size: 1.4rem;
       color: #000000;
-      margin-top: 0;
-      margin-bottom: 16px;
-      text-align: center;
-      border-bottom: 1px solid #e2e2e2;
-      padding-bottom: 12px;
+      text-align: left;
+      margin-bottom: 8px;
+      letter-spacing: 0.3px;
+    }
+
+    /* пустая строка */
+    .empty-line {
+      height: 12px;
+    }
+
+    /* разделительная полоса */
+    .divider {
+      width: 100%;
+      height: 2px;
+      background-color: #000000;
+      margin-bottom: 20px;
     }
 
     /* главная таблица — пропорции 9 : 1 : 3 */
@@ -194,6 +205,45 @@
       border-right: 2px solid #000000;
     }
 
+    /* ===== НИЖНЯЯ ТАБЛИЦА 2x3 (без видимых рамок) ===== */
+    .bottom-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.95rem;
+      color: #000000;
+      table-layout: fixed;
+      margin-top: 8px;
+    }
+
+    /* ширина колонок 1 : 7 */
+    .bottom-table colgroup col:first-child {
+      width: 12.5%;  /* 1 / 8 = 12.5% */
+    }
+    .bottom-table colgroup col:nth-child(2) {
+      width: 87.5%;  /* 7 / 8 = 87.5% */
+    }
+
+    .bottom-table td {
+      border: none;
+      padding: 6px 8px;
+      background-color: transparent;
+      vertical-align: top;
+      line-height: 1.45;
+    }
+
+    /* первый столбец — обычный шрифт */
+    .bottom-table td:first-child {
+      font-weight: normal;
+      text-align: left;
+    }
+
+    /* второй столбец — жирный шрифт */
+    .bottom-table td:nth-child(2) {
+      font-weight: bold;
+      text-align: left;
+    }
+
     /* ховер */
     .main-table td:hover,
     .inner-table-b1 td:hover,
@@ -202,17 +252,11 @@
       background-color: #f4f4f4;
     }
 
-    .caption-note {
-      font-family: Arial, Helvetica, sans-serif;
-      color: #000000;
-      text-align: center;
-      margin-top: 16px;
-      font-size: 0.85rem;
-      opacity: 0.75;
-    }
-
     /* адаптивность */
     @media (max-width: 700px) {
+      .invoice-header {
+        font-size: 1.2rem;
+      }
       .main-table {
         font-size: 0.75rem;
       }
@@ -233,69 +277,106 @@
         padding: 6px 3px;
         font-size: 0.75rem;
       }
-      h2 {
-        font-size: 1.3rem;
+      .bottom-table {
+        font-size: 0.75rem;
+      }
+      .bottom-table td {
+        padding: 5px 6px;
       }
     }
-  </style>
-</head>
-<body>
-<div class="table-wrapper">
+    </style>
+  </head>
+  <body>
+    <div class="table-wrapper">
+      <!-- ПЕРВАЯ ТАБЛИЦА — банковские реквизиты -->
+      <table class="main-table">
+        <colgroup>
+          <col style="width: 69.23%">
+          <col style="width: 7.69%">
+          <col style="width: 23.08%">
+        </colgroup>
 
-  <table class="main-table">
-    <colgroup>
-      <col style="width: 69.23%">
-      <col style="width: 7.69%">
-      <col style="width: 23.08%">
-    </colgroup>
+        <!-- строка 1 -->
+        <tr>
+          <td class="cell-a1">
+            ФИЛИАЛ "ЕКАТЕРИНБУРГСКИЙ" АО "АЛЬФА-БАНК" г. Екатеринбург<br><br>
+            Банк получателя
+          </td>
 
-    <!-- строка 1 -->
-    <tr>
-      <td class="cell-a1">
-        ФИЛИАЛ "ЕКАТЕРИНБУРГСКИЙ" АО "АЛЬФА-БАНК" г. Екатеринбург<br><br>
-        Банк получателя
-      </td>
+          <td class="split-cell-horizontal">
+            <table class="inner-table-b1">
+              <tr><td>БИК</td></tr>
+              <tr><td>Сч. №</td></tr>
+            </table>
+          </td>
 
-      <td class="split-cell-horizontal">
-        <table class="inner-table-b1">
-          <tr><td>БИК</td></tr>
-          <tr><td>Сч. №</td></tr>
-        </table>
-      </td>
+          <td class="cell-c1">
+            <table class="inner-table-c1">
+              <tr><td>046577964</td></tr>
+              <tr><td>30101810100000000964</td></tr>
+            </table>
+          </td>
+        </tr>
 
-      <td class="cell-c1">
-        <table class="inner-table-c1">
-          <tr><td>046577964</td></tr>
-          <tr><td>30101810100000000964</td></tr>
-        </table>
-      </td>
-    </tr>
+        <!-- строка 2 -->
+        <tr>
+          <td class="split-cell-vertical">
+            <table class="inner-table-a2">
+              <tr>
+                <td>ИНН</td>
+                <td>КПП</td>
+              </tr>
+            </table>
+          </td>
 
-    <!-- строка 2 -->
-    <tr>
-      <td class="split-cell-vertical">
-        <table class="inner-table-a2">
-          <tr>
-            <td>ИНН</td>
-            <td>КПП</td>
-          </tr>
-        </table>
-      </td>
+          <td class="merged-cell" rowspan="2">Сч. №</td>
 
-      <td class="merged-cell" rowspan="2">Сч. №</td>
+          <td class="account-cell" rowspan="2">40802810538140003080</td>
+        </tr>
 
-      <td class="account-cell" rowspan="2">40802810538140003080</td>
-    </tr>
+        <!-- строка 3 -->
+        <tr>
+          <td class="cell-a3">
+            ИП Шибицкий Александр<br><br>
+            Получатель
+          </td>
+        </tr>
+      </table>
 
-    <!-- строка 3 -->
-    <tr>
-      <td class="cell-a3">
-        ИП Шибицкий Александр<br><br>
-        Получатель
-      </td>
-    </tr>
-  </table>
+      <!-- пустая строка -->
+      <div class="empty-line"></div>
 
-</div>
-</body>
+      <!-- Счёт на оплату № 21 от 30 июня 2025 г. -->
+      <div class="invoice-header">
+        Счет на оплату № 21 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; от 30 июня 2025 г.
+      </div>
+
+      <!-- пустая строка -->
+      <div class="empty-line"></div>
+
+      <!-- разделительная полоса -->
+      <div class="divider"></div>
+
+      <!-- ВТОРАЯ ТАБЛИЦА — 2 столбца, 3 строки, без рамок, пропорции 1:7 -->
+      <table class="bottom-table">
+        <colgroup>
+          <col style="width: 12.5%">
+          <col style="width: 87.5%">
+        </colgroup>
+        <tr>
+          <td>Поставщик<br>(Исполнитель):</td>
+          <td>ИП Шибицкий Александр, ИНН 743005310292, 456658, Челябинская область, г.о. Копейский, г Копейск, ул Гагарина, д. 12, кв./оф. 16, тел.: +7 9000866698</td>
+        </tr>
+        <tr>
+          <td>Покупатель<br>(Заказчик):</td>
+          <td>ИП Васильева Наталья Александровна, ИНН 745100161206, 454045, Челябинская область, г Челябинск, ул Потребительская 2-я, д. 42</td>
+        </tr>
+        <tr>
+          <td>Основание:</td>
+          <td>Основной договор</td>
+        </tr>
+      </table>
+
+    </div>
+  </body>
 </html>
