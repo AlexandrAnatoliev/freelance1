@@ -231,7 +231,8 @@ $simpleInvoiceHTML = '
 </html>';
 
 // Загружаем полный счет для отображения на сайте
-$fullInvoiceHTML = file_get_contents('shet_obrasez.html');
+// $fullInvoiceHTML = include 'shet.php';
+$fullInvoiceHTML = include 'invoice.php';
 
 // Подключаем PHPMailer
 require_once 'mailer.php';
@@ -239,7 +240,8 @@ require_once 'mailer.php';
 $subject = "Счет на оплату №{$orderNumber} от " . date('d.m.Y');
 
 // Отправка покупателю (простая версия)
-$resultCustomer = sendInvoiceEmail($customerEmail, $customerName, $subject, $simpleInvoiceHTML);
+// $resultCustomer = sendInvoiceEmail($customerEmail, $customerName, $subject, $simpleInvoiceHTML);
+$resultCustomer = sendInvoiceEmail($customerEmail, $customerName, $subject, $fullInvoiceHTML);
 
 // Отправка админу (полная версия счета)
 $adminEmail = 'otetzalexandr1986@gmail.com';
