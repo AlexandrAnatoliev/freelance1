@@ -30,7 +30,7 @@ require_once 'configs/adminSettings.php';
 $orderNumber = 'INV-' . date('Ymd-His');
 $subject = "Счет на оплату №{$orderNumber} от " . date('d.m.Y');
 
-// Отправка покупателю 
+// Отправка покупателю
 $resultCustomer = sendInvoiceEmail($customerEmail, $customerName, $subject, $fullInvoiceHTML);
 
 // Отправка админу
