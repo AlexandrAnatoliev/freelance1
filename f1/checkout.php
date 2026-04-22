@@ -54,10 +54,11 @@ $resultAdmin = sendInvoiceEmail($admin['email'], 'Администратор', "
         <h1>✓ Заказ оформлен!</h1>
 
         <div class="success-message">
-            <p>Счет отправлен на <strong><?= htmlspecialchars($customerEmail) ?></strong></p>
+            <p>Счет отправлен на <strong><?= htmlspecialchars($customerEmail) ?></strong>
             <?php if (!empty($customerPhone)): ?>
-                <p>Номер телефона: <strong><?= htmlspecialchars($customerPhone) ?></strong></p>
-            <?php endif; ?>
+                (<strong><?= htmlspecialchars($customerPhone) ?></strong>)
+            <?php endif; ?></p>
+            <p>Копия на <strong><?= htmlspecialchars($admin['email']) ?></strong></p>
         </div>
 
         <?php if (!$resultCustomer): ?>
