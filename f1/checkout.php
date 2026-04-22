@@ -58,7 +58,8 @@ $resultAdmin = sendInvoiceEmail($admin['email'], 'Администратор', "
             <?php if (!empty($customerPhone)): ?>
                 (<strong><?= htmlspecialchars($customerPhone) ?></strong>)
             <?php endif; ?></p>
-            <p>Копия на <strong><?= htmlspecialchars($admin['email']) ?></strong></p>
+            <p>Копия на <strong><?= htmlspecialchars($admin['email']) ?></strong>
+                (<strong><?= htmlspecialchars($admin['name']) ?></strong>)</p>
         </div>
 
         <?php if (!$resultCustomer): ?>
