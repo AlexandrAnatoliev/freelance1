@@ -4,9 +4,6 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
   exit;
 }
 
-require_once 'configs/items.php';
-require_once 'configs/addons.php';
-
 // Получаем данные из формы
 $tariffKey = $_POST['tariff'] ?? null;
 $selectedAddons = $_POST['addons'] ?? [];
