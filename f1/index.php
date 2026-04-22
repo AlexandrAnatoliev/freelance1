@@ -1,18 +1,21 @@
 <?php
-// Настройки товаров (в реальном проекте можно вынести в БД)
+// Настройки товаров
 $items = [
   'standart' => ['name' => 'Тариф Стандарт', 'price' => 1000, 'img' => 'img/standart.jpg'],
   'pro'      => ['name' => 'Тариф Про', 'price' => 2500, 'img' => 'img/pro.jpg'],
-  'vip'      => ['name' => 'Тариф VIP', 'price' => 5000, 'img' => 'img/vip.jpg']
+  'vip'      => ['name' => 'Тариф VIP', 'price' => 5000, 'img' => 'img/vip.jpg'],
 ];
 $addons = [
   'support' => ['name' => 'Поддержка 24/7', 'price' => 500, 'img' => 'img/support.png'],
   'backup'  => ['name' => 'Резервное копирование', 'price' => 300, 'img' => 'img/backup.png'],
-  'seo'     => ['name' => 'SEO-аудит', 'price' => 700, 'img' => 'img/seo.png']
+  'seo'     => ['name' => 'SEO-аудит', 'price' => 700, 'img' => 'img/seo.png'],
 ];
 
 function getImagePath($path, $placeholder = 'img/placeholder.jpg') {
-  return file_exists($path) ? $path : $placeholder;
+    if (!empty($path) && file_exists($path)) {
+        return $path;
+    }
+    return $placeholder;
 }
 ?>
 <!DOCTYPE html>
