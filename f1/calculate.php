@@ -22,8 +22,6 @@ if (empty($customerEmail)) {
 }
 
 $orderNumber = 'INV-' . date('Ymd-His');
-$orderDate = date('d.m.Y H:i');
-$total = 10880.00; // Ваша сумма
 
 // Загружаем полный счет для отображения на сайте
 $fullInvoiceHTML = include 'invoice.php';
