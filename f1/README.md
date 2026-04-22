@@ -2,7 +2,7 @@
   <a id="russian"></a>
   <h1>Скрипт php</h1>
 
-  ![Version 0.1.21](https://img.shields.io/badge/Version-0.1.21-orange.svg)
+  ![Version 0.1.22](https://img.shields.io/badge/Version-0.1.22-orange.svg)
   ![Stars](https://img.shields.io/github/stars/AlexandrAnatoliev/freelance.svg?style=flat)
   ![Forks](https://img.shields.io/github/forks/AlexandrAnatoliev/freelance.svg?style=flat)
   ![GitHub repo size](https://img.shields.io/github/repo-size/AlexandrAnatoliev/freelance)
@@ -73,7 +73,7 @@ classDiagram
   class index.php {
   }
 
-  class calculate.php {
+  class checkout.php {
   }
 
   class mailer.php {
@@ -82,8 +82,8 @@ classDiagram
   class SMTP-сервер {
   }
 
-  index.php --|> calculate.php
-  calculate.php --|> mailer.php
+  index.php --|> checkout.php
+  checkout.php --|> mailer.php
   mailer.php --|> SMTP-сервер
 ```
 
@@ -177,14 +177,19 @@ composer require vlucas/phpdotenv
 
 ```
 /project/
-├── calculate.php
+├── checkout.php
 ├── configs/
+│   ├── .env
+│   ├── adminSettings.php
+│   └── mail.php
 ├── img/
 ├── index.php
 ├── invoice.php
 ├── mailer.php
 ├── README.md
 ├── styles/
+│   ├── checkout.css
+│   └── index.css
 └── vendor
     ├── phpmailer/
     └── autoload.php
