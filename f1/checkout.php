@@ -35,7 +35,9 @@ $subject = "Счет на оплату №{$orderNumber} от " . date('d.m.Y');
 $resultCustomer = sendInvoiceEmail($customerEmail, $customerName, $subject, $fullInvoiceHTML);
 
 // Отправка админу
-$adminEmail = 'otetzalexandr1986@gmail.com';
+require_once 'configs/adminSettings.php';
+$admin = getAdminSettings();
+$adminEmail = $admin['email'];
 $resultAdmin = sendInvoiceEmail($adminEmail, 'Администратор', "Копия: " . $subject, $fullInvoiceHTML);
 
 // Показываем результат
