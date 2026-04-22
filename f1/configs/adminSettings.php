@@ -11,6 +11,6 @@ $dotenv->load();
 
 function getAdminSettings() {
   return [
-    'email' => $_ENV['ADMIN_EMAIL'] ?? getenv('ADMIN_EMAIL') ?? 'admin@gmail.com',
+    'email' => $_ENV['ADMIN_EMAIL'] ?? 'admin@gmail.com',
   ];
 }
