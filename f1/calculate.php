@@ -51,7 +51,6 @@ $resultAdmin = sendInvoiceEmail($adminEmail, 'Администратор', "Ко
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Заказ оформлен - Счет на оплату</title>
-    <link rel="stylesheet" href="style.css">
     <style>
         body {
             font-family: Arial, sans-serif;
