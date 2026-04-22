@@ -37,8 +37,7 @@ $resultCustomer = sendInvoiceEmail($customerEmail, $customerName, $subject, $ful
 // Отправка админу
 require_once 'configs/adminSettings.php';
 $admin = getAdminSettings();
-$adminEmail = $admin['email'];
-$resultAdmin = sendInvoiceEmail($adminEmail, 'Администратор', "Копия: " . $subject, $fullInvoiceHTML);
+$resultAdmin = sendInvoiceEmail($admin['email'], 'Администратор', "Копия: " . $subject, $fullInvoiceHTML);
 
 // Показываем результат
 ?>
