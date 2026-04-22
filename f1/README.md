@@ -24,6 +24,7 @@
 * [Требования к серверу](#requirements)
 * [Установка PHPMailer](#PHPMailer-install)
 * [Настройка почтового сервиса](#mail-service-setup)
+* [Настройки товаров](#index-setting)
 * [Переменные окружения](#env)
 
 ---
@@ -176,16 +177,17 @@ composer require vlucas/phpdotenv
 
 ```
 /project/
-│── vendor/
-│   ├── phpmailer/
-│   └── autoload.php
-│── composer.json
-│── composer.lock
-│── index.php
-│── calculate.php
-│── mailer.php
-│── style.css
-└── img/
+├── calculate.php
+├── configs/
+├── img/
+├── index.php
+├── invoice.php
+├── mailer.php
+├── README.md
+├── styles/
+└── vendor
+    ├── phpmailer/
+    └── autoload.php
 ```
 
 ---
@@ -263,6 +265,43 @@ composer require vlucas/phpdotenv
 
 В TimeWeb закрыты некоторые порты - открывать через тех.поддержку.
   
+---
+
+<div align="center">
+  <a id="index-setting"></a>
+  <h2>Настройки товаров</h2>
+</div>
+
+Добавление / удаление товаров, изменение цен, картинок производится редактированием 
+соответствующих значений в массиве `items` в файле  `ndex.php`.
+
+``` 
+$items = [
+  'standart' => ['name' => 'Тариф Стандарт', 'price' => 1000, 'img' => 'img/standart.jpg'],
+  'pro'      => ['name' => 'Тариф Про', 'price' => 2500, 'img' => 'img/pro.jpg'],
+  'vip'      => ['name' => 'Тариф VIP', 'price' => 5000, 'img' => 'img/vip.jpg'],
+];
+```
+
+Картинки размещаются в папке `img/`
+
+```
+.
+├── img
+│  ├── backup.png
+│  ├── calculate.png
+│  ├── index.png
+│  ├── phone-mail.jpg
+│  ├── placeholder.jpg
+│  ├── pro.jpg
+│  ├── save-in-pdf.png
+│  ├── seo.png
+│  ├── standart.jpg
+│  ├── support.png
+│  └── vip.jpg
+└── index.php
+```
+
 ---
 
 <div align="center">
