@@ -2,7 +2,7 @@
   <a id="russian"></a>
   <h1>Скрипт php</h1>
 
-  ![Version 0.1.23](https://img.shields.io/badge/Version-0.1.23-orange.svg)
+  ![Version 0.1.24](https://img.shields.io/badge/Version-0.1.24-orange.svg)
   ![Stars](https://img.shields.io/github/stars/AlexandrAnatoliev/freelance.svg?style=flat)
   ![Forks](https://img.shields.io/github/forks/AlexandrAnatoliev/freelance.svg?style=flat)
   ![GitHub repo size](https://img.shields.io/github/repo-size/AlexandrAnatoliev/freelance)
@@ -180,6 +180,7 @@ composer require vlucas/phpdotenv
 ├── checkout.php
 ├── configs/
 │   ├── .env
+│   ├── .env.example
 │   ├── adminSettings.php
 │   └── mail.php
 ├── img/
@@ -314,23 +315,61 @@ $items = [
   <h2>Переменные окружения</h2>
 </div>
 
-Не храните пароли в коде. Используйте .env файлы:
+Проект изначально содержит образец файла конфигурации `.env.example`
 
 ```
-# .env (не добавлять в Git!)
-# ============================================
-# НАСТРОЙКИ ПОЧТЫ (ОБЯЗАТЕЛЬНЫЕ)
-# ============================================
-MAILER_USERNAME=mycompany@gmail.com
-MAILER_PASSWORD=abcd1234efgh5678
+/project/
+└── configs/
+    ├── .env.example
+    ├── adminSettings.php
+    └── mail.php
+```
 
-# ============================================
-# НАСТРОЙКИ ПОЧТЫ (ОПЦИОНАЛЬНЫЕ)
-# ============================================
+Перейдите в папку configs/
+
+```
+cd configs/
+```
+
+Переименуйте файл в .env
+
+```
+mv .env.example .env
+```
+```
+/project/
+└── configs/
+    ├── .env
+    ├── adminSettings.php
+    └── mail.php
+```
+
+Раскомментируйте и присвойте свои значения переменным
+
+```
+# Это образец файла конфигурации
+
+# =============================================================
+# mailer.php 
+# =============================================================
+
+# настройки почты (обязательные)
+
+# MAILER_USERNAME=your-email@gmail.com
+# MAILER_PASSWORD=your-app-password-here
+
+# настройки почты (опциональные)
 # Если не указаны, используются значения по умолчанию для Gmail
 
-MAILER_HOST=smtp.gmail.com
-MAILER_PORT=587
-MAILER_ENCRYPTION=tls
-MAILER_CHARSET=UTF-8
+# MAILER_HOST=smtp.gmail.com
+# MAILER_PORT=587
+# MAILER_ENCRYPTION=tls
+# MAILER_CHARSET=UTF-8
+
+# =============================================================
+# adminSettings.php
+# =============================================================
+
+# ADMIN_NAME="Администратор заказов"
+# ADMIN_EMAIL=admin@example.com
 ```
