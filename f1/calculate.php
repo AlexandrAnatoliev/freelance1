@@ -7,67 +7,6 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 require_once 'configs/items.php';
 require_once 'configs/addons.php';
 
-// Функция для преобразования числа в сумму прописью
-function num2words($num) {
-  $nul = 'ноль';
-  $ten = [
-    ['', 'один', 'два', 'три', 'четыре', 'пять', 'шесть', 'семь', 'восемь', 'девять'],
-    ['', 'одна', 'две', 'три', 'четыре', 'пять', 'шесть', 'семь', 'восемь', 'девять']
-  ];
-  $a20 = ['десять', 'одиннадцать', 'двенадцать', 'тринадцать', 'четырнадцать', 'пятнадцать', 'шестнадцать', 'семнадцать', 'восемнадцать', 'девятнадцать'];
-  $tens = ['', '', 'двадцать', 'тридцать', 'сорок', 'пятьдесят', 'шестьдесят', 'семьдесят', 'восемьдесят', 'девяносто'];
-  $hundred = ['', 'сто', 'двести', 'триста', 'четыреста', 'пятьсот', 'шестьсот', 'семьсот', 'восемьсот', 'девятьсот'];
-  $unit = [
-    ['копейка', 'копейки', 'копеек', 1],
-    ['рубль', 'рубля', 'рублей', 0],
-    ['тысяча', 'тысячи', 'тысяч', 1],
-    ['миллион', 'миллиона', 'миллионов', 0],
-    ['миллиард', 'миллиарда', 'миллиардов', 0]
-  ];
-
-  if (!is_numeric($num)) return 'ноль рублей 00 копеек';
-
-  $num = round($num, 2);
-  list($rub, $kop) = explode('.', sprintf("%015.2f", $num));
-
-  $out = [];
-  if (intval($rub) > 0) {
-    foreach (str_split($rub, 3) as $uk => $v) {
-      if (!intval($v)) continue;
-
-      $uk = sizeof($unit) - $uk - 1;
-      $gender = $unit[$uk][3];
-
-      list($i1, $i2, $i3) = array_map('intval', str_split($v, 1));
-
-      $out[] = $hundred[$i1];
-      if ($i2 > 1) {
-        $out[] = $tens[$i2] . ' ' . $ten[$gender][$i3];
-      } else {
-        $out[] = ($i2 > 0) ? $a20[$i3] : $ten[$gender][$i3];
-      }
-
-      if ($uk > 1) $out[] = morph($v, $unit[$uk][0], $unit[$uk][1], $unit[$uk][2]);
-    }
-  } else {
-    $out[] = $nul;
-  }
-
-  $out[] = morph(intval($rub), $unit[1][0], $unit[1][1], $unit[1][2]);
-  $out[] = $kop . ' ' . morph($kop, $unit[0][0], $unit[0][1], $unit[0][2]);
-
-  return trim(preg_replace('/ {2,}/', ' ', implode(' ', $out)));
-}
-
-function morph($n, $f1, $f2, $f5) {
-  $n = abs(intval($n)) % 100;
-  if ($n > 10 && $n < 20) return $f5;
-  $n = $n % 10;
-  if ($n > 1 && $n < 5) return $f2;
-  if ($n == 1) return $f1;
-  return $f5;
-}
-
 // Получаем данные из формы
 $tariffKey = $_POST['tariff'] ?? null;
 $selectedAddons = $_POST['addons'] ?? [];
@@ -90,7 +29,6 @@ $orderDate = date('d.m.Y H:i');
 $total = 10880.00; // Ваша сумма
 
 // Загружаем полный счет для отображения на сайте
-// $fullInvoiceHTML = include 'shet.php';
 $fullInvoiceHTML = include 'invoice.php';
 
 // Подключаем PHPMailer
@@ -98,10 +36,10 @@ require_once 'mailer.php';
 
 $subject = "Счет на оплату №{$orderNumber} от " . date('d.m.Y');
 
-// Отправка покупателю (простая версия)
+// Отправка покупателю 
 $resultCustomer = sendInvoiceEmail($customerEmail, $customerName, $subject, $fullInvoiceHTML);
 
-// Отправка админу (полная версия счета)
+// Отправка админу
 $adminEmail = 'otetzalexandr1986@gmail.com';
 $resultAdmin = sendInvoiceEmail($adminEmail, 'Администратор', "Копия: " . $subject, $fullInvoiceHTML);
 
