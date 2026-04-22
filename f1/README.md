@@ -179,12 +179,17 @@ composer require vlucas/phpdotenv
 /project/
 ├── checkout.php
 ├── configs/
+│   ├── .env
+│   ├── adminSettings.php
+│   └── mail.php
 ├── img/
 ├── index.php
 ├── invoice.php
 ├── mailer.php
 ├── README.md
 ├── styles/
+│   ├── checkout.css
+│   └── index.css
 └── vendor
     ├── phpmailer/
     └── autoload.php
