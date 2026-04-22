@@ -23,7 +23,7 @@ function getImagePath($path, $placeholder = 'img/placeholder.jpg') {
 <head>
     <meta charset="UTF-8">
     <title>Калькулятор заказа</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styles/index.css">
 </head>
 <body>
     <div class="calculator">
