@@ -28,7 +28,7 @@ function getImagePath($path, $placeholder = 'img/placeholder.jpg') {
 <body>
     <div class="calculator">
         <h1>Калькулятор услуг</h1>
-        <form id="orderForm" action="calculate.php" method="post">
+        <form id="orderForm" action="checkout.php" method="post">
 
             <!-- Блок выбора основного тарифа (Радио) -->
             <h2>1. Выберите тариф</h2>

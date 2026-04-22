@@ -46,7 +46,7 @@ $resultAdmin = sendInvoiceEmail($adminEmail, 'Администратор', "Ко
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Заказ оформлен - Счет на оплату</title>
-    <link rel="stylesheet" href="styles/calculate.css">
+    <link rel="stylesheet" href="styles/checkout.css">
 </head>
 <body>
     <div class="result-container">

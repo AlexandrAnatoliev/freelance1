@@ -73,7 +73,7 @@ classDiagram
   class index.php {
   }
 
-  class calculate.php {
+  class checkout.php {
   }
 
   class mailer.php {
@@ -82,8 +82,8 @@ classDiagram
   class SMTP-сервер {
   }
 
-  index.php --|> calculate.php
-  calculate.php --|> mailer.php
+  index.php --|> checkout.php
+  checkout.php --|> mailer.php
   mailer.php --|> SMTP-сервер
 ```
 
@@ -177,7 +177,7 @@ composer require vlucas/phpdotenv
 
 ```
 /project/
-├── calculate.php
+├── checkout.php
 ├── configs/
 ├── img/
 ├── index.php
