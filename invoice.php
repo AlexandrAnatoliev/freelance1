@@ -3,10 +3,10 @@
 session_start();
 $items = $_SESSION['items_session'];
 
-function getInvoice($tariffKey, $quantity)
+function getInvoice($tariffKey, $selectedAddons, $quantity)
 {
     global $items;
-    return '<!DOCTYPE html>
+    $htmlInvoice = '<!DOCTYPE html>
 <html lang="ru">
   <head>
     <meta charset="UTF-8">
@@ -462,8 +462,10 @@ function getInvoice($tariffKey, $quantity)
             <th>Цена</th>
             <th>Сумма</th>
           </tr>
-        </thead>
-        <tbody>
+        </thead>';
+
+    $htmlInvoice .= '
+    <tbody>
           <tr>
             <td>1</td>
             <td>' . $items[$tariffKey]['name'] . '</td>
@@ -473,6 +475,7 @@ function getInvoice($tariffKey, $quantity)
             <td>' . $items[$tariffKey]['price'] * $quantity . '</td>
           </tr>
           <tr>
+
             <td>2</td>
             <td>Консультационные услуги (подготовка документации)</td>
             <td>3</td>
@@ -531,4 +534,5 @@ function getInvoice($tariffKey, $quantity)
     </div>
   </body>
 </html>';
+    return $htmlInvoice;
 }
