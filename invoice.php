@@ -2,10 +2,12 @@
 
 session_start();
 $items = $_SESSION['items_session'];
+$addons = $_SESSION['addons_session'];
 
 function getInvoice($tariffKey, $selectedAddons, $quantity)
 {
     global $items;
+    global $addons;
     $htmlInvoice = '<!DOCTYPE html>
 <html lang="ru">
   <head>
@@ -474,8 +476,28 @@ function getInvoice($tariffKey, $selectedAddons, $quantity)
             <td>' . $items[$tariffKey]['price'] . '</td>
             <td>' . $items[$tariffKey]['price'] * $quantity . '</td>
           </tr>
-          <tr>
+          <tr>';
 
+    $rowNumber = 1;
+    foreach ($selectedAddons as $addonKey) {
+        if (isset($addons[$addonKey])) {
+            $rowNumber++;
+            $addonPrice = $addons[$addonKey]['price'];
+            $addonSum = $addonPrice * $quantity;
+
+            $htmlInvoice .= '
+          <tr>
+            <td>' . $rowNumber . '</td>
+            <td>' . htmlspecialchars($items[$addonKey]['name']) . '</td>
+            <td>' . $quantity . '</td>
+            <td>усл.</td>
+            <td>' . number_format($addonPrice, 2, ',', ' ') . '</td>
+            <td>' . number_format($addonSum, 2, ',', ' ') . '</td>
+          </tr>';
+        }
+    }
+
+    $htmlInvoice .= '
             <td>2</td>
             <td>Консультационные услуги (подготовка документации)</td>
             <td>3</td>

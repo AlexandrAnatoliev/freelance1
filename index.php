@@ -15,6 +15,7 @@ $addons = [
 ];
 
 $_SESSION['items_session'] = $items;
+$_SESSION['addons_session'] = $addons;
 
 function getImagePath($path, $placeholder = 'img/placeholder.jpg')
 {
