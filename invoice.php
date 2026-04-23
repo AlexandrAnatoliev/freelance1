@@ -79,6 +79,14 @@ function morph($n, $f1, $f2, $f5)
     return $f5;
 }
 
+function getCurrentRussianDate()
+{
+    $months = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
+        'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
+
+    return date('j') . ' ' . $months[date('n') - 1] . ' ' . date('Y') . ' г.';
+}
+
 function getInvoice($tariffKey, $selectedAddons, $quantity, $customerName, $orderNumber)
 {
     global $items;
@@ -501,7 +509,7 @@ function getInvoice($tariffKey, $selectedAddons, $quantity, $customerName, $orde
     $htmlInvoice .= '
       <!-- Счёт на оплату № 21 от 30 июня 2025 г. -->
       <div class="invoice-header"21>
-        Счет на оплату № ' . $orderNumber . $dateSpacer . ' от 30 июня 2025 г.
+        Счет на оплату № ' . $orderNumber . $dateSpacer . ' от ' . getCurrentRussianDate() . '
       </div>
 
       <!-- пустая строка -->
@@ -607,9 +615,11 @@ function getInvoice($tariffKey, $selectedAddons, $quantity, $customerName, $orde
       (' . $totalInWords . ')</p>
 
       <!-- пустая строка -->
-      <div class="empty-line"></div>
+      <div class="empty-line"></div>';
 
-      <p>Оплатить не позднее 03.07.2025 <br>
+    // Текущая дата + 3 дня
+    $htmlInvoice .= '
+      <p>Оплатить не позднее ' . date('d.m.Y', strtotime('+3 days')) . ' <br>
       Оплата данного счета означает согласие с условиями поставки товара.<br>
       Уведомление об оплате обязательно, в противном случае не гарантируется наличие товара на складе. <br>
       Товар отпускается по факту прихода денег на р/с Поставщика, самовывозом, при наличии доверенности и  
