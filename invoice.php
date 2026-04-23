@@ -1,6 +1,97 @@
 <?php
 
-return '<!DOCTYPE html>
+session_start();
+$items = $_SESSION['items_session'];
+$addons = $_SESSION['addons_session'];
+
+// Функция для преобразования числа в сумму прописью
+function num2words($num)
+{
+    $nul = 'ноль';
+    $ten = [
+        ['', 'один', 'два', 'три', 'четыре', 'пять', 'шесть', 'семь', 'восемь', 'девять'],
+        ['', 'одна', 'две', 'три', 'четыре', 'пять', 'шесть', 'семь', 'восемь', 'девять'],
+    ];
+    $a20 = ['десять', 'одиннадцать', 'двенадцать', 'тринадцать', 'четырнадцать', 'пятнадцать', 'шестнадцать', 'семнадцать', 'восемнадцать', 'девятнадцать'];
+    $tens = ['', '', 'двадцать', 'тридцать', 'сорок', 'пятьдесят', 'шестьдесят', 'семьдесят', 'восемьдесят', 'девяносто'];
+    $hundred = ['', 'сто', 'двести', 'триста', 'четыреста', 'пятьсот', 'шестьсот', 'семьсот', 'восемьсот', 'девятьсот'];
+    $unit = [
+        ['копейка', 'копейки', 'копеек', 1],
+        ['рубль', 'рубля', 'рублей', 0],
+        ['тысяча', 'тысячи', 'тысяч', 1],
+        ['миллион', 'миллиона', 'миллионов', 0],
+        ['миллиард', 'миллиарда', 'миллиардов', 0],
+    ];
+
+    if (!is_numeric($num)) {
+        return 'ноль рублей 00 копеек';
+    }
+
+    $num = round($num, 2);
+    [$rub, $kop] = explode('.', sprintf("%015.2f", $num));
+
+    $out = [];
+    if (intval($rub) > 0) {
+        foreach (str_split($rub, 3) as $uk => $v) {
+            if (!intval($v)) {
+                continue;
+            }
+
+            $uk = sizeof($unit) - $uk - 1;
+            $gender = $unit[$uk][3];
+
+            [$i1, $i2, $i3] = array_map('intval', str_split($v, 1));
+
+            $out[] = $hundred[$i1];
+            if ($i2 > 1) {
+                $out[] = $tens[$i2] . ' ' . $ten[$gender][$i3];
+            } else {
+                $out[] = ($i2 > 0) ? $a20[$i3] : $ten[$gender][$i3];
+            }
+
+            if ($uk > 1) {
+                $out[] = morph($v, $unit[$uk][0], $unit[$uk][1], $unit[$uk][2]);
+            }
+        }
+    } else {
+        $out[] = $nul;
+    }
+
+    $out[] = morph(intval($rub), $unit[1][0], $unit[1][1], $unit[1][2]);
+    $out[] = $kop . ' ' . morph($kop, $unit[0][0], $unit[0][1], $unit[0][2]);
+
+    return trim(preg_replace('/ {2,}/', ' ', implode(' ', $out)));
+}
+
+function morph($n, $f1, $f2, $f5)
+{
+    $n = abs(intval($n)) % 100;
+    if ($n > 10 && $n < 20) {
+        return $f5;
+    }
+    $n = $n % 10;
+    if ($n > 1 && $n < 5) {
+        return $f2;
+    }
+    if ($n == 1) {
+        return $f1;
+    }
+    return $f5;
+}
+
+function getCurrentRussianDate()
+{
+    $months = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
+        'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
+
+    return date('j') . ' ' . $months[date('n') - 1] . ' ' . date('Y') . ' г.';
+}
+
+function getInvoice($tariffKey, $selectedAddons, $quantity, $customerName, $orderNumber)
+{
+    global $items;
+    global $addons;
+    $htmlInvoice = '<!DOCTYPE html>
 <html lang="ru">
   <head>
     <meta charset="UTF-8">
@@ -412,11 +503,13 @@ return '<!DOCTYPE html>
       </table>
 
       <!-- пустая строка -->
-      <div class="empty-line"></div>
+      <div class="empty-line"></div>';
 
+    $dateSpacer = str_repeat('&nbsp;', 14);
+    $htmlInvoice .= '
       <!-- Счёт на оплату № 21 от 30 июня 2025 г. -->
-      <div class="invoice-header">
-        Счет на оплату № 21 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; от 30 июня 2025 г.
+      <div class="invoice-header"21>
+        Счет на оплату № ' . $orderNumber . $dateSpacer . ' от ' . getCurrentRussianDate() . '
       </div>
 
       <!-- пустая строка -->
@@ -434,10 +527,12 @@ return '<!DOCTYPE html>
         <tr>
           <td>Поставщик<br>(Исполнитель):</td>
           <td>ИП Шибицкий Александр, ИНН 743005310292, 456658, Челябинская область, г.о. Копейский, г Копейск, ул Гагарина, д. 12, кв./оф. 16, тел.: +7 9000866698</td>
-        </tr>
+        </tr>';
+
+    $htmlInvoice .= '
         <tr>
           <td>Покупатель<br>(Заказчик):</td>
-          <td>ИП Васильева Наталья Александровна, ИНН 745100161206, 454045, Челябинская область, г Челябинск, ул Потребительская 2-я, д. 42</td>
+          <td>' . $customerName . '</td>
         </tr>
         <tr>
           <td>Основание:</td>
@@ -456,37 +551,48 @@ return '<!DOCTYPE html>
             <th>Цена</th>
             <th>Сумма</th>
           </tr>
-        </thead>
-        <tbody>
+        </thead>';
+
+    $htmlInvoice .= '
+    <tbody>
           <tr>
             <td>1</td>
-            <td>Услуги по разработке дизайн-проекта</td>
-            <td>1</td>
+            <td>' . $items[$tariffKey]['name'] . '</td>
+            <td>' . $quantity . '</td>
             <td>усл.</td>
-            <td>35 000,00</td>
-            <td>35 000,00</td>
+            <td>' . number_format($items[$tariffKey]['price'], 2, ',', ' ') . '</td>
+            <td>' . number_format($items[$tariffKey]['price'] * $quantity, 2, ',', ' ') . '</td>
           </tr>
+          <tr>';
+
+    $total = $items[$tariffKey]['price'] * $quantity;
+
+    $rowNumber = 1;
+    foreach ($selectedAddons as $addonKey) {
+        if (isset($addons[$addonKey])) {
+            $rowNumber++;
+            $addonPrice = $addons[$addonKey]['price'];
+            $addonSum = $addonPrice * $quantity;
+            $total += $addonSum;
+
+            $htmlInvoice .= '
           <tr>
-            <td>2</td>
-            <td>Консультационные услуги (подготовка документации)</td>
-            <td>3</td>
-            <td>ч</td>
-            <td>2 500,00</td>
-            <td>7 500,00</td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td>Вёрстка и адаптация макетов</td>
-            <td>2</td>
-            <td>шт.</td>
-            <td>4 200,00</td>
-            <td>8 400,00</td>
-          </tr>
+            <td>' . $rowNumber . '</td>
+            <td>' . htmlspecialchars($addons[$addonKey]['name']) . '</td>
+            <td>' . $quantity . '</td>
+            <td>усл.</td>
+            <td>' . number_format($addonPrice, 2, ',', ' ') . '</td>
+            <td>' . number_format($addonSum, 2, ',', ' ') . '</td>
+          </tr>';
+        }
+    }
+
+    $htmlInvoice .= '
         </tbody>
         <tfoot>
           <tr>
             <td colspan="5" style="text-align:right; font-weight:bold;">Итого:</td>
-            <td style="font-weight:bold;">50 900,00</td>
+            <td style="font-weight:bold;">' . number_format($total, 2, ',', ' ') . '</td>
           </tr>
           <tr>
             <td colspan="5" style="text-align:right; font-weight:bold;">В том числе НДС:</td>
@@ -494,21 +600,26 @@ return '<!DOCTYPE html>
           </tr>
           <tr>
             <td colspan="5" style="text-align:right; font-weight:bold;">Всего к оплате:</td>
-            <td style="font-weight:bold;">50 900,00</td>
+            <td style="font-weight:bold;">' . number_format($total, 2, ',', ' ') . '</td>
           </tr>
         </tfoot>
       </table>
 
       <!-- пустая строка -->
-      <div class="empty-line"></div>
+      <div class="empty-line"></div>';
 
-      <p>Всего наименований 1, на сумму 10 880,00 руб<br>
-      Десять тысяч восемьсот восемьдесят рублей 00 копеек</p>
+    $totalInWords = num2words($total);
+
+    $htmlInvoice .= '
+      <p>Всего наименований ' . $rowNumber . ', на сумму ' . number_format($total, 2, ',', ' ') . ' руб<br>
+      (' . $totalInWords . ')</p>
 
       <!-- пустая строка -->
-      <div class="empty-line"></div>
+      <div class="empty-line"></div>';
 
-      <p>Оплатить не позднее 03.07.2025 <br>
+    // Текущая дата + 3 дня
+    $htmlInvoice .= '
+      <p>Оплатить не позднее ' . date('d.m.Y', strtotime('+3 days')) . ' <br>
       Оплата данного счета означает согласие с условиями поставки товара.<br>
       Уведомление об оплате обязательно, в противном случае не гарантируется наличие товара на складе. <br>
       Товар отпускается по факту прихода денег на р/с Поставщика, самовывозом, при наличии доверенности и  
@@ -525,3 +636,5 @@ return '<!DOCTYPE html>
     </div>
   </body>
 </html>';
+    return $htmlInvoice;
+}

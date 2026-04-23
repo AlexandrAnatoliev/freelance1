@@ -1,4 +1,7 @@
 <?php
+
+session_start();
+
 // Настройки товаров
 $items = [
     'standart' => ['name' => 'Тариф Стандарт', 'price'  => 1000, 'img' => 'img/standart.jpg'],
@@ -10,6 +13,9 @@ $addons = [
     'backup'  => ['name' => 'Резервное копирование', 'price'  => 300, 'img' => 'img/backup.png'],
     'seo'     => ['name' => 'SEO-аудит', 'price'              => 700, 'img' => 'img/seo.png'],
 ];
+
+$_SESSION['items_session'] = $items;
+$_SESSION['addons_session'] = $addons;
 
 function getImagePath($path, $placeholder = 'img/placeholder.jpg')
 {
