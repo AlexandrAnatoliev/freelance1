@@ -473,12 +473,12 @@ function getInvoice($tariffKey, $selectedAddons, $quantity)
             <td>' . $items[$tariffKey]['name'] . '</td>
             <td>' . $quantity . '</td>
             <td>усл.</td>
-            <td>' . $items[$tariffKey]['price'] . '</td>
-            <td>' . $items[$tariffKey]['price'] * $quantity . '</td>
+            <td>' . number_format($items[$tariffKey]['price'], 2, ',', ' ') . '</td>
+            <td>' . number_format($items[$tariffKey]['price'] * $quantity, 2, ',', ' ') . '</td>
           </tr>
           <tr>';
 
-    $total = $items[$tariffKey]['price'];
+    $total = $items[$tariffKey]['price'] * $quantity;
 
     $rowNumber = 1;
     foreach ($selectedAddons as $addonKey) {
@@ -513,7 +513,7 @@ function getInvoice($tariffKey, $selectedAddons, $quantity)
           </tr>
           <tr>
             <td colspan="5" style="text-align:right; font-weight:bold;">Всего к оплате:</td>
-            <td style="font-weight:bold;">50 900,00</td>
+            <td style="font-weight:bold;">' . $total . '</td>
           </tr>
         </tfoot>
       </table>
