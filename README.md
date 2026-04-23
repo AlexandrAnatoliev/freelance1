@@ -2,7 +2,7 @@
   <a id="russian"></a>
   <h1>Скрипт php</h1>
 
-  ![Version 0.1.25](https://img.shields.io/badge/Version-0.1.25-orange.svg)
+  ![Version 0.1.26](https://img.shields.io/badge/Version-0.1.26-orange.svg)
   ![Stars](https://img.shields.io/github/stars/AlexandrAnatoliev/freelance.svg?style=flat)
   ![Forks](https://img.shields.io/github/forks/AlexandrAnatoliev/freelance.svg?style=flat)
   ![GitHub repo size](https://img.shields.io/github/repo-size/AlexandrAnatoliev/freelance)
@@ -182,7 +182,7 @@ composer require vlucas/phpdotenv
 │   ├── .env
 │   ├── .env.example
 │   ├── adminSettings.php
-│   └── mail.php
+│   └── mailerSettings.php
 ├── img/
 ├── index.php
 ├── invoice.php
@@ -322,7 +322,7 @@ $items = [
 └── configs/
     ├── .env.example
     ├── adminSettings.php
-    └── mail.php
+    └── mailerSettings.php
 ```
 
 Перейдите в папку configs/
@@ -341,7 +341,7 @@ mv .env.example .env
 └── configs/
     ├── .env
     ├── adminSettings.php
-    └── mail.php
+    └── mailerSettings.php
 ```
 
 Раскомментируйте и присвойте свои значения переменным

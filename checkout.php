@@ -1,24 +1,24 @@
 <?php
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-  header('Location: index.php');
-  exit;
+    header('Location: index.php');
+    exit;
 }
 
 // Получаем данные из формы
-$tariffKey = $_POST['tariff'] ?? null;
+$tariffKey      = $_POST['tariff'] ?? null;
 $selectedAddons = $_POST['addons'] ?? [];
-$quantity = (int)($_POST['quantity'] ?? 1);
-$customerName = htmlspecialchars($_POST['customer_name'] ?? '');
-$customerEmail = $_POST['customer_email'] ?? '';
-$customerPhone = htmlspecialchars($_POST['customer_phone'] ?? '');
+$quantity       = (int) ($_POST['quantity'] ?? 1);
+$customerName   = htmlspecialchars($_POST['customer_name'] ?? '');
+$customerEmail  = $_POST['customer_email'] ?? '';
+$customerPhone  = htmlspecialchars($_POST['customer_phone'] ?? '');
 
 // Проверка обязательных полей
 if (!$tariffKey) {
-  die('Ошибка: Не выбран тариф.');
+    die('Ошибка: Не выбран тариф.');
 }
 
 if (empty($customerEmail)) {
-  die('Ошибка: Не указан email.');
+    die('Ошибка: Не указан email.');
 }
 
 // Загружаем полный счет для отображения на сайте
@@ -27,15 +27,15 @@ $fullInvoiceHTML = include 'invoice.php';
 require_once 'mailer.php';
 require_once 'configs/adminSettings.php';
 
-$orderNumber = 'INV-' . date('Ymd-His');
-$subject = "Счет на оплату №{$orderNumber} от " . date('d.m.Y');
+$orderNumber    = 'INV-' . date('Ymd-His');
+$subject        = "Счет на оплату №{$orderNumber} от " . date('d.m.Y');
 
 // Отправка покупателю
 $resultCustomer = sendInvoiceEmail($customerEmail, $customerName, $subject, $fullInvoiceHTML);
 
 // Отправка админу
-$admin = getAdminSettings();
-$resultAdmin = sendInvoiceEmail($admin['email'], 'Администратор', "Копия: " . $subject, $fullInvoiceHTML);
+$admin          = getAdminSettings();
+$resultAdmin    = sendInvoiceEmail($admin['email'], 'Администратор', "Копия: " . $subject, $fullInvoiceHTML);
 
 // Показываем результат
 ?>
@@ -53,18 +53,18 @@ $resultAdmin = sendInvoiceEmail($admin['email'], 'Администратор', "
 
         <div class="success-message">
             <p>Счет отправлен на <strong><?= htmlspecialchars($customerEmail) ?></strong>
-            <?php if (!empty($customerPhone)): ?>
+            <?php if (!empty($customerPhone)) : ?>
                 (<strong><?= htmlspecialchars($customerPhone) ?></strong>)
             <?php endif; ?></p>
             <p>Копия на <strong><?= htmlspecialchars($admin['email']) ?></strong>
                 (<strong><?= htmlspecialchars($admin['name']) ?></strong>)</p>
         </div>
 
-        <?php if (!$resultCustomer): ?>
+        <?php if (!$resultCustomer) : ?>
             <div class="email-status email-error">
                 <strong>⚠ Внимание!</strong> Письмо не было отправлено. Проверьте настройки почты.
             </div>
-        <?php else: ?>
+        <?php else : ?>
             <div class="email-status email-success">
                 <strong>✓ Письмо успешно отправлено!</strong> Проверьте папку «Спам», если не видите письма.
             </div>

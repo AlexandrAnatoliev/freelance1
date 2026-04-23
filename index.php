@@ -1,17 +1,18 @@
 <?php
 // Настройки товаров
 $items = [
-  'standart' => ['name' => 'Тариф Стандарт', 'price' => 1000, 'img' => 'img/standart.jpg'],
-  'pro'      => ['name' => 'Тариф Про', 'price' => 2500, 'img' => 'img/pro.jpg'],
-  'vip'      => ['name' => 'Тариф VIP', 'price' => 5000, 'img' => 'img/vip.jpg'],
+    'standart' => ['name' => 'Тариф Стандарт', 'price'  => 1000, 'img' => 'img/standart.jpg'],
+    'pro'      => ['name' => 'Тариф Про', 'price'       => 2500, 'img' => 'img/pro.jpg'],
+    'vip'      => ['name' => 'Тариф VIP', 'price'       => 5000, 'img' => 'img/vip.jpg'],
 ];
 $addons = [
-  'support' => ['name' => 'Поддержка 24/7', 'price' => 500, 'img' => 'img/support.png'],
-  'backup'  => ['name' => 'Резервное копирование', 'price' => 300, 'img' => 'img/backup.png'],
-  'seo'     => ['name' => 'SEO-аудит', 'price' => 700, 'img' => 'img/seo.png'],
+    'support' => ['name' => 'Поддержка 24/7', 'price'         => 500, 'img' => 'img/support.png'],
+    'backup'  => ['name' => 'Резервное копирование', 'price'  => 300, 'img' => 'img/backup.png'],
+    'seo'     => ['name' => 'SEO-аудит', 'price'              => 700, 'img' => 'img/seo.png'],
 ];
 
-function getImagePath($path, $placeholder = 'img/placeholder.jpg') {
+function getImagePath($path, $placeholder = 'img/placeholder.jpg')
+{
     if (!empty($path) && file_exists($path)) {
         return $path;
     }
@@ -33,7 +34,7 @@ function getImagePath($path, $placeholder = 'img/placeholder.jpg') {
             <!-- Блок выбора основного тарифа (Радио) -->
             <h2>1. Выберите тариф</h2>
             <div class="radio-group">
-                <?php foreach ($items as $key => $item): ?>
+                <?php foreach ($items as $key => $item) : ?>
                 <label class="card">
                     <input type="radio" name="tariff" value="<?= $key ?>" data-price="<?= $item['price'] ?>" required>
                     <img src="<?= getImagePath($item['img']) ?>" alt="<?= $item['name'] ?>">
@@ -46,7 +47,7 @@ function getImagePath($path, $placeholder = 'img/placeholder.jpg') {
             <!-- Блок дополнительных услуг (Чекбоксы) -->
             <h2>2. Дополнительные услуги</h2>
             <div class="checkbox-group">
-                <?php foreach ($addons as $key => $addon): ?>
+                <?php foreach ($addons as $key => $addon) : ?>
                 <label class="card small">
                     <input type="checkbox" name="addons[]" value="<?= $key ?>" data-price="<?= $addon['price'] ?>">
                     <img src="<?= getImagePath($addon['img']) ?>" alt="<?= $addon['name'] ?>">
@@ -80,9 +81,9 @@ function getImagePath($path, $placeholder = 'img/placeholder.jpg') {
 
 <script>
 // Калькуляция на лету
-const form = document.getElementById('orderForm');
+const form      = document.getElementById('orderForm');
 const totalSpan = document.getElementById('totalPrice');
-const qtyInput = document.getElementById('quantity');
+const qtyInput  = document.getElementById('quantity');
 
 function calculateTotal() {
   let total = 0;

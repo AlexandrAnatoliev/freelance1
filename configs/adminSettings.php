@@ -1,7 +1,4 @@
 <?php
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\SMTP;
-use PHPMailer\PHPMailer\Exception;
 
 require_once 'vendor/autoload.php';
 
@@ -9,9 +6,10 @@ require_once 'vendor/autoload.php';
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
-function getAdminSettings() {
-  return [
-    'email' => $_ENV['ADMIN_EMAIL'] ?? 'admin@gmail.com',
-    'name' => $_ENV['ADMIN_NAME'] ?? 'Администратор',
-  ];
+function getAdminSettings()
+{
+    return [
+        'email' => $_ENV['ADMIN_EMAIL'] ?? 'admin@gmail.com',
+        'name'  => $_ENV['ADMIN_NAME'] ?? 'Администратор',
+    ];
 }
