@@ -469,7 +469,7 @@ function getInvoice($tariffKey)
             <td>' . $items[$tariffKey]['name'] . '</td>
             <td>1</td>
             <td>усл.</td>
-            <td>35 000,00</td>
+            <td>' . $items[$tariffKey]['price'] . '</td>
             <td>35 000,00</td>
           </tr>
           <tr>
