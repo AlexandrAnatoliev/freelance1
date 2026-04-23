@@ -471,7 +471,7 @@ function getInvoice($tariffKey, $selectedAddons, $quantity)
           <tr>
             <td>1</td>
             <td>' . $items[$tariffKey]['name'] . '</td>
-            <td>1</td>
+            <td>' . $quantity . '</td>
             <td>усл.</td>
             <td>' . $items[$tariffKey]['price'] . '</td>
             <td>' . $items[$tariffKey]['price'] * $quantity . '</td>
@@ -488,7 +488,7 @@ function getInvoice($tariffKey, $selectedAddons, $quantity)
             $htmlInvoice .= '
           <tr>
             <td>' . $rowNumber . '</td>
-            <td>' . htmlspecialchars($items[$addonKey]['name']) . '</td>
+            <td>' . htmlspecialchars($addons[$addonKey]['name']) . '</td>
             <td>' . $quantity . '</td>
             <td>усл.</td>
             <td>' . number_format($addonPrice, 2, ',', ' ') . '</td>
