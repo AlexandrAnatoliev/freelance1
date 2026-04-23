@@ -4,6 +4,81 @@ session_start();
 $items = $_SESSION['items_session'];
 $addons = $_SESSION['addons_session'];
 
+// Функция для преобразования числа в сумму прописью
+function num2words($num)
+{
+    $nul = 'ноль';
+    $ten = [
+        ['', 'один', 'два', 'три', 'четыре', 'пять', 'шесть', 'семь', 'восемь', 'девять'],
+        ['', 'одна', 'две', 'три', 'четыре', 'пять', 'шесть', 'семь', 'восемь', 'девять'],
+    ];
+    $a20 = ['десять', 'одиннадцать', 'двенадцать', 'тринадцать', 'четырнадцать', 'пятнадцать', 'шестнадцать', 'семнадцать', 'восемнадцать', 'девятнадцать'];
+    $tens = ['', '', 'двадцать', 'тридцать', 'сорок', 'пятьдесят', 'шестьдесят', 'семьдесят', 'восемьдесят', 'девяносто'];
+    $hundred = ['', 'сто', 'двести', 'триста', 'четыреста', 'пятьсот', 'шестьсот', 'семьсот', 'восемьсот', 'девятьсот'];
+    $unit = [
+        ['копейка', 'копейки', 'копеек', 1],
+        ['рубль', 'рубля', 'рублей', 0],
+        ['тысяча', 'тысячи', 'тысяч', 1],
+        ['миллион', 'миллиона', 'миллионов', 0],
+        ['миллиард', 'миллиарда', 'миллиардов', 0],
+    ];
+
+    if (!is_numeric($num)) {
+        return 'ноль рублей 00 копеек';
+    }
+
+    $num = round($num, 2);
+    [$rub, $kop] = explode('.', sprintf("%015.2f", $num));
+
+    $out = [];
+    if (intval($rub) > 0) {
+        foreach (str_split($rub, 3) as $uk => $v) {
+            if (!intval($v)) {
+                continue;
+            }
+
+            $uk = sizeof($unit) - $uk - 1;
+            $gender = $unit[$uk][3];
+
+            [$i1, $i2, $i3] = array_map('intval', str_split($v, 1));
+
+            $out[] = $hundred[$i1];
+            if ($i2 > 1) {
+                $out[] = $tens[$i2] . ' ' . $ten[$gender][$i3];
+            } else {
+                $out[] = ($i2 > 0) ? $a20[$i3] : $ten[$gender][$i3];
+            }
+
+            if ($uk > 1) {
+                $out[] = morph($v, $unit[$uk][0], $unit[$uk][1], $unit[$uk][2]);
+            }
+        }
+    } else {
+        $out[] = $nul;
+    }
+
+    $out[] = morph(intval($rub), $unit[1][0], $unit[1][1], $unit[1][2]);
+    $out[] = $kop . ' ' . morph($kop, $unit[0][0], $unit[0][1], $unit[0][2]);
+
+    return trim(preg_replace('/ {2,}/', ' ', implode(' ', $out)));
+}
+
+function morph($n, $f1, $f2, $f5)
+{
+    $n = abs(intval($n)) % 100;
+    if ($n > 10 && $n < 20) {
+        return $f5;
+    }
+    $n = $n % 10;
+    if ($n > 1 && $n < 5) {
+        return $f2;
+    }
+    if ($n == 1) {
+        return $f1;
+    }
+    return $f5;
+}
+
 function getInvoice($tariffKey, $selectedAddons, $quantity, $customerName)
 {
     global $items;
@@ -442,7 +517,9 @@ function getInvoice($tariffKey, $selectedAddons, $quantity, $customerName)
         <tr>
           <td>Поставщик<br>(Исполнитель):</td>
           <td>ИП Шибицкий Александр, ИНН 743005310292, 456658, Челябинская область, г.о. Копейский, г Копейск, ул Гагарина, д. 12, кв./оф. 16, тел.: +7 9000866698</td>
-        </tr>
+        </tr>';
+
+    $htmlInvoice .= '
         <tr>
           <td>Покупатель<br>(Заказчик):</td>
           <td>' . $customerName . '</td>
@@ -521,9 +598,11 @@ function getInvoice($tariffKey, $selectedAddons, $quantity, $customerName)
       <!-- пустая строка -->
       <div class="empty-line"></div>';
 
+    $totalInWords = num2words($total);
+
     $htmlInvoice .= '
       <p>Всего наименований ' . $rowNumber . ', на сумму ' . number_format($total, 2, ',', ' ') . ' руб<br>
-      Десять тысяч восемьсот восемьдесят рублей 00 копеек</p>
+      (' . $totalInWords . ')</p>
 
       <!-- пустая строка -->
       <div class="empty-line"></div>
