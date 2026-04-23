@@ -3,7 +3,7 @@
 session_start();
 $items = $_SESSION['items_session'];
 
-function getInvoice()
+function getInvoice($tariffKey)
 {
     global $items;
     return '<!DOCTYPE html>
@@ -466,7 +466,7 @@ function getInvoice()
         <tbody>
           <tr>
             <td>1</td>
-            <td>' . $items['standart']['name'] . '</td>
+            <td>' . $items[$tariffKey]['name'] . '</td>
             <td>1</td>
             <td>усл.</td>
             <td>35 000,00</td>
