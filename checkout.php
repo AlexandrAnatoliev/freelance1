@@ -22,7 +22,8 @@ if (empty($customerEmail)) {
 }
 
 // Загружаем полный счет для отображения на сайте
-$fullInvoiceHTML = include 'invoice.php';
+include_once 'invoice.php';
+$fullInvoiceHTML = getInvoice();
 
 require_once 'mailer.php';
 require_once 'configs/adminSettings.php';

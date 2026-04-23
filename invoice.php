@@ -1,6 +1,8 @@
 <?php
 
-return '<!DOCTYPE html>
+function getInvoice()
+{
+    return '<!DOCTYPE html>
 <html lang="ru">
   <head>
     <meta charset="UTF-8">
@@ -525,3 +527,4 @@ return '<!DOCTYPE html>
     </div>
   </body>
 </html>';
+}
