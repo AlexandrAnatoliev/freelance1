@@ -519,9 +519,10 @@ function getInvoice($tariffKey, $selectedAddons, $quantity)
       </table>
 
       <!-- пустая строка -->
-      <div class="empty-line"></div>
+      <div class="empty-line"></div>';
 
-      <p>Всего наименований 1, на сумму 10 880,00 руб<br>
+    $htmlInvoice .= '
+      <p>Всего наименований ' . $rowNumber . ', на сумму ' . number_format($total, 2, ',', ' ') . ' руб<br>
       Десять тысяч восемьсот восемьдесят рублей 00 копеек</p>
 
       <!-- пустая строка -->
