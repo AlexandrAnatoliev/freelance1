@@ -478,12 +478,15 @@ function getInvoice($tariffKey, $selectedAddons, $quantity)
           </tr>
           <tr>';
 
+    $total = $items[$tariffKey]['price'];
+
     $rowNumber = 1;
     foreach ($selectedAddons as $addonKey) {
         if (isset($addons[$addonKey])) {
             $rowNumber++;
             $addonPrice = $addons[$addonKey]['price'];
             $addonSum = $addonPrice * $quantity;
+            $total += $addonSum;
 
             $htmlInvoice .= '
           <tr>
@@ -498,26 +501,11 @@ function getInvoice($tariffKey, $selectedAddons, $quantity)
     }
 
     $htmlInvoice .= '
-            <td>2</td>
-            <td>Консультационные услуги (подготовка документации)</td>
-            <td>3</td>
-            <td>ч</td>
-            <td>2 500,00</td>
-            <td>7 500,00</td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td>Вёрстка и адаптация макетов</td>
-            <td>2</td>
-            <td>шт.</td>
-            <td>4 200,00</td>
-            <td>8 400,00</td>
-          </tr>
         </tbody>
         <tfoot>
           <tr>
             <td colspan="5" style="text-align:right; font-weight:bold;">Итого:</td>
-            <td style="font-weight:bold;">50 900,00</td>
+            <td style="font-weight:bold;">' . $total . '</td>
           </tr>
           <tr>
             <td colspan="5" style="text-align:right; font-weight:bold;">В том числе НДС:</td>
