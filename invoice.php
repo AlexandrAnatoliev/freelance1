@@ -505,7 +505,7 @@ function getInvoice($tariffKey, $selectedAddons, $quantity)
         <tfoot>
           <tr>
             <td colspan="5" style="text-align:right; font-weight:bold;">Итого:</td>
-            <td style="font-weight:bold;">' . $total . '</td>
+            <td style="font-weight:bold;">' . number_format($total, 2, ',', ' ') . '</td>
           </tr>
           <tr>
             <td colspan="5" style="text-align:right; font-weight:bold;">В том числе НДС:</td>
@@ -513,7 +513,7 @@ function getInvoice($tariffKey, $selectedAddons, $quantity)
           </tr>
           <tr>
             <td colspan="5" style="text-align:right; font-weight:bold;">Всего к оплате:</td>
-            <td style="font-weight:bold;">' . $total . '</td>
+            <td style="font-weight:bold;">' . number_format($total, 2, ',', ' ') . '</td>
           </tr>
         </tfoot>
       </table>
