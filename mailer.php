@@ -5,7 +5,7 @@ use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
 require_once 'vendor/autoload.php';
-require_once 'configs/mail.php';
+require_once 'configs/mailerSettings.php';
 
 function sendInvoiceEmail($toEmail, $toName, $subject, $htmlBody)
 {

@@ -182,7 +182,7 @@ composer require vlucas/phpdotenv
 │   ├── .env
 │   ├── .env.example
 │   ├── adminSettings.php
-│   └── mail.php
+│   └── mailerSettings.php
 ├── img/
 ├── index.php
 ├── invoice.php
@@ -322,7 +322,7 @@ $items = [
 └── configs/
     ├── .env.example
     ├── adminSettings.php
-    └── mail.php
+    └── mailerSettings.php
 ```
 
 Перейдите в папку configs/
@@ -341,7 +341,7 @@ mv .env.example .env
 └── configs/
     ├── .env
     ├── adminSettings.php
-    └── mail.php
+    └── mailerSettings.php
 ```
 
 Раскомментируйте и присвойте свои значения переменным
