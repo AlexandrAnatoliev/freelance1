@@ -1,7 +1,11 @@
 <?php
 
+session_start();
+$items = $_SESSION['items_session'];
+
 function getInvoice()
 {
+    global $items;
     return '<!DOCTYPE html>
 <html lang="ru">
   <head>
@@ -462,7 +466,7 @@ function getInvoice()
         <tbody>
           <tr>
             <td>1</td>
-            <td>Услуги по разработке дизайн-проекта</td>
+            <td>' . $items['standart']['name'] . '</td>
             <td>1</td>
             <td>усл.</td>
             <td>35 000,00</td>
