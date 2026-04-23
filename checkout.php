@@ -23,7 +23,7 @@ if (empty($customerEmail)) {
 
 // Загружаем полный счет для отображения на сайте
 include_once 'invoice.php';
-$fullInvoiceHTML = getInvoice($tariffKey, $selectedAddons, $quantity);
+$fullInvoiceHTML = getInvoice($tariffKey, $selectedAddons, $quantity, $customerName);
 
 require_once 'mailer.php';
 require_once 'configs/adminSettings.php';

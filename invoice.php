@@ -4,7 +4,7 @@ session_start();
 $items = $_SESSION['items_session'];
 $addons = $_SESSION['addons_session'];
 
-function getInvoice($tariffKey, $selectedAddons, $quantity)
+function getInvoice($tariffKey, $selectedAddons, $quantity, $customerName)
 {
     global $items;
     global $addons;
@@ -445,7 +445,7 @@ function getInvoice($tariffKey, $selectedAddons, $quantity)
         </tr>
         <tr>
           <td>Покупатель<br>(Заказчик):</td>
-          <td>ИП Васильева Наталья Александровна, ИНН 745100161206, 454045, Челябинская область, г Челябинск, ул Потребительская 2-я, д. 42</td>
+          <td>' . $customerName . '</td>
         </tr>
         <tr>
           <td>Основание:</td>
