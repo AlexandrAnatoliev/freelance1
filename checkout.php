@@ -21,16 +21,15 @@ if (empty($customerEmail)) {
     die('Ошибка: Не указан email.');
 }
 
-// Загружаем полный счет для отображения на сайте
 include_once 'invoice.php';
-$fullInvoiceHTML = getInvoice($tariffKey, $selectedAddons, $quantity, $customerName);
-
 require_once 'mailer.php';
 require_once 'configs/adminSettings.php';
 
-$orderNumber    = 'INV-' . date('Ymd-His');
+$orderNumber    = 'Б-' . date('Ymd-His');
 $subject        = "Счет на оплату №{$orderNumber} от " . date('d.m.Y');
 
+// счет
+$fullInvoiceHTML = getInvoice($tariffKey, $selectedAddons, $quantity, $customerName, $orderNumber);
 // Отправка покупателю
 $resultCustomer = sendInvoiceEmail($customerEmail, $customerName, $subject, $fullInvoiceHTML);
 

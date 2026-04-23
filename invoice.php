@@ -79,7 +79,7 @@ function morph($n, $f1, $f2, $f5)
     return $f5;
 }
 
-function getInvoice($tariffKey, $selectedAddons, $quantity, $customerName)
+function getInvoice($tariffKey, $selectedAddons, $quantity, $customerName, $orderNumber)
 {
     global $items;
     global $addons;
@@ -495,11 +495,13 @@ function getInvoice($tariffKey, $selectedAddons, $quantity, $customerName)
       </table>
 
       <!-- пустая строка -->
-      <div class="empty-line"></div>
+      <div class="empty-line"></div>';
 
+    $dateSpacer = str_repeat('&nbsp;', 14);
+    $htmlInvoice .= '
       <!-- Счёт на оплату № 21 от 30 июня 2025 г. -->
-      <div class="invoice-header">
-        Счет на оплату № 21 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; от 30 июня 2025 г.
+      <div class="invoice-header"21>
+        Счет на оплату № ' . $orderNumber . $dateSpacer . ' от 30 июня 2025 г.
       </div>
 
       <!-- пустая строка -->
