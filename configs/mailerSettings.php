@@ -1,7 +1,6 @@
 <?php
+
 use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\SMTP;
-use PHPMailer\PHPMailer\Exception;
 
 require_once 'vendor/autoload.php';
 
@@ -9,16 +8,16 @@ require_once 'vendor/autoload.php';
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
-function getMailSettings() {
-  return [
-    'username'    => $_ENV['MAILER_USERNAME'] ?? getenv('MAILER_USERNAME'),
-    'password'    => $_ENV['MAILER_PASSWORD'] ?? getenv('MAILER_PASSWORD'),
-    'host'        => $_ENV['MAILER_HOST'] ?? 'smtp.gmail.com',
-    'port'        => $_ENV['MAILER_PORT'] ?? 587,
-    'charset'     => $_ENV['MAILER_CHARSET'] ?? 'UTF-8',
-    'encryption'  => $_ENV['MAILER_ENCRYPTION'] === 'ssl'
-    ? PHPMailer::ENCRYPTION_SMTPS
-    : PHPMailer::ENCRYPTION_STARTTLS,
-  ];
+function getMailSettings()
+{
+    return [
+        'username'    => $_ENV['MAILER_USERNAME'] ?? getenv('MAILER_USERNAME'),
+        'password'    => $_ENV['MAILER_PASSWORD'] ?? getenv('MAILER_PASSWORD'),
+        'host'        => $_ENV['MAILER_HOST'] ?? 'smtp.gmail.com',
+        'port'        => $_ENV['MAILER_PORT'] ?? 587,
+        'charset'     => $_ENV['MAILER_CHARSET'] ?? 'UTF-8',
+        'encryption'  => $_ENV['MAILER_ENCRYPTION'] === 'ssl'
+        ? PHPMailer::ENCRYPTION_SMTPS
+        : PHPMailer::ENCRYPTION_STARTTLS,
+    ];
 }
-

@@ -4,6 +4,9 @@ session_start();
 $items = $_SESSION['items_session'];
 $addons = $_SESSION['addons_session'];
 
+require_once 'configs/bankDetailsSettings.php';
+$bankDetails  = getBankDetailsSettings();
+
 // Функция для преобразования числа в сумму прописью
 function num2words($num)
 {
@@ -91,6 +94,7 @@ function getInvoice($tariffKey, $selectedAddons, $quantity, $customerName, $orde
 {
     global $items;
     global $addons;
+    global $bankDetails;
     $htmlInvoice = '<!DOCTYPE html>
 <html lang="ru">
   <head>
@@ -444,7 +448,9 @@ function getInvoice($tariffKey, $selectedAddons, $quantity, $customerName, $orde
       }
     }
     </style>
-  </head>
+  </head>';
+
+    $htmlInvoice .= '
   <body>
     <div class="table-wrapper">
       <!-- ПЕРВАЯ ТАБЛИЦА — банковские реквизиты -->
@@ -457,8 +463,7 @@ function getInvoice($tariffKey, $selectedAddons, $quantity, $customerName, $orde
 
         <!-- строка 1 -->
         <tr>
-          <td class="cell-a1">
-            ФИЛИАЛ "ЕКАТЕРИНБУРГСКИЙ" АО "АЛЬФА-БАНК" г. Екатеринбург<br><br>
+          <td class="cell-a1">' . $bankDetails['recipient_bank'] . '<br><br>
             Банк получателя
           </td>
 
@@ -471,8 +476,8 @@ function getInvoice($tariffKey, $selectedAddons, $quantity, $customerName, $orde
 
           <td class="cell-c1">
             <table class="inner-table-c1">
-              <tr><td>046577964</td></tr>
-              <tr><td>30101810100000000964</td></tr>
+              <tr><td>' . $bankDetails['bank_identification_code'] . '</td></tr>
+              <tr><td>' . $bankDetails['correspondent_bank_account'] . '</td></tr>
             </table>
           </td>
         </tr>
@@ -489,14 +494,13 @@ function getInvoice($tariffKey, $selectedAddons, $quantity, $customerName, $orde
           </td>
 
           <td class="merged-cell" rowspan="2">Сч. №</td>
-
-          <td class="account-cell" rowspan="2">40802810538140003080</td>
+          <td class="account-cell" rowspan="2">' . $bankDetails['recipients_bank_account'] . '</td>
         </tr>
 
         <!-- строка 3 -->
         <tr>
           <td class="cell-a3">
-            ИП Шибицкий Александр<br><br>
+            ' . $bankDetails['ip_name'] . '<br><br>
             Получатель
           </td>
         </tr>
@@ -526,7 +530,7 @@ function getInvoice($tariffKey, $selectedAddons, $quantity, $customerName, $orde
         </colgroup>
         <tr>
           <td>Поставщик<br>(Исполнитель):</td>
-          <td>ИП Шибицкий Александр, ИНН 743005310292, 456658, Челябинская область, г.о. Копейский, г Копейск, ул Гагарина, д. 12, кв./оф. 16, тел.: +7 9000866698</td>
+          <td>' . $bankDetails['ip_full_name'] . '</td>
         </tr>';
 
     $htmlInvoice .= '
@@ -536,7 +540,7 @@ function getInvoice($tariffKey, $selectedAddons, $quantity, $customerName, $orde
         </tr>
         <tr>
           <td>Основание:</td>
-          <td>Основной договор</td>
+          <td>' . $bankDetails['payment_basis'] . '</td>
         </tr>
       </table>
       <!-- ТАБЛИЦА С ГРАНИЦАМИ (6 колонок) -->
@@ -631,7 +635,7 @@ function getInvoice($tariffKey, $selectedAddons, $quantity, $customerName, $orde
       <!-- разделительная полоса -->
       <div class="divider"></div>
 
-      <p>Предприниматель______________________________________________Шибицкий А.</p>
+      <p>Предприниматель______________________________________________' . $bankDetails['entrepreneurs_surname'] . '</p>
 
     </div>
   </body>

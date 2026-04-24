@@ -1,8 +1,8 @@
 <div align="center">
   <a id="russian"></a>
-  <h1>Скрипт php</h1>
+  <h1>Скрипт php: Калькулятор-заказа с отправкой счёта на оплату</h1>
 
-  ![Version 0.1.28](https://img.shields.io/badge/Version-0.1.28-orange.svg)
+  ![Version 0.1.29](https://img.shields.io/badge/Version-0.1.29-orange.svg)
   ![Stars](https://img.shields.io/github/stars/AlexandrAnatoliev/freelance.svg?style=flat)
   ![Forks](https://img.shields.io/github/forks/AlexandrAnatoliev/freelance.svg?style=flat)
   ![GitHub repo size](https://img.shields.io/github/repo-size/AlexandrAnatoliev/freelance)
@@ -42,7 +42,7 @@
 Проведение онлайн оплаты не нужно, только отправка.
 ```
 
-### Чек-лист требований: Калькулятор-заказа с отправкой счёта на оплату
+### Чек-лист требований: 
 
 #### 1. Общая информация
 - **Цель:** Скрипт на PHP для оформления заказа (калькулятор) с отправкой счёта на оплату.
@@ -84,9 +84,11 @@
 #### 3. Безопасность и структура кода
 
 ##### Защита данных
-- [ ] **Переменные окружения:** Пароли, ключи API, коды доступа вынесены в файл `.env`.
+- [x] **Переменные окружения:** Пароли, ключи API, коды доступа вынесены в файл `.env`.
 - [x] **Скрытие логики:** Основной рабочий код (расчеты, PDF, отправка) не должен быть доступен для просмотра через браузер (лежит в отдельных PHP-файлах на сервере).
 - [ ] **Доступ к `.env`:** Запрещен через настройки Apache (.htaccess) или права доступа.
+    - [ ] Проверить возможность при пробном хостинге (через администратора)
+    - [ ] Описать в документации
 
 ##### Админка (MVP)
 - [ ] В первой версии — «файловая админка».
@@ -102,7 +104,7 @@
 - [x] **Бланк строгой формы**, аналогичный «1С» и принятый в документообороте РФ.
 - [x] **Границы таблицы:** Чёткие рамки у всех ячеек (как в предоставленных PDF-образцах).
 - [x] **Нумерация:** Формат номера с префиксом «Б». Пример: `Счёт на оплату № Б-001 от 21.04.2026 г.` (генерируется автоматически с автоинкрементом и датой).
-- [ ] **Шапка:** Реквизиты Продавца (подтягиваются из настроек).
+- [x] **Шапка:** Реквизиты Продавца (подтягиваются из настроек).
 - [x] **Шапка:** Реквизиты Покупателя (Название компании, телефон, email — только то, что ввел клиент).
 
 ##### Техническая реализация
@@ -131,12 +133,9 @@
 </div>
 * Счет на оплату:
 <div align="center">
-  <img src="img/calculate.png" width=640>
+  <img src="img/checkout.png" width=640>
 </div>
 * Сохранение в pdf-файл:
-<div align="center">
-  <img src="img/save-in-pdf.png" width=640>
-</div>
 * Отправка письма на почту покупателю:
 <div align="center">
   <img src="img/phone-mail.jpg" width=320>
@@ -264,6 +263,7 @@ composer require vlucas/phpdotenv
 │   ├── .env
 │   ├── .env.example
 │   ├── adminSettings.php
+│   ├── bankDetailsSettings.php
 │   └── mailerSettings.php
 ├── img/
 ├── index.php
@@ -377,12 +377,11 @@ $items = [
 .
 ├── img
 │  ├── backup.png
-│  ├── calculate.png
+│  ├── checkout.png
 │  ├── index.png
 │  ├── phone-mail.jpg
 │  ├── placeholder.jpg
 │  ├── pro.jpg
-│  ├── save-in-pdf.png
 │  ├── seo.png
 │  ├── standart.jpg
 │  ├── support.png
@@ -404,7 +403,8 @@ $items = [
 └── configs/
     ├── .env.example
     ├── adminSettings.php
-    └── mailerSettings.php
+│   ├── bankDetailsSettings.php
+│   └── mailerSettings.php
 ```
 
 Перейдите в папку configs/
@@ -423,7 +423,8 @@ mv .env.example .env
 └── configs/
     ├── .env
     ├── adminSettings.php
-    └── mailerSettings.php
+│   ├── bankDetailsSettings.php
+│   └── mailerSettings.php
 ```
 
 Раскомментируйте и присвойте свои значения переменным
@@ -454,4 +455,16 @@ mv .env.example .env
 
 # ADMIN_NAME="Администратор заказов"
 # ADMIN_EMAIL=admin@example.com
+
+# ============================================
+# bankDetailsSettings.php
+# ============================================
+# BANK_DETAILS_RECIPIENT_BANK='ФИЛИАЛ "ИВАНОВСКИЙ" АО "ИВАН-БАНК" г. Иваново'
+# BANK_DETAILS_BANK_IDENTIFICATION_CODE='123456789'
+# BANK_DETAILS_CORRESPONDENT_BANK_ACCOUNT='30101000000000000000'
+# BANK_DETAILS_RECIPIENTS_BANK_ACCOUNT='40802000000000000000'
+# BANK_DETAILS_IP_NAME='ИП Иванов Иван'
+# BANK_DETAILS_IP_FULL_NAME='ИП Иванов Иван, ИНН 123456789876, 123456, Ивановская область, г.о. Ивановский, г Иваново, ул Ивановская, д. 12, кв./оф. 34, тел.: +7 1234567890'
+# BANK_DETAILS_PAYMENT_BASIS='Основной договор'
+# BANK_DETAILS_ENTREPRENEURS_SURNAME='Иванов И.'
 ```
