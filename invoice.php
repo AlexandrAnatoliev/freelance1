@@ -494,8 +494,7 @@ function getInvoice($tariffKey, $selectedAddons, $quantity, $customerName, $orde
           </td>
 
           <td class="merged-cell" rowspan="2">Сч. №</td>
-
-          <td class="account-cell" rowspan="2">40802810538140003080</td>
+          <td class="account-cell" rowspan="2">' . $bankDetails['recipients_bank_account'] . '</td>
         </tr>
 
         <!-- строка 3 -->
