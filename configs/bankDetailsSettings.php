@@ -31,5 +31,9 @@ function getBankDetailsSettings()
         'payment_basis'               => $_ENV['BANK_DETAILS_PAYMENT_BASIS']
           ?: getenv('BANK_DETAILS_PAYMENT_BASIS')
           ?: $defaultValue,
+
+        'entrepreneurs_surname'       => $_ENV['BANK_DETAILS_ENTREPRENEURS_SURNAME']
+          ?: getenv('BANK_DETAILS_ENTREPRENEURS_SURNAME')
+          ?: $defaultValue,
     ];
 }

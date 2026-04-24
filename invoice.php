@@ -635,7 +635,7 @@ function getInvoice($tariffKey, $selectedAddons, $quantity, $customerName, $orde
       <!-- разделительная полоса -->
       <div class="divider"></div>
 
-      <p>Предприниматель______________________________________________Шибицкий А.</p>
+      <p>Предприниматель______________________________________________' . $bankDetails['entrepreneurs_surname'] . '</p>
 
     </div>
   </body>
