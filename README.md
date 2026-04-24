@@ -131,12 +131,9 @@
 </div>
 * Счет на оплату:
 <div align="center">
-  <img src="img/calculate.png" width=640>
+  <img src="img/checkout.png" width=640>
 </div>
 * Сохранение в pdf-файл:
-<div align="center">
-  <img src="img/save-in-pdf.png" width=640>
-</div>
 * Отправка письма на почту покупателю:
 <div align="center">
   <img src="img/phone-mail.jpg" width=320>
