@@ -7,7 +7,8 @@ $dotenv->load();
 
 function getBankDetailsSettings()
 {
-    $defaultValue = '!!! Заполните в настройках';
+    $defaultValue = 'Заполнить настройки!';
+
     return [
         'recipient_bank'            => $_ENV['BANK_DETAILS_RECIPIENT_BANK']
           ?: getenv('BANK_DETAILS_RECIPIENT_BANK')
