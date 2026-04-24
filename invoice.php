@@ -1,15 +1,31 @@
 <?php
 
+use function pcov\waiting;
+
 session_start();
 $items = $_SESSION['items_session'];
 $addons = $_SESSION['addons_session'];
-
 require_once 'configs/bankDetailsSettings.php';
 $bankDetails  = getBankDetailsSettings();
-
 // Функция для преобразования числа в сумму прописью
 function num2words($num)
 {
+    $nul = 'ноль';
+    $ten = [
+        ['', 'один', 'два', 'три', 'четыре', 'пять', 'шесть', 'семь', 'восемь', 'девять'],
+        ['', 'одна', 'две', 'три', 'четыре', 'пять', 'шесть', 'семь', 'восемь', 'девять'],
+    ];
+    $a20 = ['десять', 'одиннадцать', 'двенадцать', 'тринадцать', 'четырнадцать', 'пятнадцать', 'шестнадцать', 'семнадцать', 'восемнадцать', 'девятнадцать'];
+    $tens = ['', '', 'двадцать', 'тридцать', 'сорок', 'пятьдесят', 'шестьдесят', 'семьдесят', 'восемьдесят', 'девяносто'];
+    $hundred = ['', 'сто', 'двести', 'триста', 'четыреста', 'пятьсот', 'шестьсот', 'семьсот', 'восемьсот', 'девятьсот'];
+    $unit = [
+        ['копейка', 'копейки', 'копеек', 1],
+        ['рубль', 'рубля', 'рублей', 0],
+        ['тысяча', 'тысячи', 'тысяч', 1],
+        ['миллион', 'миллиона', 'миллионов', 0],
+        ['миллиард', 'миллиарда', 'миллиардов', 0],
+    ];
+
     if (!is_numeric($num)) {
         return 'ноль рублей 00 копеек';
     }
@@ -17,76 +33,39 @@ function num2words($num)
     $num = round($num, 2);
     [$rub, $kop] = explode('.', sprintf("%015.2f", $num));
 
-    $rubles = formatRubles($rub);
+    $out = [];
+    if (intval($rub) > 0) {
+        foreach (str_split($rub, 3) as $uk => $v) {
+            if (!intval($v)) {
+                continue;
+            }
 
-    return $rubles . ' ' . formatKopecks($kop);
-}
+            $uk = sizeof($unit) - $uk - 1;
+            $gender = $unit[$uk][3];
 
-function formatRubles($rub)
-{
-    if (intval($rub) === 0) {
-        return 'ноль рублей';
-    }
+            [$i1, $i2, $i3] = array_map('intval', str_split($v, 1));
 
-    $parts = [];
+            $out[] = $hundred[$i1];
+            if ($i2 > 1) {
+                $out[] = $tens[$i2] . ' ' . $ten[$gender][$i3];
+            } else {
+                $out[] = ($i2 > 0) ? $a20[$i3] : $ten[$gender][$i3];
+            }
 
-    foreach (str_split($rub, 3) as $index => $chunk) {
-        if (!intval($chunk)) {
-            continue;
+            if ($uk > 1) {
+                $out[] = morph($v, $unit[$uk][0], $unit[$uk][1], $unit[$uk][2]);
+            }
         }
-        $parts[] = formatGroup($chunk, $index, count(str_split($rub, 3)));
+    } else {
+        $out[] = $nul;
     }
 
-    return implode(' ', $parts);
+    $out[] = morph(intval($rub), $unit[1][0], $unit[1][1], $unit[1][2]);
+    $out[] = $kop . ' ' . morph($kop, $unit[0][0], $unit[0][1], $unit[0][2]);
+
+    return trim(preg_replace('/ {2,}/', ' ', implode(' ', $out)));
 }
 
-function formatGroup($chunk, $index, $totalGroups)
-{
-    static $hundred = ['', 'сто', 'двести', 'триста', 'четыреста', 'пятьсот', 'шестьсот', 'семьсот', 'восемьсот', 'девятьсот'];
-    static $tens    = ['', '', 'двадцать', 'тридцать', 'сорок', 'пятьдесят', 'шестьдесят', 'семьдесят', 'восемьдесят', 'девяносто'];
-    static $a20     = ['десять', 'одиннадцать', 'двенадцать', 'тринадцать', 'четырнадцать', 'пятнадцать', 'шестнадцать', 'семнадцать', 'восемнадцать', 'девятнадцать'];
-    static $unit    = [
-        ['копейка', 'копейки', 'копеек', 1],
-        ['рубль',   'рубля',   'рублей',   0],
-        ['тысяча',  'тысячи',  'тысяч',    1],
-        ['миллион', 'миллиона','миллионов', 0],
-        ['миллиард','миллиарда','миллиардов',0],
-    ];
-
-    $uk     = count($unit) - ($totalGroups - $index);
-    $gender = $unit[$uk][3];
-
-    [$i1, $i2, $i3] = array_map('intval', str_split($chunk, 1));
-
-    $result = $hundred[$i1];
-    $result .= ' ' . formatTens($i2, $i3, $gender, $tens, $a20);
-
-    if ($uk > 1) {
-        $result .= ' ' . morph($chunk, $unit[$uk][0], $unit[$uk][1], $unit[$uk][2]);
-    }
-
-    return trim($result);
-}
-
-function formatTens($i2, $i3, $gender, $tens, $a20)
-{
-    static $ten = [
-        ['', 'один', 'два', 'три', 'четыре', 'пять', 'шесть', 'семь', 'восемь', 'девять'],
-        ['', 'одна', 'две', 'три', 'четыре', 'пять', 'шесть', 'семь', 'восемь', 'девять'],
-    ];
-
-    if ($i2 > 1) {
-        return $tens[$i2] . ' ' . $ten[$gender][$i3];
-    }
-
-    return $i2 > 0 ? $a20[$i3] : $ten[$gender][$i3];
-}
-
-function formatKopecks($kop)
-{
-    $kop = intval($kop);
-    return $kop . ' ' . morph($kop, 'копейка', 'копейки', 'копеек');
-}
 
 function morph($n, $f1, $f2, $f5)
 {
