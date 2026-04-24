@@ -476,7 +476,7 @@ function getInvoice($tariffKey, $selectedAddons, $quantity, $customerName, $orde
 
           <td class="cell-c1">
             <table class="inner-table-c1">
-              <tr><td>046577964</td></tr>
+              <tr><td>' . $bankDetails['bank_identification_code'] . '</td></tr>
               <tr><td>30101810100000000964</td></tr>
             </table>
           </td>

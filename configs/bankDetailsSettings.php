@@ -9,8 +9,11 @@ function getBankDetailsSettings()
 {
     $defaultValue = '!!! Заполните в настройках';
     return [
-        'recipient_bank'  => $_ENV['BANK_DETAILS_RECIPIENT_BANK']
-      ?: getenv('BANK_DETAILS_RECIPIENT_BANK')
-    ?: $defaultValue,
+        'recipient_bank'            => $_ENV['BANK_DETAILS_RECIPIENT_BANK']
+          ?: getenv('BANK_DETAILS_RECIPIENT_BANK')
+          ?: $defaultValue,
+        'bank_identification_code'  => $_ENV['BANK_DETAILS_BANK_IDENTIFICATION_CODE']
+          ?: getenv('BANK_DETAILS_BANK_IDENTIFICATION_CODE')
+          ?: $defaultValue,
     ];
 }
