@@ -500,7 +500,7 @@ function getInvoice($tariffKey, $selectedAddons, $quantity, $customerName, $orde
         <!-- строка 3 -->
         <tr>
           <td class="cell-a3">
-            ИП Шибицкий Александр<br><br>
+            ' . $bankDetails['ip_name'] . '<br><br>
             Получатель
           </td>
         </tr>

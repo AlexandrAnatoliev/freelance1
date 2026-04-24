@@ -22,5 +22,8 @@ function getBankDetailsSettings()
         'recipients_bank_account'     => $_ENV['BANK_DETAILS_RECIPIENTS_BANK_ACCOUNT']
           ?: getenv('BANK_DETAILS_RECIPIENTS_BANK_ACCOUNT')
           ?: $defaultValue,
+        'ip_name'                     => $_ENV['BANK_DETAILS_IP_NAME']
+          ?: getenv('BANK_DETAILS_IP_NAME')
+          ?: $defaultValue,
     ];
 }
