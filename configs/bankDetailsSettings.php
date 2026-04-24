@@ -16,5 +16,8 @@ function getBankDetailsSettings()
         'bank_identification_code'  => $_ENV['BANK_DETAILS_BANK_IDENTIFICATION_CODE']
           ?: getenv('BANK_DETAILS_BANK_IDENTIFICATION_CODE')
           ?: $defaultValue,
+        'correspondent_bank_account'  => $_ENV['BANK_DETAILS_BANK_CORRESPONDENT_BANK_ACCOUNT']
+          ?: getenv('BANK_DETAILS_BANK_CORRESPONDENT_BANK_ACCOUNT')
+          ?: $defaultValue,
     ];
 }
