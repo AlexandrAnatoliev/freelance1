@@ -10,22 +10,6 @@ $bankDetails  = getBankDetailsSettings();
 // Функция для преобразования числа в сумму прописью
 function num2words($num)
 {
-    $nul = 'ноль';
-    $ten = [
-        ['', 'один', 'два', 'три', 'четыре', 'пять', 'шесть', 'семь', 'восемь', 'девять'],
-        ['', 'одна', 'две', 'три', 'четыре', 'пять', 'шесть', 'семь', 'восемь', 'девять'],
-    ];
-    $a20 = ['десять', 'одиннадцать', 'двенадцать', 'тринадцать', 'четырнадцать', 'пятнадцать', 'шестнадцать', 'семнадцать', 'восемнадцать', 'девятнадцать'];
-    $tens = ['', '', 'двадцать', 'тридцать', 'сорок', 'пятьдесят', 'шестьдесят', 'семьдесят', 'восемьдесят', 'девяносто'];
-    $hundred = ['', 'сто', 'двести', 'триста', 'четыреста', 'пятьсот', 'шестьсот', 'семьсот', 'восемьсот', 'девятьсот'];
-    $unit = [
-        ['копейка', 'копейки', 'копеек', 1],
-        ['рубль', 'рубля', 'рублей', 0],
-        ['тысяча', 'тысячи', 'тысяч', 1],
-        ['миллион', 'миллиона', 'миллионов', 0],
-        ['миллиард', 'миллиарда', 'миллиардов', 0],
-    ];
-
     if (!is_numeric($num)) {
         return 'ноль рублей 00 копеек';
     }
@@ -33,53 +17,92 @@ function num2words($num)
     $num = round($num, 2);
     [$rub, $kop] = explode('.', sprintf("%015.2f", $num));
 
-    $out = [];
-    if (intval($rub) > 0) {
-        foreach (str_split($rub, 3) as $uk => $v) {
-            if (!intval($v)) {
-                continue;
-            }
+    $rubles = formatRubles($rub);
 
-            $uk = sizeof($unit) - $uk - 1;
-            $gender = $unit[$uk][3];
+    return $rubles . ' ' . formatKopecks($kop);
+}
 
-            [$i1, $i2, $i3] = array_map('intval', str_split($v, 1));
-
-            $out[] = $hundred[$i1];
-            if ($i2 > 1) {
-                $out[] = $tens[$i2] . ' ' . $ten[$gender][$i3];
-            } else {
-                $out[] = ($i2 > 0) ? $a20[$i3] : $ten[$gender][$i3];
-            }
-
-            if ($uk > 1) {
-                $out[] = morph($v, $unit[$uk][0], $unit[$uk][1], $unit[$uk][2]);
-            }
-        }
-    } else {
-        $out[] = $nul;
+function formatRubles($rub)
+{
+    if (intval($rub) === 0) {
+        return 'ноль рублей';
     }
 
-    $out[] = morph(intval($rub), $unit[1][0], $unit[1][1], $unit[1][2]);
-    $out[] = $kop . ' ' . morph($kop, $unit[0][0], $unit[0][1], $unit[0][2]);
+    $parts = [];
 
-    return trim(preg_replace('/ {2,}/', ' ', implode(' ', $out)));
+    foreach (str_split($rub, 3) as $index => $chunk) {
+        if (!intval($chunk)) {
+            continue;
+        }
+        $parts[] = formatGroup($chunk, $index, count(str_split($rub, 3)));
+    }
+
+    return implode(' ', $parts);
+}
+
+function formatGroup($chunk, $index, $totalGroups)
+{
+    static $hundred = ['', 'сто', 'двести', 'триста', 'четыреста', 'пятьсот', 'шестьсот', 'семьсот', 'восемьсот', 'девятьсот'];
+    static $tens    = ['', '', 'двадцать', 'тридцать', 'сорок', 'пятьдесят', 'шестьдесят', 'семьдесят', 'восемьдесят', 'девяносто'];
+    static $a20     = ['десять', 'одиннадцать', 'двенадцать', 'тринадцать', 'четырнадцать', 'пятнадцать', 'шестнадцать', 'семнадцать', 'восемнадцать', 'девятнадцать'];
+    static $unit    = [
+        ['копейка', 'копейки', 'копеек', 1],
+        ['рубль',   'рубля',   'рублей',   0],
+        ['тысяча',  'тысячи',  'тысяч',    1],
+        ['миллион', 'миллиона','миллионов', 0],
+        ['миллиард','миллиарда','миллиардов',0],
+    ];
+
+    $uk     = count($unit) - ($totalGroups - $index);
+    $gender = $unit[$uk][3];
+
+    [$i1, $i2, $i3] = array_map('intval', str_split($chunk, 1));
+
+    $result = $hundred[$i1];
+    $result .= ' ' . formatTens($i2, $i3, $gender, $tens, $a20);
+
+    if ($uk > 1) {
+        $result .= ' ' . morph($chunk, $unit[$uk][0], $unit[$uk][1], $unit[$uk][2]);
+    }
+
+    return trim($result);
+}
+
+function formatTens($i2, $i3, $gender, $tens, $a20)
+{
+    static $ten = [
+        ['', 'один', 'два', 'три', 'четыре', 'пять', 'шесть', 'семь', 'восемь', 'девять'],
+        ['', 'одна', 'две', 'три', 'четыре', 'пять', 'шесть', 'семь', 'восемь', 'девять'],
+    ];
+
+    if ($i2 > 1) {
+        return $tens[$i2] . ' ' . $ten[$gender][$i3];
+    }
+
+    return $i2 > 0 ? $a20[$i3] : $ten[$gender][$i3];
+}
+
+function formatKopecks($kop)
+{
+    $kop = intval($kop);
+    return $kop . ' ' . morph($kop, 'копейка', 'копейки', 'копеек');
 }
 
 function morph($n, $f1, $f2, $f5)
 {
     $n = abs(intval($n)) % 100;
+    $answer = $f5;
+
     if ($n > 10 && $n < 20) {
-        return $f5;
+        return $answer;
     }
     $n = $n % 10;
     if ($n > 1 && $n < 5) {
-        return $f2;
+        $answer = $f2;
+    } elseif ($n == 1) {
+        $answer = $f1;
     }
-    if ($n == 1) {
-        return $f1;
-    }
-    return $f5;
+    return $answer;
 }
 
 function getCurrentRussianDate()
@@ -626,7 +649,7 @@ function getInvoice($tariffKey, $selectedAddons, $quantity, $customerName, $orde
       <p>Оплатить не позднее ' . date('d.m.Y', strtotime('+3 days')) . ' <br>
       Оплата данного счета означает согласие с условиями поставки товара.<br>
       Уведомление об оплате обязательно, в противном случае не гарантируется наличие товара на складе. <br>
-      Товар отпускается по факту прихода денег на р/с Поставщика, самовывозом, при наличии доверенности и  
+      Товар отпускается по факту прихода денег на р/с Поставщика, самовывозом, при наличии доверенности и
       паспорта.</p>
 
       <!-- пустая строка -->
