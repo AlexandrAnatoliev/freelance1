@@ -28,5 +28,8 @@ function getBankDetailsSettings()
         'ip_full_name'                => $_ENV['BANK_DETAILS_IP_FULL_NAME']
           ?: getenv('BANK_DETAILS_IP_FULL_NAME')
           ?: $defaultValue,
+        'payment_basis'               => $_ENV['BANK_DETAILS_PAYMENT_BASIS']
+          ?: getenv('BANK_DETAILS_PAYMENT_BASIS')
+          ?: $defaultValue,
     ];
 }

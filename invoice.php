@@ -540,7 +540,7 @@ function getInvoice($tariffKey, $selectedAddons, $quantity, $customerName, $orde
         </tr>
         <tr>
           <td>Основание:</td>
-          <td>Основной договор</td>
+          <td>' . $bankDetails['payment_basis'] . '</td>
         </tr>
       </table>
       <!-- ТАБЛИЦА С ГРАНИЦАМИ (6 колонок) -->
