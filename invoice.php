@@ -4,6 +4,9 @@ session_start();
 $items = $_SESSION['items_session'];
 $addons = $_SESSION['addons_session'];
 
+require_once 'configs/bankDetailsSettings.php';
+$bankDetails  = getBankDetailsSettings();
+
 // Функция для преобразования числа в сумму прописью
 function num2words($num)
 {
@@ -91,6 +94,7 @@ function getInvoice($tariffKey, $selectedAddons, $quantity, $customerName, $orde
 {
     global $items;
     global $addons;
+    global $bankDetails;
     $htmlInvoice = '<!DOCTYPE html>
 <html lang="ru">
   <head>
@@ -444,7 +448,9 @@ function getInvoice($tariffKey, $selectedAddons, $quantity, $customerName, $orde
       }
     }
     </style>
-  </head>
+  </head>';
+
+    $htmlInvoice .= '
   <body>
     <div class="table-wrapper">
       <!-- ПЕРВАЯ ТАБЛИЦА — банковские реквизиты -->
@@ -457,8 +463,7 @@ function getInvoice($tariffKey, $selectedAddons, $quantity, $customerName, $orde
 
         <!-- строка 1 -->
         <tr>
-          <td class="cell-a1">
-            ФИЛИАЛ "ЕКАТЕРИНБУРГСКИЙ" АО "АЛЬФА-БАНК" г. Екатеринбург<br><br>
+          <td class="cell-a1">' . $bankDetails['recipient_bank'] . '<br><br>
             Банк получателя
           </td>
 
