@@ -530,7 +530,7 @@ function getInvoice($tariffKey, $selectedAddons, $quantity, $customerName, $orde
         </colgroup>
         <tr>
           <td>Поставщик<br>(Исполнитель):</td>
-          <td>ИП Шибицкий Александр, ИНН 743005310292, 456658, Челябинская область, г.о. Копейский, г Копейск, ул Гагарина, д. 12, кв./оф. 16, тел.: +7 9000866698</td>
+          <td>' . $bankDetails['ip_full_name'] . '</td>
         </tr>';
 
     $htmlInvoice .= '
