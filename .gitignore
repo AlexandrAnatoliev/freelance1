@@ -6,3 +6,4 @@ composer.lock
 .php-cs-fixer.cache
 .php-cs-fixer.dist.php
 .todo
+.stylelintrc.json

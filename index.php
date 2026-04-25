@@ -2,22 +2,8 @@
 
 /**
  * =====================================================================
- * index.php — Главная страница "Калькулятор заказа"
+ * index.php - Главная страница "Калькулятор заказа"
  * =====================================================================
- *
- * Назначение:
- *   Предоставляет пользовательский интерфейс для выбора услуг,
- *   расчёта итоговой стоимости и отправки контактных данных.
- *   После отправки формы данные передаются в checkout.php
- *   для формирования счёта и отправки писем.
- *
- * Что делает:
- *   1. Инициализирует сессию и настройки отладки
- *   2. Загружает конфигурацию товаров и дополнительных услуг
- *   3. Сохраняет конфигурацию в сессию для использования в invoice.php
- *   4. Выводит HTML-форму с радио, чекбоксами, полем количества
- *      и контактными полями
- *   5. JavaScript на странице динамически пересчитывает итоговую сумму
  *
  * Как настраивать:
  *   См. массивы $items и $addons ниже. Изменяйте названия, цены,
@@ -41,14 +27,14 @@ session_start();
 // КОНФИГУРАЦИЯ ТОВАРОВ (ОСНОВНЫЕ ТАРИФЫ)
 //
 // Здесь администратор задаёт основные услуги/тарифы.
-// Каждый элемент — это radio-кнопка в форме.
+// Каждый элемент - это radio-кнопка в форме.
 //
 // СТРУКТУРА ОДНОГО ТАРИФА:
-//   Ключ массива (напр. 'standart') — уникальный идентификатор,
+//   Ключ массива (напр. 'standart') - уникальный идентификатор,
 //       используется в value radio-кнопки и для поиска цены
-//   'name'  — название тарифа (отображается пользователю)
-//   'price' — цена в рублях за 1 единицу (число, не строка)
-//   'img'   — путь к файлу картинки относительно корня проекта
+//   'name'  - название тарифа (отображается пользователю)
+//   'price' - цена в рублях за 1 единицу (число, не строка)
+//   'img'   - путь к файлу картинки относительно корня проекта
 //
 // КАК ИЗМЕНИТЬ / ДОБАВИТЬ ТАРИФ:
 //   - Чтобы изменить цену, поменяйте число в 'price'
@@ -114,7 +100,7 @@ function getImagePath(string $path, string $placeholder = 'img/placeholder.jpg')
             <div class="radio-group">
                 <?php foreach ($items as $key => $item) : ?>
                 <label class="card">
-                    <input type="radio" name="tariff" value="<?= $key ?>" data-price="<?= $item['price'] ?>" required>
+                    <input type="radio" name="tariff" value="<?= $key ?>" data-price="<?= $item['price'] ?>" data-name="<?= htmlspecialchars($item['name']) ?>" required>
                     <img src="<?= getImagePath($item['img']) ?>" alt="<?= $item['name'] ?>">
                     <span class="title"><?= $item['name'] ?></span>
                     <span class="price"><?= number_format($item['price'], 0, ',', ' ') ?> ₽</span>
@@ -127,12 +113,20 @@ function getImagePath(string $path, string $placeholder = 'img/placeholder.jpg')
             <div class="checkbox-group">
                 <?php foreach ($addons as $key => $addon) : ?>
                 <label class="card small">
-                    <input type="checkbox" name="addons[]" value="<?= $key ?>" data-price="<?= $addon['price'] ?>">
+                    <input type="checkbox" name="addons[]" value="<?= $key ?>" data-price="<?= $addon['price'] ?>" data-name="<?= htmlspecialchars($addon['name']) ?>">
                     <img src="<?= getImagePath($addon['img']) ?>" alt="<?= $addon['name'] ?>">
                     <span class="title"><?= $addon['name'] ?></span>
                     <span class="price">+<?= number_format($addon['price'], 0, ',', ' ') ?> ₽</span>
                 </label>
                 <?php endforeach; ?>
+            </div>
+
+            <!-- Блок "Выбрано:" -->
+            <div class="selected-items">
+                <h3>📋 Выбрано:</h3>
+                <ul class="selected-list" id="selectedList">
+                    <li class="empty-selection">Ничего не выбрано</li>
+                </ul>
             </div>
 
             <!-- Количество / Срок -->
@@ -162,32 +156,74 @@ function getImagePath(string $path, string $placeholder = 'img/placeholder.jpg')
 const form      = document.getElementById('orderForm');
 const totalSpan = document.getElementById('totalPrice');
 const qtyInput  = document.getElementById('quantity');
+const selectedList = document.getElementById('selectedList');
 
-function calculateTotal() {
-  let total = 0;
-
-  // Тариф
-  const tariffRadio = document.querySelector('input[name="tariff"]:checked');
-  if (tariffRadio) {
-    total += parseFloat(tariffRadio.dataset.price) || 0;
-  }
-
-  // Аддоны
-  const checkedAddons = document.querySelectorAll('input[name="addons[]"]:checked');
-  checkedAddons.forEach(cb => {
-  total += parseFloat(cb.dataset.price) || 0;
-  });
-
-  // Умножаем на количество
-  const qty = parseInt(qtyInput.value) || 1;
-  total = total * qty;
-
-  totalSpan.textContent = new Intl.NumberFormat('ru-RU').format(total);
+function updateSelectedItems() {
+    const selectedItems = [];
+    
+    // Проверяем выбранный тариф
+    const tariffRadio = document.querySelector('input[name="tariff"]:checked');
+    if (tariffRadio) {
+        selectedItems.push({
+            name: tariffRadio.dataset.name,
+            price: parseFloat(tariffRadio.dataset.price) || 0
+        });
+    }
+    
+    // Проверяем выбранные аддоны
+    const checkedAddons = document.querySelectorAll('input[name="addons[]"]:checked');
+    checkedAddons.forEach(cb => {
+        selectedItems.push({
+            name: cb.dataset.name,
+            price: parseFloat(cb.dataset.price) || 0
+        });
+    });
+    
+    // Обновляем список
+    if (selectedItems.length === 0) {
+        selectedList.innerHTML = '<li class="empty-selection">Ничего не выбрано</li>';
+    } else {
+        selectedList.innerHTML = selectedItems.map(item =>
+            `<li>
+                <span class="item-name">${item.name}</span>
+                <span class="item-price">${new Intl.NumberFormat('ru-RU').format(item.price)} руб.</span>
+            </li>`
+        ).join('');
+    }
 }
 
-form.addEventListener('change', calculateTotal);
+function calculateTotal() {
+    let total = 0;
+
+    // Тариф
+    const tariffRadio = document.querySelector('input[name="tariff"]:checked');
+    if (tariffRadio) {
+        total += parseFloat(tariffRadio.dataset.price) || 0;
+    }
+
+    // Аддоны
+    const checkedAddons = document.querySelectorAll('input[name="addons[]"]:checked');
+    checkedAddons.forEach(cb => {
+        total += parseFloat(cb.dataset.price) || 0;
+    });
+
+    // Умножаем на количество
+    const qty = parseInt(qtyInput.value) || 1;
+    total = total * qty;
+
+    totalSpan.textContent = new Intl.NumberFormat('ru-RU').format(total);
+}
+
+form.addEventListener('change', function() {
+    updateSelectedItems();
+    calculateTotal();
+});
+
 qtyInput.addEventListener('input', calculateTotal);
-window.addEventListener('DOMContentLoaded', calculateTotal);
+window.addEventListener('DOMContentLoaded', function() {
+    updateSelectedItems();
+    calculateTotal();
+});
 </script>
 </body>
 </html>

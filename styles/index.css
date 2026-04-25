@@ -141,3 +141,50 @@ button {
 button:hover { 
   background: #2ecc71; 
 }
+
+.selected-items {
+  margin: 20px 0;
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border-left: 4px solid #1e8449;
+}
+
+.selected-items h3 {
+  margin: 0 0 10px;
+  color: #2c3e50;
+  font-size: 1.1rem;
+}
+
+.selected-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.selected-list li {
+  padding: 5px 0;
+  border-bottom: 1px solid #e0e0e0;
+  display: flex;
+  justify-content: space-between;
+  color: #555;
+}
+
+.selected-list li:last-child {
+  border-bottom: none;
+}
+
+.selected-list .item-name {
+  font-weight: 500;
+}
+
+.selected-list .item-price {
+  color: #27ae60;
+  font-weight: bold;
+}
+
+.empty-selection {
+  color: #999;
+  font-style: italic;
+  padding: 10px 0;
+}
