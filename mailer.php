@@ -7,7 +7,7 @@ use PHPMailer\PHPMailer\Exception;
 require_once 'vendor/autoload.php';
 require_once 'configs/mailerSettings.php';
 
-function sendInvoiceEmail($toEmail, $toName, $subject, $htmlBody)
+function sendInvoiceEmail(string $toEmail, string $toName, string $subject, string $htmlBody): bool
 {
     $mail         = new PHPMailer(true);
     $mailSettings = getMailSettings();
