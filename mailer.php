@@ -12,8 +12,28 @@ use PHPMailer\PHPMailer\Exception;
 require_once 'vendor/autoload.php';
 require_once 'configs/mailerSettings.php';
 
-function sendInvoiceEmail(string $toEmail, string $toName, string $subject, string $htmlBody): bool
-{
+/**
+ * Отправляет HTML-письмо получателю через настроенный SMTP-сервер.
+ *
+ * @param  $toEmail   - Email получателя. Должен быть валидным адресом.
+ *                      Используется в $mail->addAddress().
+ * @param  $toName    - Имя получателя (отображается в почтовом клиенте).
+ *                      Может быть пустым.
+ * @param  $subject   - Тема письма. Отображается в списке писем.
+ *                      Например: "Счет на оплату №Б-20260425-153045"
+ * @param  $htmlBody  - Полное HTML-содержимое письма. Может содержать
+ *                      любые HTML-теги, стили и изображения.
+ *                      Будет вставлено как есть в тело письма.
+ * @return true       - письмо успешно отправлено
+ *         false      - произошла ошибка при отправке.
+ *                      При ошибке детали выводятся на экран через echo.
+ */
+function sendInvoiceEmail(
+    string $toEmail,
+    string $toName,
+    string $subject,
+    string $htmlBody
+): bool {
     $mail         = new PHPMailer(true);
     $mailSettings = getMailSettings();
 
