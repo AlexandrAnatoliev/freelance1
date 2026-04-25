@@ -145,7 +145,7 @@ function getImagePath(string $path, string $placeholder = 'img/placeholder.jpg')
             <h2>4. Ваши данные для получения счёта на оплату на почту</h2>
             <input type="text" name="customer_name" placeholder="Ваше имя / Организация" required>
             <input type="email" name="customer_email" placeholder="Email для отправки счета" required>
-            <input type="tel" name="customer_phone" placeholder="Телефон">
+            <input type="tel" name="customer_phone" placeholder="Телефон" required>
 
             <button type="submit">Отправить заказ и получить счет</button>
         </form>
