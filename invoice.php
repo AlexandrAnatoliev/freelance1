@@ -174,7 +174,7 @@ function getInvoice(
 
     /* заголовок счёта */
     .invoice-header {
-      font-family: Arial, Helvetica, sans-serif;
+      font-family: "DejaVu Sans", DejaVu, sans-serif;
       font-weight: bold;
       font-size: 1.4rem;
       color: #000000;
@@ -200,7 +200,7 @@ function getInvoice(
     .main-table {
       width: 100%;
       border-collapse: collapse;
-      font-family: Arial, Helvetica, sans-serif;
+      font-family: "DejaVu Sans", DejaVu, sans-serif;
       font-size: 0.95rem;
       color: #000000;
       text-align: center;
@@ -278,7 +278,7 @@ function getInvoice(
       width: 100%;
       height: 100%;
       border-collapse: collapse;
-      font-family: Arial, Helvetica, sans-serif;
+      font-family: "DejaVu Sans", DejaVu, sans-serif;
       color: #000000;
       font-size: 0.95rem;
       table-layout: fixed;
@@ -302,7 +302,7 @@ function getInvoice(
       width: 100%;
       height: 100%;
       border-collapse: collapse;
-      font-family: Arial, Helvetica, sans-serif;
+      font-family: "DejaVu Sans", DejaVu, sans-serif;
       color: #000000;
       font-size: 0.95rem;
       table-layout: fixed;
@@ -327,7 +327,7 @@ function getInvoice(
       width: 100%;
       height: 100%;
       border-collapse: collapse;
-      font-family: Arial, Helvetica, sans-serif;
+      font-family: "DejaVu Sans", DejaVu, sans-serif;
       color: #000000;
       font-size: 0.95rem;
       table-layout: fixed;
@@ -350,7 +350,7 @@ function getInvoice(
     .bottom-table {
       width: 100%;
       border-collapse: collapse;
-      font-family: Arial, Helvetica, sans-serif;
+      font-family: "DejaVu Sans", DejaVu, sans-serif;
       font-size: 0.95rem;
       color: #000000;
       table-layout: fixed;
@@ -429,7 +429,7 @@ function getInvoice(
     .items-table {
       width: 100%;
       border-collapse: collapse;
-      font-family: Arial, Helvetica, sans-serif;
+      font-family: "DejaVu Sans", DejaVu, sans-serif;
       font-size: 0.95rem;
       color: #000000;
       margin-top: 24px;
