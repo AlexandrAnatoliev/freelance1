@@ -1,5 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
+// раскомментировать для вывода ошибок на экран
+require_once 'utils/debug.php';
+
 session_start();
 
 // Настройки товаров
