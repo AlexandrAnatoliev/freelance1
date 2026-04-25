@@ -12,7 +12,15 @@ $addons = $_SESSION['addons_session'];
 require_once 'configs/bankDetailsSettings.php';
 $bankDetails  = getBankDetailsSettings();
 
-// Функция для преобразования числа в сумму прописью
+/**
+ * Преобразует число (сумму в рублях) в строку прописью.
+ *
+ * @param  $num - сумма, которую нужно преобразовать.
+ *                Может быть числом с плавающей точкой
+ *                (например, 1500.50) или строкой.
+ * @return      - сумма прописью в формате:
+ *                "одна тысяча пятьсот рублей 50 копеек"
+ */
 function num2words(float|int|string $num): string
 {
     $nul = 'ноль';
@@ -71,7 +79,15 @@ function num2words(float|int|string $num): string
     return trim(preg_replace('/ {2,}/', ' ', implode(' ', $out)));
 }
 
-
+/**
+ * Вспомогательная функция для склонения слов в зависимости от числа.
+ *
+ * @param  $n   - число, для которого нужно подобрать форму слова
+ * @param  $f1  - форма для числа 1 (рубль, копейка)
+ * @param  $f2  - форма для чисел 2-4 (рубля, копейки)
+ * @param  $f5  - форма для чисел 5-20 и 0 (рублей, копеек)
+ * @return      - одна из трёх форм слова в зависимости от числа
+ */
 function morph(int|string $n, string $f1, string $f2, string $f5): string
 {
     $n = abs(intval($n)) % 100;
@@ -89,6 +105,11 @@ function morph(int|string $n, string $f1, string $f2, string $f5): string
     return $answer;
 }
 
+/**
+ * Возвращает текущую дату в русском формате с названием месяца прописью.
+ *
+ * @return - дата в формате "25 апреля 2026 г."
+ */
 function getCurrentRussianDate(): string
 {
     $months = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
@@ -97,6 +118,17 @@ function getCurrentRussianDate(): string
     return date('j') . ' ' . $months[date('n') - 1] . ' ' . date('Y') . ' г.';
 }
 
+/**
+ * Основная функция. Формирует полный HTML-документ счёта на оплату.
+ *
+ * @param  $tariffKey       - ключ выбранного тарифа (напр. 'standart')
+ * @param  $selectedAddons  - массив ключей выбранных аддонов (напр. ['support'])
+ * @param  $quantity        - количество месяцев
+ * @param  $customerName    - название организации/имя покупателя
+ * @param  $orderNumber     - номер счёта (напр. 'Б-20260425-153045')
+ * @return                  - готовый HTML-документ счёта со всеми стилями и данными.
+ *                            Может быть отправлен в письме или показан на странице.
+ */
 function getInvoice(
     string $tariffKey,
     array $selectedAddons,
