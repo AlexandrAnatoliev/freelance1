@@ -3,18 +3,21 @@ body {
   background: #f5f7fa; 
   padding: 20px; 
 }
+
 .calculator { 
   max-width: 900px; 
   margin: 0 auto; 
   background: white; 
   padding: 30px; 
   border-radius: 16px; 
-  box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
+  box-shadow: 0 10px 30px rgb(0 0 0 / 10%); 
 }
+
 h1 { 
   text-align: center; 
   color: #2c3e50; 
 }
+
 h2 { 
   font-size: 1.3rem; 
   margin-top: 30px; 
@@ -27,6 +30,7 @@ h2 {
   gap: 20px; 
   flex-wrap: wrap; 
 }
+
 .card { 
   flex: 1; 
   min-width: 160px; 
@@ -41,9 +45,11 @@ h2 {
   flex-direction: column; 
   align-items: center;
 }
+
 .card.small { 
   min-width: 120px; 
 }
+
 .card img { 
   width: 100px; 
   height: 100px; 
@@ -52,26 +58,32 @@ h2 {
   margin-bottom: 10px; 
   background: #f0f0f0; 
 }
+
 .card .title { 
   font-weight: bold; 
   margin: 5px 0; 
 }
+
 .card .price { 
   font-size: 1.2rem; 
   color: #27ae60; 
   font-weight: bold; 
 }
+
 .card input { 
   display: none; 
 }
-.card:has(input:checked) { 
-  border-color: #3498db; 
-  background: #ebf5ff; 
-  box-shadow: 0 0 0 3px rgba(52,152,219,0.2); 
-}
+
 .card:hover { 
   border-color: #3498db; 
 }
+
+.card:has(input:checked) { 
+  border-color: #3498db; 
+  background: #ebf5ff; 
+  box-shadow: 0 0 0 3px rgb(52 152 219 / 20%); 
+}
+
 
 .quantity-block { 
   margin: 20px 0; 
@@ -79,6 +91,7 @@ h2 {
   align-items: center; 
   gap: 15px; 
 }
+
 .quantity-block input { 
   width: 80px; 
   padding: 10px; 
@@ -97,6 +110,7 @@ h2 {
   background: #f8f9fa; 
   border-radius: 12px; 
 }
+
 .total-block span { 
   color: #e67e22; 
 }
@@ -110,6 +124,7 @@ input[type="text"], input[type="email"], input[type="tel"] {
   font-size: 1rem; 
   box-sizing: border-box;
 }
+
 button {
   background: #1e8449; 
   color: white; 
@@ -122,6 +137,7 @@ button {
   font-weight: bold; 
   transition: 0.2s;
 }
+
 button:hover { 
   background: #2ecc71; 
 }
