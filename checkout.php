@@ -30,18 +30,38 @@ if (empty($customerEmail)) {
 include_once 'invoice.php';
 require_once 'mailer.php';
 require_once 'configs/adminSettings.php';
+require_once 'generatePDF.php';
 
 $orderNumber    = 'Б-' . date('Ymd-His');
 $subject        = "Счет на оплату №{$orderNumber} от " . date('d.m.Y');
 
 // счет
 $fullInvoiceHTML = getInvoice($tariffKey, $selectedAddons, $quantity, $customerName, $orderNumber);
-// Отправка покупателю
-$resultCustomer = sendInvoiceEmail($customerEmail, $customerName, $subject, $fullInvoiceHTML);
 
-// Отправка админу
-$admin          = getAdminSettings();
-$resultAdmin    = sendInvoiceEmail($admin['email'], 'Администратор', "Копия: " . $subject, $fullInvoiceHTML);
+// Генерация PDF
+$pdfContent = generatePDF($fullInvoiceHTML);
+$pdfFilename = "Счёт_{$orderNumber}.pdf";
+
+// Отправка покупателю (с PDF-вложением)
+$resultCustomer = sendInvoiceEmail(
+    $customerEmail,
+    $customerName,
+    $subject,
+    $fullInvoiceHTML,  // HTML-версия в теле письма
+    $pdfContent,       // PDF-вложение
+    $pdfFilename
+);
+
+// Отправка админу (с PDF-вложением)
+$admin = getAdminSettings();
+$resultAdmin = sendInvoiceEmail(
+    $admin['email'],
+    'Администратор',
+    "Копия: " . $subject,
+    $fullInvoiceHTML,
+    $pdfContent,
+    $pdfFilename
+);
 
 // Показываем результат
 ?>
