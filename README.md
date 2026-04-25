@@ -2,8 +2,8 @@
   <a id="russian"></a>
   <h1>Скрипт php: Калькулятор-заказа с отправкой счёта на оплату</h1>
 
-  ![Version 0.1.33](https://img.shields.io/badge/Version-0.1.33-orange.svg)
   ![Stars](https://img.shields.io/github/stars/AlexandrAnatoliev/freelance.svg?style=flat)
+  ![Version 0.1.33](https://img.shields.io/badge/Version-0.1.33-orange.svg)
   ![Forks](https://img.shields.io/github/forks/AlexandrAnatoliev/freelance.svg?style=flat)
   ![GitHub repo size](https://img.shields.io/github/repo-size/AlexandrAnatoliev/freelance)
   
