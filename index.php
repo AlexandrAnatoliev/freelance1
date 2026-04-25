@@ -103,6 +103,55 @@ function getImagePath(string $path, string $placeholder = 'img/placeholder.jpg')
     <meta charset="UTF-8">
     <title>Калькулятор заказа</title>
     <link rel="stylesheet" href="styles/index.css">
+    <style>
+        /* Стили для блока "Выбрано:" */
+        .selected-items {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #1e8449;
+        }
+        
+        .selected-items h3 {
+            margin: 0 0 10px 0;
+            color: #2c3e50;
+            font-size: 1.1rem;
+        }
+        
+        .selected-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .selected-list li {
+            padding: 5px 0;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            color: #555;
+        }
+        
+        .selected-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .selected-list .item-name {
+            font-weight: 500;
+        }
+        
+        .selected-list .item-price {
+            color: #27ae60;
+            font-weight: bold;
+        }
+        
+        .empty-selection {
+            color: #999;
+            font-style: italic;
+            padding: 10px 0;
+        }
+    </style>
 </head>
 <body>
     <div class="calculator">
@@ -114,7 +163,7 @@ function getImagePath(string $path, string $placeholder = 'img/placeholder.jpg')
             <div class="radio-group">
                 <?php foreach ($items as $key => $item) : ?>
                 <label class="card">
-                    <input type="radio" name="tariff" value="<?= $key ?>" data-price="<?= $item['price'] ?>" required>
+                    <input type="radio" name="tariff" value="<?= $key ?>" data-price="<?= $item['price'] ?>" data-name="<?= htmlspecialchars($item['name']) ?>" required>
                     <img src="<?= getImagePath($item['img']) ?>" alt="<?= $item['name'] ?>">
                     <span class="title"><?= $item['name'] ?></span>
                     <span class="price"><?= number_format($item['price'], 0, ',', ' ') ?> ₽</span>
@@ -127,12 +176,20 @@ function getImagePath(string $path, string $placeholder = 'img/placeholder.jpg')
             <div class="checkbox-group">
                 <?php foreach ($addons as $key => $addon) : ?>
                 <label class="card small">
-                    <input type="checkbox" name="addons[]" value="<?= $key ?>" data-price="<?= $addon['price'] ?>">
+                    <input type="checkbox" name="addons[]" value="<?= $key ?>" data-price="<?= $addon['price'] ?>" data-name="<?= htmlspecialchars($addon['name']) ?>">
                     <img src="<?= getImagePath($addon['img']) ?>" alt="<?= $addon['name'] ?>">
                     <span class="title"><?= $addon['name'] ?></span>
                     <span class="price">+<?= number_format($addon['price'], 0, ',', ' ') ?> ₽</span>
                 </label>
                 <?php endforeach; ?>
+            </div>
+
+            <!-- Блок "Выбрано:" -->
+            <div class="selected-items">
+                <h3>📋 Выбрано:</h3>
+                <ul class="selected-list" id="selectedList">
+                    <li class="empty-selection">Ничего не выбрано</li>
+                </ul>
             </div>
 
             <!-- Количество / Срок -->
@@ -162,32 +219,74 @@ function getImagePath(string $path, string $placeholder = 'img/placeholder.jpg')
 const form      = document.getElementById('orderForm');
 const totalSpan = document.getElementById('totalPrice');
 const qtyInput  = document.getElementById('quantity');
+const selectedList = document.getElementById('selectedList');
 
-function calculateTotal() {
-  let total = 0;
-
-  // Тариф
-  const tariffRadio = document.querySelector('input[name="tariff"]:checked');
-  if (tariffRadio) {
-    total += parseFloat(tariffRadio.dataset.price) || 0;
-  }
-
-  // Аддоны
-  const checkedAddons = document.querySelectorAll('input[name="addons[]"]:checked');
-  checkedAddons.forEach(cb => {
-  total += parseFloat(cb.dataset.price) || 0;
-  });
-
-  // Умножаем на количество
-  const qty = parseInt(qtyInput.value) || 1;
-  total = total * qty;
-
-  totalSpan.textContent = new Intl.NumberFormat('ru-RU').format(total);
+function updateSelectedItems() {
+    const selectedItems = [];
+    
+    // Проверяем выбранный тариф
+    const tariffRadio = document.querySelector('input[name="tariff"]:checked');
+    if (tariffRadio) {
+        selectedItems.push({
+            name: tariffRadio.dataset.name,
+            price: parseFloat(tariffRadio.dataset.price) || 0
+        });
+    }
+    
+    // Проверяем выбранные аддоны
+    const checkedAddons = document.querySelectorAll('input[name="addons[]"]:checked');
+    checkedAddons.forEach(cb => {
+        selectedItems.push({
+            name: cb.dataset.name,
+            price: parseFloat(cb.dataset.price) || 0
+        });
+    });
+    
+    // Обновляем список
+    if (selectedItems.length === 0) {
+        selectedList.innerHTML = '<li class="empty-selection">Ничего не выбрано</li>';
+    } else {
+        selectedList.innerHTML = selectedItems.map(item => 
+            `<li>
+                <span class="item-name">${item.name}</span>
+                <span class="item-price">${new Intl.NumberFormat('ru-RU').format(item.price)} руб.</span>
+            </li>`
+        ).join('');
+    }
 }
 
-form.addEventListener('change', calculateTotal);
+function calculateTotal() {
+    let total = 0;
+
+    // Тариф
+    const tariffRadio = document.querySelector('input[name="tariff"]:checked');
+    if (tariffRadio) {
+        total += parseFloat(tariffRadio.dataset.price) || 0;
+    }
+
+    // Аддоны
+    const checkedAddons = document.querySelectorAll('input[name="addons[]"]:checked');
+    checkedAddons.forEach(cb => {
+        total += parseFloat(cb.dataset.price) || 0;
+    });
+
+    // Умножаем на количество
+    const qty = parseInt(qtyInput.value) || 1;
+    total = total * qty;
+
+    totalSpan.textContent = new Intl.NumberFormat('ru-RU').format(total);
+}
+
+form.addEventListener('change', function() {
+    updateSelectedItems();
+    calculateTotal();
+});
+
 qtyInput.addEventListener('input', calculateTotal);
-window.addEventListener('DOMContentLoaded', calculateTotal);
+window.addEventListener('DOMContentLoaded', function() {
+    updateSelectedItems();
+    calculateTotal();
+});
 </script>
 </body>
 </html>
