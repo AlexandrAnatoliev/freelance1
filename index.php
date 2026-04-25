@@ -130,10 +130,10 @@ function getImagePath(string $path, string $placeholder = 'img/placeholder.jpg')
             </div>
 
             <!-- Количество / Срок -->
-            <h2>3. Количество месяцев</h2>
+            <h2>3. Нужное количество</h2>
             <div class="quantity-block">
-                <input type="number" id="quantity" name="quantity" min="1" max="12" value="1" step="1" required>
-                <label for="quantity">мес.</label>
+                <input type="number" id="quantity" name="quantity" min="1" value="1" step="1" required>
+                <label for="quantity">шт.</label>
             </div>
 
             <!-- Итог -->
@@ -142,7 +142,7 @@ function getImagePath(string $path, string $placeholder = 'img/placeholder.jpg')
             </div>
 
             <!-- Данные покупателя -->
-            <h2>4. Ваши контакты для счета</h2>
+            <h2>4. Ваши данные для получения счёта на оплату на почту</h2>
             <input type="text" name="customer_name" placeholder="Ваше имя / Организация" required>
             <input type="email" name="customer_email" placeholder="Email для отправки счета" required>
             <input type="tel" name="customer_phone" placeholder="Телефон">

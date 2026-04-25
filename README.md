@@ -3,7 +3,7 @@
   <h1>Скрипт php: Калькулятор-заказа с отправкой счёта на оплату</h1>
 
   ![Stars](https://img.shields.io/github/stars/AlexandrAnatoliev/freelance.svg?style=flat)
-  ![Version 0.1.34](https://img.shields.io/badge/Version-0.1.34-orange.svg)
+  ![Version 0.1.35](https://img.shields.io/badge/Version-0.1.35-orange.svg)
   ![Forks](https://img.shields.io/github/forks/AlexandrAnatoliev/freelance.svg?style=flat)
   ![GitHub repo size](https://img.shields.io/github/repo-size/AlexandrAnatoliev/freelance)
   
@@ -88,7 +88,7 @@
 * [ ] **Валидация:**
   * [ ] Проверка корректности Email.
   * [ ] Проверка корректности Телефона.
-  * [ ] Убрать лимит количества в 12 шт. (сделать "макс. 99" или без лимита).
+  * [x] Убрать лимит количества в 12 шт. (сделать "макс. 99" или без лимита).
 
 ##### Кнопка действия
 
