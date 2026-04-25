@@ -2,8 +2,8 @@
   <a id="russian"></a>
   <h1>Скрипт php: Калькулятор-заказа с отправкой счёта на оплату</h1>
 
-  ![Version 0.1.32](https://img.shields.io/badge/Version-0.1.32-orange.svg)
   ![Stars](https://img.shields.io/github/stars/AlexandrAnatoliev/freelance.svg?style=flat)
+  ![Version 0.1.33](https://img.shields.io/badge/Version-0.1.33-orange.svg)
   ![Forks](https://img.shields.io/github/forks/AlexandrAnatoliev/freelance.svg?style=flat)
   ![GitHub repo size](https://img.shields.io/github/repo-size/AlexandrAnatoliev/freelance)
   
@@ -130,7 +130,7 @@
 #### 5. Документация и развертывание
 
 * [ ] **README с инструкцией:** Как развернуть (в том числе на хостинге без SSH).
-* [ ] **Комментарии в коде:** Понятные пояснения на русском/английском в каждом PHP и HTML блоке.
+* [x] **Комментарии в коде:** Понятные пояснения на русском/английском в каждом PHP и HTML блоке.
 * [ ] **Переносимость:** Скрипт легко скопировать и настроить под «другой товар» (минимальное количество правок в `index.php` / конфиге).
 * [ ] **Скриншоты работы:** Актуальные скрины в репозитории (фронт, чек, письмо).
 
@@ -422,8 +422,8 @@ $items = [
 └── configs/
     ├── .env.example
     ├── adminSettings.php
-│   ├── bankDetailsSettings.php
-│   └── mailerSettings.php
+    ├── bankDetailsSettings.php
+    └── mailerSettings.php
 ```
 
 Перейдите в папку configs/
@@ -432,38 +432,76 @@ $items = [
 cd configs/
 ```
 
-Переименуйте файл в .env
+Скопируйте файл в .env
 
 ```
-mv .env.example .env
+cp .env.example .env
 ```
 
 ```
 /project/
 └── configs/
     ├── .env
+    ├── .env.example
     ├── adminSettings.php
-│   ├── bankDetailsSettings.php
-│   └── mailerSettings.php
+    ├── bankDetailsSettings.php
+    └── mailerSettings.php
 ```
 
 Раскомментируйте и присвойте свои значения переменным
 
 ```
-# Это образец файла конфигурации
+# =====================================================================
+# .env.example — Образец файла конфигурации переменных окружения
+# =====================================================================
+#
+# Назначение:
+#   Это ШАБЛОН для создания реального файла .env с настройками проекта.
+#   Содержит все возможные переменные окружения с пояснениями и примерами.
+#   Никогда не содержит реальных паролей или ключей — только заглушки.
+#
+# ЧТО ДЕЛАТЬ С ЭТИМ ФАЙЛОМ:
+#   1. Скопируйте (не переименовывайте!) этот файл в .env
+#      Linux/Mac: cp .env.example .env
+#      Windows:   copy .env.example .env
+#
+#   2. Откройте .env в текстовом редакторе
+#
+#   3. Раскомментируйте нужные строки (уберите # в начале)
+#
+#   4. Замените значения-заглушки на реальные данные
+#
+#   5. Сохраните файл
+#
+# ВАЖНЫЕ ПРАВИЛА:
+#   - Не используйте кавычки для значений без пробелов:
+#       Правильно: MAILER_PORT=587
+#       Избыточно: MAILER_PORT="587"
+#
+#   - Используйте кавычки для значений с пробелами или спецсимволами:
+#       Правильно: ADMIN_NAME="Иван Иванов"
+#       Правильно: BANK_DETAILS_IP_FULL_NAME='ИП Иванов И., ИНН 123...'
+#
+# Структура файла (секции):
+#   1. mailer.php            — настройки почтового сервера (SMTP)
+#   2. adminSettings.php     — контактные данные администратора
+#   3. bankDetailsSettings.php — банковские реквизиты для счёта
+#
+# Где используются переменные:
+#   configs/mailerSettings.php — читает MAILER_* переменные
+#   configs/adminSettings.php  — читает ADMIN_* переменные
+#   configs/bankDetailsSettings.php — читает BANK_DETAILS_* переменные
+# =====================================================================
 
 # =============================================================
 # mailer.php 
 # =============================================================
-
 # настройки почты (обязательные)
-
 # MAILER_USERNAME=your-email@gmail.com
 # MAILER_PASSWORD=your-app-password-here
 
 # настройки почты (опциональные)
 # Если не указаны, используются значения по умолчанию для Gmail
-
 # MAILER_HOST=smtp.gmail.com
 # MAILER_PORT=587
 # MAILER_ENCRYPTION=tls
@@ -472,7 +510,6 @@ mv .env.example .env
 # =============================================================
 # adminSettings.php
 # =============================================================
-
 # ADMIN_NAME="Администратор заказов"
 # ADMIN_EMAIL=admin@example.com
 
