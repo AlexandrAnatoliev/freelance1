@@ -153,7 +153,7 @@ function getInvoice(
 }
 
     body {
-      font-family: Arial, Helvetica, sans-serif;
+      font-family: "DejaVu Sans", DejaVu, sans-serif;
       color: #000000;
       background: #f8f9fa;
       display: flex;
