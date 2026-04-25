@@ -8,7 +8,7 @@ require_once 'vendor/autoload.php';
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
-function getMailSettings()
+function getMailSettings(): array
 {
     return [
         'username'    => $_ENV['MAILER_USERNAME'] ?? getenv('MAILER_USERNAME'),

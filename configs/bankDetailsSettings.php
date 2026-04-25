@@ -5,12 +5,12 @@ require_once 'vendor/autoload.php';
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
-function envOr($key, $default = 'Заполнить настройки!')
+function envOr(string $key, string $default = 'Заполнить настройки!'): string
 {
     return $_ENV[$key] ?: getenv($key) ?: $default;
 }
 
-function getBankDetailsSettings()
+function getBankDetailsSettings(): array
 {
     return [
         'recipient_bank'             => envOr('BANK_DETAILS_RECIPIENT_BANK'),

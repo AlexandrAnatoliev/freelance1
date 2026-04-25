@@ -1,4 +1,10 @@
 <?php
+
+declare(strict_types=1);
+
+// раскомментировать для вывода ошибок на экран
+require_once 'utils/debug.php';
+
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: index.php');
     exit;
