@@ -1,14 +1,19 @@
 <?php
 
-use function pcov\waiting;
+declare(strict_types=1);
+
+// раскомментировать для вывода ошибок на экран
+require_once 'utils/debug.php';
 
 session_start();
 $items = $_SESSION['items_session'];
 $addons = $_SESSION['addons_session'];
+
 require_once 'configs/bankDetailsSettings.php';
 $bankDetails  = getBankDetailsSettings();
+
 // Функция для преобразования числа в сумму прописью
-function num2words($num)
+function num2words(float|int|string $num): string
 {
     $nul = 'ноль';
     $ten = [
@@ -67,7 +72,7 @@ function num2words($num)
 }
 
 
-function morph($n, $f1, $f2, $f5)
+function morph(int|string $n, string $f1, string $f2, string $f5): string
 {
     $n = abs(intval($n)) % 100;
     $answer = $f5;
@@ -84,7 +89,7 @@ function morph($n, $f1, $f2, $f5)
     return $answer;
 }
 
-function getCurrentRussianDate()
+function getCurrentRussianDate(): string
 {
     $months = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
         'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
@@ -92,8 +97,13 @@ function getCurrentRussianDate()
     return date('j') . ' ' . $months[date('n') - 1] . ' ' . date('Y') . ' г.';
 }
 
-function getInvoice($tariffKey, $selectedAddons, $quantity, $customerName, $orderNumber)
-{
+function getInvoice(
+    string $tariffKey,
+    array $selectedAddons,
+    int $quantity,
+    string $customerName,
+    string $orderNumber
+): string {
     global $items;
     global $addons;
     global $bankDetails;
