@@ -183,7 +183,7 @@ function updateSelectedItems() {
     if (selectedItems.length === 0) {
         selectedList.innerHTML = '<li class="empty-selection">Ничего не выбрано</li>';
     } else {
-        selectedList.innerHTML = selectedItems.map(item => 
+        selectedList.innerHTML = selectedItems.map(item =>
             `<li>
                 <span class="item-name">${item.name}</span>
                 <span class="item-price">${new Intl.NumberFormat('ru-RU').format(item.price)} руб.</span>
