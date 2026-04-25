@@ -3,7 +3,7 @@
   <h1>Скрипт php: Калькулятор-заказа с отправкой счёта на оплату</h1>
 
   ![Stars](https://img.shields.io/github/stars/AlexandrAnatoliev/freelance.svg?style=flat)
-  ![Version 0.1.35](https://img.shields.io/badge/Version-0.1.35-orange.svg)
+  ![Version 0.1.36](https://img.shields.io/badge/Version-0.1.36-orange.svg)
   ![Forks](https://img.shields.io/github/forks/AlexandrAnatoliev/freelance.svg?style=flat)
   ![GitHub repo size](https://img.shields.io/github/repo-size/AlexandrAnatoliev/freelance)
   
@@ -295,6 +295,10 @@ composer require phpmailer/phpmailer
 
 ```
 composer require vlucas/phpdotenv
+```
+
+```
+composer require dompdf/dompdf
 ```
 
 После установки структура папок будет выглядеть:
