@@ -22,7 +22,7 @@ $addons = [
 $_SESSION['items_session'] = $items;
 $_SESSION['addons_session'] = $addons;
 
-function getImagePath($path, $placeholder = 'img/placeholder.jpg')
+function getImagePath(string $path, string $placeholder = 'img/placeholder.jpg'): string
 {
     if (!empty($path) && file_exists($path)) {
         return $path;
