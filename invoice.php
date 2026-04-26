@@ -417,27 +417,11 @@ function getInvoice(
     }
 
     $htmlInvoice .= '
-      <tr>
-        <td class="col-right">2</td>
-        <td class="col-left">Дополнительная техническая поддержка 24/7</td>
-        <td class="col-right">6</td>
-        <td class="col-center">усл.</td>
-        <td class="col-right">2 000,00</td>
-        <td class="col-right">12 000,00</td>
-      </tr>
-      <tr>
-        <td class="col-right">3</td>
-        <td class="col-left">Расширенное облачное хранилище 100 ГБ</td>
-        <td class="col-right">6</td>
-        <td class="col-center">усл.</td>
-        <td class="col-right">1 500,00</td>
-        <td class="col-right">9 000,00</td>
-      </tr>
     </tbody>
     <tfoot>
       <tr>
         <td colspan="5" style="text-align:right; font-weight:bold;">Итого:</td>
-        <td style="font-weight:bold;">51 000,00</td>
+        <td style="font-weight:bold;">' . number_format($total, 2, ',', ' ') . '</td>
       </tr>
       <tr>
         <td colspan="5" style="text-align:right; font-weight:bold;">В том числе НДС:</td>
@@ -445,11 +429,12 @@ function getInvoice(
       </tr>
       <tr>
         <td colspan="5" style="text-align:right; font-weight:bold;">Всего к оплате:</td>
-        <td style="font-weight:bold;">51 000,00</td>
+        <td style="font-weight:bold;">' . number_format($total, 2, ',', ' ') . '</td>
       </tr>
     </tfoot>
-  </table>
+  </table>';
 
+    $htmlInvoice .= '
   <div class="empty-line"></div>
 
   <p>Всего наименований 3, на сумму 51 000,00 руб<br>
