@@ -360,15 +360,15 @@ function getInvoice(
   <table class="middle-table">
     <tr>
       <td class="label-cell">Поставщик<br>(Исполнитель):</td>
-      <td class="value-cell">ИП Иванов Иван Иванович, ИНН 770207013900, ОГРНИП 320774600000000</td>
+      <td class="value-cell">' . $bankDetails['ip_full_name'] . '</td>
     </tr>
     <tr>
       <td class="label-cell">Покупатель<br>(Заказчик):</td>
-      <td class="value-cell">ООО "Ромашка"</td>
+      <td class="value-cell">' . $customerName . '</td>
     </tr>
     <tr>
       <td class="label-cell">Основание:</td>
-      <td class="value-cell">Договор № 15 от 01.01.2026</td>
+      <td class="value-cell">' . $bankDetails['payment_basis'] . '</td>
     </tr>
   </table>
 
