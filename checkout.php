@@ -38,8 +38,6 @@ $subject        = "Счет на оплату №{$orderNumber} от " . date('d
 // счет
 $fullInvoiceHTML = getInvoice($tariffKey, $selectedAddons, $quantity, $customerName, $orderNumber);
 
-// Используем test4.html вместо генерации
-// $fullInvoiceHTML = file_get_contents('test9.html');
 // Генерация PDF
 $pdfContent = generatePDF($fullInvoiceHTML);
 $pdfFilename = "Счёт_{$orderNumber}.pdf";
@@ -99,6 +97,12 @@ $resultAdmin = sendInvoiceEmail(
         <?php endif; ?>
 
         <div class="action-buttons">
+        <!-- Кнопка открытия PDF -->
+            <a href="data:application/pdf;base64,<?= base64_encode($pdfContent) ?>" 
+               download="<?= $pdfFilename ?>" 
+               class="btn btn-pdf">
+                📄 ОТКРЫТЬ СЧЕТ В PDF
+            </a>
             <button class="btn btn-print" onclick="window.print()">
                 🖨️ РАСПЕЧАТАТЬ / СОХРАНИТЬ В PDF
             </button>
