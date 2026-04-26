@@ -348,7 +348,7 @@ function getInvoice(
     $htmlInvoice .= '
   <div class="empty-line"></div>
 
-  <div class="invoice-header">
+  <div class="message-header">
     Счет на оплату №' . $orderNumber . $dateSpacer . ' от ' . getCurrentRussianDate() . '
   </div>
 
@@ -507,7 +507,7 @@ function getEmailMessage(
       margin: 0 auto;
     }
 
-    .invoice-header {
+    .message-header {
       font-weight: bold;
       font-size: 1.2rem;
       text-align: left;
@@ -523,71 +523,6 @@ function getEmailMessage(
       height: 2px;
       background-color: #000;
       margin-bottom: 12px;
-    }
-
-    /* ГЛАВНАЯ ТАБЛИЦА */
-    .main-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.85rem;
-    }
-
-    .main-table td {
-      border: 2px solid #000;
-      padding: 6px 8px;
-      background-color: #fff;
-      vertical-align: middle;
-    }
-
-    .cell-bank-name {
-      width: 67%;
-      line-height: 1.3;
-      text-align: left;
-    }
-
-    .cell-bik-label {
-      width: 9%;
-      text-align: center;
-    }
-
-    .cell-bik-value {
-      width: 24%;
-      text-align: left;
-    }
-
-    .cell-inn-kpp {
-      padding: 5px 4px;
-      text-align: center;
-    }
-
-    .inn-cell {
-      display: inline-block;
-      width: 54%;
-      padding-right: 8px;
-      border-right: 2px solid #000;
-      text-align: center;
-    }
-
-    .kpp-cell {
-      display: inline-block;
-      width: 40%;
-      text-align: center;
-    }
-
-    .cell-account-label {
-      vertical-align: top;
-      text-align: center;
-      padding: 6px 4px;
-    }
-
-    .cell-account-value {
-      vertical-align: top;
-      text-align: left;
-    }
-
-    .cell-recipient {
-      line-height: 1.3;
-      text-align: left;
     }
 
     /* ТАБЛИЦА С ТОВАРАМИ */
@@ -619,10 +554,6 @@ function getEmailMessage(
 
     .col-left {
       text-align: left;
-    }
-
-    .col-center {
-      text-align: center;
     }
 
     /* НИЖНЯЯ ТАБЛИЦА */
@@ -688,7 +619,7 @@ function getEmailMessage(
         <th class="col-right">№</th>
         <th class="col-left">Товары (работы, услуги)</th>
         <th class="col-right">Кол-во</th>
-        <th class="col-right">Цена</th>
+        <th class="col-right">Цена/шт.</th>
       </tr>
     </thead>
     <tbody>
