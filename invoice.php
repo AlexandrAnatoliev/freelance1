@@ -673,3 +673,369 @@ function getEmailMessage(
 </html>';
     return $emailMessage;
 }
+
+/**
+ * Основная функция. Формирует адаптивный HTML-документ счёта на оплату
+ *
+ * @param  $tariffKey       - ключ выбранного тарифа (напр. 'standart')
+ * @param  $selectedAddons  - массив ключей выбранных аддонов (напр. ['support'])
+ * @param  $quantity        - количество месяцев
+ * @param  $customerName    - название организации/имя покупателя
+ * @param  $orderNumber     - номер счёта (напр. 'Б-20260425-153045')
+ * @return                  - готовый HTML-документ счёта со всеми стилями и данными.
+ *                            Может быть отправлен в письме или показан на странице.
+ */
+function getResponsibleInvoice(
+    string $tariffKey,
+    array $selectedAddons,
+    int $quantity,
+    string $customerName,
+    string $orderNumber
+): string {
+    global $items;
+    global $addons;
+    global $bankDetails;
+    $responsibleInvoice = '<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Счёт на оплату · банковские реквизиты</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "DejaVu Sans", DejaVu, sans-serif;
+      color: #000;
+      background: #fff;
+      margin: 10px;
+    }
+
+    .table-wrapper {
+      background: #fff;
+      padding: 10px;
+      width: 90%;
+      margin: 0 auto;
+    }
+
+    .invoice-header {
+      font-weight: bold;
+      font-size: 1.2rem;
+      text-align: left;
+      margin-bottom: 6px;
+    }
+
+    .empty-line {
+      height: 20px;
+    }
+
+    .divider {
+      width: 100%;
+      height: 2px;
+      background-color: #000;
+      margin-bottom: 12px;
+    }
+
+    /* ГЛАВНАЯ ТАБЛИЦА */
+    .main-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+
+    .main-table td {
+      border: 2px solid #000;
+      padding: 6px 8px;
+      background-color: #fff;
+      vertical-align: middle;
+    }
+
+    .cell-bank-name {
+      width: 67%;
+      line-height: 1.3;
+      text-align: left;
+    }
+
+    .cell-bik-label {
+      width: 9%;
+      text-align: center;
+    }
+
+    .cell-bik-value {
+      width: 24%;
+      text-align: left;
+    }
+
+    .cell-inn-kpp {
+      padding: 5px 4px;
+      text-align: center;
+    }
+
+    .inn-cell {
+      display: inline-block;
+      width: 54%;
+      padding-right: 8px;
+      border-right: 2px solid #000;
+      text-align: center;
+    }
+
+    .kpp-cell {
+      display: inline-block;
+      width: 40%;
+      text-align: center;
+    }
+
+    .cell-account-label {
+      vertical-align: top;
+      text-align: center;
+      padding: 6px 4px;
+    }
+
+    .cell-account-value {
+      vertical-align: top;
+      text-align: left;
+    }
+
+    .cell-recipient {
+      line-height: 1.3;
+      text-align: left;
+    }
+
+    /* ТАБЛИЦА С ТОВАРАМИ */
+    .items-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      margin-top: 16px;
+      border: 2px solid #000;
+    }
+
+    .items-table th,
+    .items-table td {
+      border: 1px solid #000;
+      padding: 6px 5px;
+      vertical-align: top;
+      background-color: #fff;
+    }
+
+    .items-table th {
+      font-weight: bold;
+      text-align: center;
+      background-color: #f2f2f2;
+    }
+
+    .col-right {
+      text-align: right;
+    }
+
+    .col-left {
+      text-align: left;
+    }
+
+    .col-center {
+      text-align: center;
+    }
+
+    /* НИЖНЯЯ ТАБЛИЦА */
+    .middle-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      margin-top: 6px;
+    }
+
+    .middle-table td {
+      border: none;
+      padding: 4px 6px;
+      vertical-align: top;
+      line-height: 1.35;
+    }
+
+    .label-cell {
+      width: 14%;
+      text-align: left;
+    }
+
+    .value-cell {
+      width: 86%;
+      font-weight: bold;
+      text-align: left;
+    }
+
+    p {
+      font-size: 0.85rem;
+      line-height: 1.3;
+    }
+
+    .hide-on-mobile {
+      /* По умолчанию показываем */
+      display: block;
+    }
+    
+    /* Скрываем на экранах меньше 768px */
+    @media screen and (max-width: 767px) {
+      .hide-on-mobile {
+        display: none;
+      }
+    }
+    
+    /* Или наоборот - показываем только на мобильных */
+    .show-only-mobile {
+      display: none;
+    }
+    
+    @media screen and (max-width: 767px) {
+      .show-only-mobile {
+        display: block;
+      }
+    }
+  </style>
+</head>';
+
+    $responsibleInvoice .= '
+<body>
+<div class="table-wrapper">
+
+  <!-- ПЕРВАЯ ТАБЛИЦА — банковские реквизиты -->
+  <table class="main-table hide-on-mobile">
+    <tr>
+      <td class="cell-bank-name" style="border-bottom: none;">' . $bankDetails['recipient_bank'] . '<br><br>
+      </td>
+      <td class="cell-bik-label">БИК</td>
+      <td class="cell-bik-value">' . $bankDetails['bank_identification_code'] . '</td>
+    </tr>
+    <tr>
+      <td class="cell-bank-name" style="border-top: none;">Банк получателя</td>
+      <td class="cell-bik-label">Сч. №</td>
+      <td class="cell-bik-value">' . $bankDetails['correspondent_bank_account'] . '</td>
+    </tr>
+    <tr>
+      <td class="cell-inn-kpp">
+        <span class="inn-cell">ИНН</span><span class="kpp-cell">КПП</span>
+      </td>
+      <td class="cell-account-label" rowspan="2">Сч. №</td>
+      <td class="cell-account-value" rowspan="2">' . $bankDetails['recipients_bank_account'] . '</td>
+    </tr>
+    <tr>
+      <td class="cell-recipient">' . $bankDetails['ip_name'] . '<br><br>Получатель</td>
+    </tr>
+  </table>';
+
+    $dateSpacer = str_repeat('&nbsp;', 1);
+    $responsibleInvoice .= '
+  <div class="empty-line"></div>
+
+  <div class="message-header">
+    Счет на оплату №' . $orderNumber . $dateSpacer . ' от ' . getCurrentRussianDate() . '
+  </div>
+
+  <div class="empty-line"></div>
+
+  <div class="divider"></div>';
+
+    $responsibleInvoice .= '
+  <table class="middle-table">
+    <tr>
+      <td class="label-cell">Поставщик<br>(Исполнитель):</td>
+      <td class="value-cell">' . $bankDetails['ip_full_name'] . '</td>
+    </tr>
+    <tr>
+      <td class="label-cell">Покупатель<br>(Заказчик):</td>
+      <td class="value-cell">' . $customerName . '</td>
+    </tr>
+    <tr>
+      <td class="label-cell">Основание:</td>
+      <td class="value-cell">' . $bankDetails['payment_basis'] . '</td>
+    </tr>
+  </table>';
+
+    $responsibleInvoice .= '
+  <table class="items-table">
+    <thead>
+      <tr>
+        <th class="col-right">№</th>
+        <th class="col-left">Товары (работы, услуги)</th>
+        <th class="col-right">Кол-во</th>
+        <th class="col-center">Ед.</th>
+        <th class="col-right">Цена</th>
+        <th class="col-right">Сумма</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="col-right">1</td>
+        <td class="col-left">' . $items[$tariffKey]['name'] . '</td>
+        <td class="col-right">' . $quantity . '</td>
+        <td class="col-center">шт.</td>
+        <td class="col-right">' . number_format($items[$tariffKey]['price'], 2, ',', ' ') . '</td>
+        <td class="col-right">' . number_format($items[$tariffKey]['price'] * $quantity, 2, ',', ' ') . '</td>
+      </tr>';
+
+    $total = $items[$tariffKey]['price'] * $quantity;
+    $rowNumber = 1;
+
+    foreach ($selectedAddons as $addonKey) {
+        if (isset($addons[$addonKey])) {
+            $rowNumber++;
+            $addonPrice = $addons[$addonKey]['price'];
+            $addonSum = $addonPrice * $quantity;
+            $total += $addonSum;
+
+            $responsibleInvoice .= '
+          <tr>
+            <td class="col-right">' . $rowNumber . '</td>
+            <td class="col-left">' . htmlspecialchars($addons[$addonKey]['name']) . '</td>
+            <td class="col-right">' . $quantity . '</td>
+            <td class="col-center">шт.</td>
+            <td class="col-right">' . number_format($addonPrice, 2, ',', ' ') . '</td>
+            <td class="col-right">' . number_format($addonSum, 2, ',', ' ') . '</td>
+          </tr>';
+        }
+    }
+
+    $responsibleInvoice .= '
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="5" style="text-align:right; font-weight:bold;">Итого:</td>
+        <td style="font-weight:bold;">' . number_format($total, 2, ',', ' ') . '</td>
+      </tr>
+      <tr>
+        <td colspan="5" style="text-align:right; font-weight:bold;">В том числе НДС:</td>
+        <td style="font-weight:bold;">—</td>
+      </tr>
+      <tr>
+        <td colspan="5" style="text-align:right; font-weight:bold;">Всего к оплате:</td>
+        <td style="font-weight:bold;">' . number_format($total, 2, ',', ' ') . '</td>
+      </tr>
+    </tfoot>
+  </table>';
+
+    $totalInWords = num2words($total);
+
+    $responsibleInvoice .= '
+  <div class="empty-line"></div>
+
+  <p>Всего наименований ' . $rowNumber . ', на сумму ' . number_format($total, 2, ',', ' ') . ' руб<br>
+  (' . $totalInWords . ')</p>
+
+  <div class="empty-line"></div>';
+
+    // Текущая дата + 3 дня
+    $responsibleInvoice .= '
+  <p>Оплатить не позднее ' . date('d.m.Y', strtotime('+3 days')) . '<br>
+  Оплата данного счета означает согласие с условиями поставки товара.<br>
+  Уведомление об оплате обязательно, в противном случае не гарантируется наличие товара на складе.<br>
+  Товар отпускается по факту прихода денег на р/с Поставщика, самовывозом, при наличии доверенности и паспорта.</p>
+
+  <div class="empty-line"></div>
+  <div class="divider"></div>
+
+  <p>Предприниматель______________________________________________' . $bankDetails['entrepreneurs_surname'] . '</p>
+</div>
+</body>
+</html>';
+    return $responsibleInvoice;
+}
