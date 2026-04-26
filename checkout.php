@@ -97,15 +97,12 @@ $resultAdmin = sendInvoiceEmail(
         <?php endif; ?>
 
         <div class="action-buttons">
-        <!-- Кнопка открытия PDF -->
+            <!-- Кнопка открытия PDF -->
             <a href="data:application/pdf;base64,<?= base64_encode($pdfContent) ?>" 
-               download="<?= $pdfFilename ?>" 
-               class="btn btn-pdf">
+              download="<?= $pdfFilename ?>" 
+              class="btn btn-print">
                 📄 ОТКРЫТЬ СЧЕТ В PDF
             </a>
-            <button class="btn btn-print" onclick="window.print()">
-                🖨️ РАСПЕЧАТАТЬ / СОХРАНИТЬ В PDF
-            </button>
             <a href="index.php" class="btn btn-back">
                 ← Вернуться к калькулятору
             </a>
