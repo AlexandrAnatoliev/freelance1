@@ -39,7 +39,7 @@ $subject        = "Счет на оплату №{$orderNumber} от " . date('d
 // $fullInvoiceHTML = getInvoice($tariffKey, $selectedAddons, $quantity, $customerName, $orderNumber);
 
 // Используем test4.html вместо генерации
-$fullInvoiceHTML = file_get_contents('test8.html');
+$fullInvoiceHTML = file_get_contents('test9.html');
 // Генерация PDF
 $pdfContent = generatePDF($fullInvoiceHTML);
 $pdfFilename = "Счёт_{$orderNumber}.pdf";
