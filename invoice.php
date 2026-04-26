@@ -434,11 +434,13 @@ function getInvoice(
     </tfoot>
   </table>';
 
+    $totalInWords = num2words($total);
+
     $htmlInvoice .= '
   <div class="empty-line"></div>
 
-  <p>Всего наименований 3, на сумму 51 000,00 руб<br>
-  (пятьдесят одна тысяча рублей 00 копеек)</p>
+  <p>Всего наименований ' . $rowNumber . ', на сумму ' . number_format($total, 2, ',', ' ') . ' руб<br>
+  (' . $totalInWords . ')</p>
 
   <div class="empty-line"></div>
 
