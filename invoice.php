@@ -322,7 +322,9 @@ function getInvoice(
   <!-- ПЕРВАЯ ТАБЛИЦА — банковские реквизиты -->
   <table class="main-table">
     <tr>
-      <td class="cell-bank-name">ФИЛИАЛ "ЦЕНТРАЛЬНЫЙ" БАНКА ВТБ (ПАО) Г. МОСКВА<br><br>Банк получателя</td>
+    <td class="cell-bank-name">' . $bankDetails['recipient_bank'] . '<br><br>
+      Банк получателя
+    </td>
       <td class="cell-bik-label">БИК</td>
       <td class="cell-bik-value">044525411</td>
     </tr>
