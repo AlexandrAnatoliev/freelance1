@@ -370,8 +370,9 @@ function getInvoice(
       <td class="label-cell">Основание:</td>
       <td class="value-cell">' . $bankDetails['payment_basis'] . '</td>
     </tr>
-  </table>
+  </table>';
 
+    $htmlInvoice .= '
   <table class="items-table">
     <thead>
       <tr>
@@ -386,11 +387,11 @@ function getInvoice(
     <tbody>
       <tr>
         <td class="col-right">1</td>
-        <td class="col-left">Тариф "Стандарт" — доступ к платформе</td>
-        <td class="col-right">6</td>
-        <td class="col-center">усл.</td>
-        <td class="col-right">5 000,00</td>
-        <td class="col-right">30 000,00</td>
+        <td class="col-left">' . $items[$tariffKey]['name'] . '</td>
+        <td class="col-right">' . $quantity . '</td>
+        <td class="col-center">шт.</td>
+        <td class="col-right">' . number_format($items[$tariffKey]['price'], 2, ',', ' ') . '</td>
+        <td class="col-right">' . number_format($items[$tariffKey]['price'] * $quantity, 2, ',', ' ') . '</td>
       </tr>
       <tr>
         <td class="col-right">2</td>
