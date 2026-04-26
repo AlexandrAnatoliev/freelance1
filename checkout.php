@@ -37,6 +37,7 @@ $subject        = "Счет на оплату №{$orderNumber} от " . date('d
 
 // счет
 $fullInvoiceHTML = getInvoice($tariffKey, $selectedAddons, $quantity, $customerName, $orderNumber);
+$emailMessage = getEmailMessage($tariffKey, $selectedAddons, $quantity, $customerName, $orderNumber);
 
 // Генерация PDF
 $pdfContent = generatePDF($fullInvoiceHTML);
@@ -47,7 +48,7 @@ $resultCustomer = sendInvoiceEmail(
     $customerEmail,
     $customerName,
     $subject,
-    $fullInvoiceHTML,  // HTML-версия в теле письма
+    $emailMessage,
     $pdfContent,       // PDF-вложение
     $pdfFilename
 );
@@ -58,7 +59,7 @@ $resultAdmin = sendInvoiceEmail(
     $admin['email'],
     'Администратор',
     "Копия: " . $subject,
-    $fullInvoiceHTML,
+    $emailMessage,
     $pdfContent,
     $pdfFilename
 );
