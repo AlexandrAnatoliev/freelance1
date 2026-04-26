@@ -688,7 +688,6 @@ function getEmailMessage(
         <th class="col-right">№</th>
         <th class="col-left">Товары (работы, услуги)</th>
         <th class="col-right">Кол-во</th>
-        <th class="col-center">Ед.</th>
         <th class="col-right">Цена</th>
       </tr>
     </thead>
@@ -696,8 +695,7 @@ function getEmailMessage(
       <tr>
         <td class="col-right">1</td>
         <td class="col-left">' . $items[$tariffKey]['name'] . '</td>
-        <td class="col-right">' . $quantity . '</td>
-        <td class="col-center">шт.</td>
+        <td class="col-right">' . $quantity . ' шт.</td>
         <td class="col-right">' . number_format($items[$tariffKey]['price'], 2, ',', ' ') . '</td>
       </tr>';
 
@@ -715,8 +713,7 @@ function getEmailMessage(
           <tr>
             <td class="col-right">' . $rowNumber . '</td>
             <td class="col-left">' . htmlspecialchars($addons[$addonKey]['name']) . '</td>
-            <td class="col-right">' . $quantity . '</td>
-            <td class="col-center">шт.</td>
+            <td class="col-right">' . $quantity . ' шт.</td>
             <td class="col-right">' . number_format($addonPrice, 2, ',', ' ') . '</td>
           </tr>';
         }
