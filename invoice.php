@@ -342,17 +342,21 @@ function getInvoice(
     <tr>
       <td class="cell-recipient">' . $bankDetails['ip_name'] . '<br><br>Получатель</td>
     </tr>
-  </table>
+  </table>';
 
+    $dateSpacer = str_repeat('&nbsp;', 1);
+    $htmlInvoice .= '
   <div class="empty-line"></div>
 
   <div class="invoice-header">
-    Счет на оплату № Б-20260425-153045&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; от 25 апреля 2026 г.
+    Счет на оплату №' . $orderNumber . $dateSpacer . ' от ' . getCurrentRussianDate() . '
   </div>
 
   <div class="empty-line"></div>
-  <div class="divider"></div>
 
+  <div class="divider"></div>';
+
+    $htmlInvoice .= '
   <table class="bottom-table">
     <tr>
       <td class="label-cell">Поставщик<br>(Исполнитель):</td>
