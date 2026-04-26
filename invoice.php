@@ -172,7 +172,7 @@ function getInvoice(
     }
 
     .empty-line {
-      height: 8px;
+      height: 20px;
     }
 
     .divider {
