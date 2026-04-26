@@ -392,7 +392,31 @@ function getInvoice(
         <td class="col-center">шт.</td>
         <td class="col-right">' . number_format($items[$tariffKey]['price'], 2, ',', ' ') . '</td>
         <td class="col-right">' . number_format($items[$tariffKey]['price'] * $quantity, 2, ',', ' ') . '</td>
-      </tr>
+      </tr>';
+
+    $total = $items[$tariffKey]['price'] * $quantity;
+    $rowNumber = 1;
+
+    foreach ($selectedAddons as $addonKey) {
+        if (isset($addons[$addonKey])) {
+            $rowNumber++;
+            $addonPrice = $addons[$addonKey]['price'];
+            $addonSum = $addonPrice * $quantity;
+            $total += $addonSum;
+
+            $htmlInvoice .= '
+          <tr>
+            <td class="col-right">' . $rowNumber . '</td>
+            <td class="col-left">' . htmlspecialchars($addons[$addonKey]['name']) . '</td>
+            <td class="col-right">' . $quantity . '</td>
+            <td class="col-center">шт.</td>
+            <td class="col-right">' . number_format($addonPrice, 2, ',', ' ') . '</td>
+            <td class="col-right">' . number_format($addonSum, 2, ',', ' ') . '</td>
+          </tr>';
+        }
+    }
+
+    $htmlInvoice .= '
       <tr>
         <td class="col-right">2</td>
         <td class="col-left">Дополнительная техническая поддержка 24/7</td>
