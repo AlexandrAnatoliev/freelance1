@@ -322,14 +322,13 @@ function getInvoice(
   <!-- ПЕРВАЯ ТАБЛИЦА — банковские реквизиты -->
   <table class="main-table">
     <tr>
-    <td class="cell-bank-name">' . $bankDetails['recipient_bank'] . '<br><br>
-      Банк получателя
-    </td>
+      <td class="cell-bank-name">' . $bankDetails['recipient_bank'] . '<br><br>
+      </td>
       <td class="cell-bik-label">БИК</td>
       <td class="cell-bik-value">' . $bankDetails['bank_identification_code'] . '</td>
     </tr>
     <tr>
-      <td class="cell-bank-name" style="border-bottom: none;">&nbsp;</td>
+      <td class="cell-bank-name" style="border-bottom: none;">Банк получателя</td>
       <td class="cell-bik-label">Сч. №</td>
       <td class="cell-bik-value">' . $bankDetails['correspondent_bank_account'] . '</td>
     </tr>
