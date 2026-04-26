@@ -326,22 +326,22 @@ function getInvoice(
       Банк получателя
     </td>
       <td class="cell-bik-label">БИК</td>
-      <td class="cell-bik-value">044525411</td>
+      <td class="cell-bik-value">' . $bankDetails['bank_identification_code'] . '</td>
     </tr>
     <tr>
       <td class="cell-bank-name" style="border-bottom: none;">&nbsp;</td>
       <td class="cell-bik-label">Сч. №</td>
-      <td class="cell-bik-value">30101810145250000411</td>
+      <td class="cell-bik-value">' . $bankDetails['correspondent_bank_account'] . '</td>
     </tr>
     <tr>
       <td class="cell-inn-kpp">
-        <span class="inn-cell">ИНН 7702070139</span><span class="kpp-cell">КПП 770201001</span>
+        <span class="inn-cell">ИНН</span><span class="kpp-cell">КПП</span>
       </td>
       <td class="cell-account-label" rowspan="2">Сч. №</td>
-      <td class="cell-account-value" rowspan="2">40802810500000012345</td>
+      <td class="cell-account-value" rowspan="2">' . $bankDetails['recipients_bank_account'] . '</td>
     </tr>
     <tr>
-      <td class="cell-recipient">ИП Иванов Иван Иванович<br><br>Получатель</td>
+      <td class="cell-recipient">' . $bankDetails['ip_name'] . '<br><br>Получатель</td>
     </tr>
   </table>
 
