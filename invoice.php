@@ -482,7 +482,7 @@ function getEmailMessage(
     global $items;
     global $addons;
     global $bankDetails;
-    $htmlInvoice = '<!DOCTYPE html>
+    $emailMessage = '<!DOCTYPE html>
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
@@ -658,12 +658,10 @@ function getEmailMessage(
   </style>
 </head>';
 
-    $htmlInvoice .= '
-<body>
-<div class="table-wrapper">';
-
     $dateSpacer = str_repeat('&nbsp;', 1);
-    $htmlInvoice .= '
+    $emailMessage .= '
+<body>
+<div class="table-wrapper">
   <div class="empty-line"></div>
 
   <div class="invoice-header">
@@ -674,23 +672,16 @@ function getEmailMessage(
 
   <div class="divider"></div>';
 
-    $htmlInvoice .= '
+    $emailMessage .= '
   <table class="middle-table">
     <tr>
       <td class="label-cell">Поставщик<br>(Исполнитель):</td>
       <td class="value-cell">' . $bankDetails['ip_full_name'] . '</td>
     </tr>
     <tr>
-      <td class="label-cell">Покупатель<br>(Заказчик):</td>
-      <td class="value-cell">' . $customerName . '</td>
-    </tr>
-    <tr>
-      <td class="label-cell">Основание:</td>
-      <td class="value-cell">' . $bankDetails['payment_basis'] . '</td>
-    </tr>
   </table>';
 
-    $htmlInvoice .= '
+    $emailMessage .= '
   <table class="items-table">
     <thead>
       <tr>
@@ -722,7 +713,7 @@ function getEmailMessage(
             $addonSum = $addonPrice * $quantity;
             $total += $addonSum;
 
-            $htmlInvoice .= '
+            $emailMessage .= '
           <tr>
             <td class="col-right">' . $rowNumber . '</td>
             <td class="col-left">' . htmlspecialchars($addons[$addonKey]['name']) . '</td>
@@ -734,7 +725,7 @@ function getEmailMessage(
         }
     }
 
-    $htmlInvoice .= '
+    $emailMessage .= '
     </tbody>
     <tfoot>
       <tr>
@@ -754,7 +745,7 @@ function getEmailMessage(
 
     $totalInWords = num2words($total);
 
-    $htmlInvoice .= '
+    $emailMessage .= '
   <div class="empty-line"></div>
 
   <p>Всего наименований ' . $rowNumber . ', на сумму ' . number_format($total, 2, ',', ' ') . ' руб<br>
@@ -763,7 +754,7 @@ function getEmailMessage(
   <div class="empty-line"></div>';
 
     // Текущая дата + 3 дня
-    $htmlInvoice .= '
+    $emailMessage .= '
   <p>Оплатить не позднее ' . date('d.m.Y', strtotime('+3 days')) . '<br>
   Оплата данного счета означает согласие с условиями поставки товара.<br>
   Уведомление об оплате обязательно, в противном случае не гарантируется наличие товара на складе.<br>
@@ -776,5 +767,5 @@ function getEmailMessage(
 </div>
 </body>
 </html>';
-    return $htmlInvoice;
+    return $emailMessage;
 }
