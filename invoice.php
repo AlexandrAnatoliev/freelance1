@@ -941,6 +941,8 @@ function getResponsibleInvoice(
       <td class="label-cell">Поставщик<br>(Исполнитель):</td>
       <td class="value-cell">' . $bankDetails['ip_full_name'] . '</td>
     </tr>
+  </table>
+  <table class="middle-table hide-on-mobile">
     <tr>
       <td class="label-cell">Покупатель<br>(Заказчик):</td>
       <td class="value-cell">' . $customerName . '</td>
