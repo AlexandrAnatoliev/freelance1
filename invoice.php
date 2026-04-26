@@ -283,14 +283,14 @@ function getInvoice(
     }
 
     /* НИЖНЯЯ ТАБЛИЦА */
-    .bottom-table {
+    .middle-table {
       width: 100%;
       border-collapse: collapse;
       font-size: 0.85rem;
       margin-top: 6px;
     }
 
-    .bottom-table td {
+    .middle-table td {
       border: none;
       padding: 4px 6px;
       vertical-align: top;
@@ -357,7 +357,7 @@ function getInvoice(
   <div class="divider"></div>';
 
     $htmlInvoice .= '
-  <table class="bottom-table">
+  <table class="middle-table">
     <tr>
       <td class="label-cell">Поставщик<br>(Исполнитель):</td>
       <td class="value-cell">ИП Иванов Иван Иванович, ИНН 770207013900, ОГРНИП 320774600000000</td>
