@@ -690,7 +690,6 @@ function getEmailMessage(
         <th class="col-right">Кол-во</th>
         <th class="col-center">Ед.</th>
         <th class="col-right">Цена</th>
-        <th class="col-right">Сумма</th>
       </tr>
     </thead>
     <tbody>
@@ -700,7 +699,6 @@ function getEmailMessage(
         <td class="col-right">' . $quantity . '</td>
         <td class="col-center">шт.</td>
         <td class="col-right">' . number_format($items[$tariffKey]['price'], 2, ',', ' ') . '</td>
-        <td class="col-right">' . number_format($items[$tariffKey]['price'] * $quantity, 2, ',', ' ') . '</td>
       </tr>';
 
     $total = $items[$tariffKey]['price'] * $quantity;
@@ -720,27 +718,12 @@ function getEmailMessage(
             <td class="col-right">' . $quantity . '</td>
             <td class="col-center">шт.</td>
             <td class="col-right">' . number_format($addonPrice, 2, ',', ' ') . '</td>
-            <td class="col-right">' . number_format($addonSum, 2, ',', ' ') . '</td>
           </tr>';
         }
     }
 
     $emailMessage .= '
     </tbody>
-    <tfoot>
-      <tr>
-        <td colspan="5" style="text-align:right; font-weight:bold;">Итого:</td>
-        <td style="font-weight:bold;">' . number_format($total, 2, ',', ' ') . '</td>
-      </tr>
-      <tr>
-        <td colspan="5" style="text-align:right; font-weight:bold;">В том числе НДС:</td>
-        <td style="font-weight:bold;">—</td>
-      </tr>
-      <tr>
-        <td colspan="5" style="text-align:right; font-weight:bold;">Всего к оплате:</td>
-        <td style="font-weight:bold;">' . number_format($total, 2, ',', ' ') . '</td>
-      </tr>
-    </tfoot>
   </table>';
 
     $totalInWords = num2words($total);
@@ -759,11 +742,6 @@ function getEmailMessage(
   Оплата данного счета означает согласие с условиями поставки товара.<br>
   Уведомление об оплате обязательно, в противном случае не гарантируется наличие товара на складе.<br>
   Товар отпускается по факту прихода денег на р/с Поставщика, самовывозом, при наличии доверенности и паспорта.</p>
-
-  <div class="empty-line"></div>
-  <div class="divider"></div>
-
-  <p>Предприниматель______________________________________________' . $bankDetails['entrepreneurs_surname'] . '</p>
 </div>
 </body>
 </html>';

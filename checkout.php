@@ -105,7 +105,7 @@ $resultAdmin = sendInvoiceEmail(
                 📄 ОТКРЫТЬ СЧЕТ В PDF
             </a>
             <a href="index.php" class="btn btn-back">
-                ← Вернуться к калькулятору
+                ← ВЕРНУТЬСЯ К КАЛЬКУЛЯТОРУ
             </a>
         </div>
 
