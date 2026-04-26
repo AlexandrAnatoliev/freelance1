@@ -467,7 +467,6 @@ function getInvoice(
  * @param  $tariffKey       - ключ выбранного тарифа (напр. 'standart')
  * @param  $selectedAddons  - массив ключей выбранных аддонов (напр. ['support'])
  * @param  $quantity        - количество месяцев
- * @param  $customerName    - название организации/имя покупателя
  * @param  $orderNumber     - номер счёта (напр. 'Б-20260425-153045')
  * @return                  - готовый HTML-документ счёта со всеми стилями и данными.
  *                            Может быть отправлен в письме или показан на странице.
@@ -476,7 +475,6 @@ function getEmailMessage(
     string $tariffKey,
     array $selectedAddons,
     int $quantity,
-    string $customerName,
     string $orderNumber
 ): string {
     global $items;
@@ -596,7 +594,7 @@ function getEmailMessage(
   <div class="empty-line"></div>
 
   <div class="invoice-header">
-    Счет на оплату №' . $orderNumber . $dateSpacer . ' от ' . getCurrentRussianDate() . '
+    <b>Счет на оплату</b> №' . $orderNumber . $dateSpacer . ' от ' . getCurrentRussianDate() . '
   </div>
 
   <div class="empty-line"></div>
