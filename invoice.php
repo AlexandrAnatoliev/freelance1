@@ -141,312 +141,127 @@ function getInvoice(
     global $bankDetails;
     $htmlInvoice = '<!DOCTYPE html>
 <html lang="ru">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Счёт на оплату · банковские реквизиты</title>
-    <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+<head>
+  <meta charset="UTF-8">
+  <title>Счёт на оплату · банковские реквизиты</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
 
     body {
-      font-family: Arial, Helvetica, sans-serif;
-      color: #000000;
-      background: #f8f9fa;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      margin: 16px;
+      font-family: "DejaVu Sans", DejaVu, sans-serif;
+      color: #000;
+      background: #fff;
+      margin: 10px;
     }
 
     .table-wrapper {
-      background: #ffffff;
-      border-radius: 16px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
-      padding: 20px 20px 24px 20px;
-      max-width: 1000px;
-      width: 100%;
+      background: #fff;
+      padding: 10px;
+      width: 90%;
+      margin: 0 auto;
     }
 
-    /* заголовок счёта */
     .invoice-header {
-      font-family: Arial, Helvetica, sans-serif;
       font-weight: bold;
-      font-size: 1.4rem;
-      color: #000000;
+      font-size: 1.2rem;
       text-align: left;
-      margin-bottom: 8px;
-      letter-spacing: 0.3px;
+      margin-bottom: 6px;
     }
 
-    /* пустая строка */
     .empty-line {
-      height: 12px;
+      height: 20px;
     }
 
-    /* разделительная полоса */
     .divider {
       width: 100%;
       height: 2px;
-      background-color: #000000;
-      margin-bottom: 20px;
+      background-color: #000;
+      margin-bottom: 12px;
     }
 
-    /* главная таблица — пропорции 9 : 1 : 3 */
+    /* ГЛАВНАЯ ТАБЛИЦА */
     .main-table {
       width: 100%;
       border-collapse: collapse;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 0.95rem;
-      color: #000000;
-      text-align: center;
-      table-layout: fixed;
+      font-size: 0.85rem;
     }
 
-    /* ширина колонок */
-    .main-table colgroup col:first-child {
-      width: 69.23%;
-    }
-    .main-table colgroup col:nth-child(2) {
-      width: 7.69%;
-    }
-    .main-table colgroup col:nth-child(3) {
-      width: 23.08%;
-    }
-
-    /* все ячейки главной таблицы */
     .main-table td {
-      border: 2px solid #000000;
-      padding: 0;
-      background-color: #ffffff;
-      vertical-align: middle;
-    }
-
-    /* обычные ячейки — уменьшенные вертикальные отступы */
-    .main-table td:not(.split-cell-vertical):not(.split-cell-horizontal) {
-      padding: 8px 10px;
-    }
-
-    /* ячейка A1 */
-    .cell-a1 {
-      padding: 8px 12px !important;
-      line-height: 1.4;
-      text-align: left !important;
-      font-size: 0.95rem;
-    }
-
-    /* ячейка A3 */
-    .cell-a3 {
-      padding: 8px 12px !important;
-      line-height: 1.4;
-      text-align: left !important;
-      font-size: 0.95rem;
-    }
-
-    /* ячейка C1 */
-    .cell-c1 {
-      padding: 0 !important;
-    }
-
-    /* объединённые ячейки */
-    .merged-cell {
-      padding: 8px 10px !important;
-      font-size: 0.95rem;
-      vertical-align: top !important;
-    }
-
-    /* ячейка для счёта получателя — прижато к верху */
-    .account-cell {
-      padding: 8px 12px !important;
-      font-size: 0.95rem;
-      letter-spacing: 0.3px;
-      vertical-align: top !important;
-    }
-
-    /* ячейки со вложенными таблицами */
-    .split-cell-horizontal,
-    .split-cell-vertical {
-      padding: 0 !important;
-    }
-
-    /* ===== ВЛОЖЕННАЯ ТАБЛИЦА B1 ===== */
-    .inner-table-b1 {
-      width: 100%;
-      height: 100%;
-      border-collapse: collapse;
-      font-family: Arial, Helvetica, sans-serif;
-      color: #000000;
-      font-size: 0.95rem;
-      table-layout: fixed;
-    }
-
-    .inner-table-b1 td {
-      border: none;
-      padding: 6px 4px;
-      text-align: center;
-      vertical-align: middle;
-      background-color: #ffffff;
-      font-size: 0.95rem;
-    }
-
-    .inner-table-b1 tr:first-child td {
-      border-bottom: 2px solid #000000;
-    }
-
-    /* ===== ВЛОЖЕННАЯ ТАБЛИЦА C1 ===== */
-    .inner-table-c1 {
-      width: 100%;
-      height: 100%;
-      border-collapse: collapse;
-      font-family: Arial, Helvetica, sans-serif;
-      color: #000000;
-      font-size: 0.95rem;
-      table-layout: fixed;
-    }
-
-    .inner-table-c1 td {
-      border: none;
+      border: 2px solid #000;
       padding: 6px 8px;
+      background-color: #fff;
+      vertical-align: middle;
+    }
+
+    .cell-bank-name {
+      width: 67%;
+      line-height: 1.3;
       text-align: left;
-      vertical-align: middle;
-      background-color: #ffffff;
-      letter-spacing: 0.2px;
-      font-size: 0.95rem;
     }
 
-    .inner-table-c1 tr:first-child td {
-      border-bottom: 2px solid #000000;
-    }
-
-    /* ===== ВЛОЖЕННАЯ ТАБЛИЦА A2 ===== */
-    .inner-table-a2 {
-      width: 100%;
-      height: 100%;
-      border-collapse: collapse;
-      font-family: Arial, Helvetica, sans-serif;
-      color: #000000;
-      font-size: 0.95rem;
-      table-layout: fixed;
-    }
-
-    .inner-table-a2 td {
-      border: none;
-      padding: 8px 6px;
+    .cell-bik-label {
+      width: 9%;
       text-align: center;
-      vertical-align: middle;
-      background-color: #ffffff;
-      font-size: 0.95rem;
     }
 
-    .inner-table-a2 td:first-child {
-      border-right: 2px solid #000000;
+    .cell-bik-value {
+      width: 24%;
+      text-align: left;
     }
 
-    /* ===== НИЖНЯЯ ТАБЛИЦА 2x3 (без видимых рамок) ===== */
-    .bottom-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 0.95rem;
-      color: #000000;
-      table-layout: fixed;
-      margin-top: 8px;
+    .cell-inn-kpp {
+      padding: 5px 4px;
+      text-align: center;
     }
 
-    /* ширина колонок 1 : 7 */
-    .bottom-table colgroup col:first-child {
-      width: 12.5%;  /* 1 / 8 = 12.5% */
-    }
-    .bottom-table colgroup col:nth-child(2) {
-      width: 87.5%;  /* 7 / 8 = 87.5% */
+    .inn-cell {
+      display: inline-block;
+      width: 54%;
+      padding-right: 8px;
+      border-right: 2px solid #000;
+      text-align: center;
     }
 
-    .bottom-table td {
-      border: none;
-      padding: 6px 8px;
-      background-color: transparent;
+    .kpp-cell {
+      display: inline-block;
+      width: 40%;
+      text-align: center;
+    }
+
+    .cell-account-label {
       vertical-align: top;
-      line-height: 1.45;
+      text-align: center;
+      padding: 6px 4px;
     }
 
-    /* первый столбец — обычный шрифт */
-    .bottom-table td:first-child {
-      font-weight: normal;
+    .cell-account-value {
+      vertical-align: top;
       text-align: left;
     }
 
-    /* второй столбец — жирный шрифт */
-    .bottom-table td:nth-child(2) {
-      font-weight: bold;
+    .cell-recipient {
+      line-height: 1.3;
       text-align: left;
     }
 
-    /* ховер */
-    .main-table td:hover,
-    .inner-table-b1 td:hover,
-    .inner-table-c1 td:hover,
-    .inner-table-a2 td:hover {
-      background-color: #f4f4f4;
-    }
-
-    /* адаптивность */
-    @media (max-width: 700px) {
-      .invoice-header {
-        font-size: 1.2rem;
-      }
-      .main-table {
-        font-size: 0.75rem;
-      }
-      .cell-a1, .cell-a3 {
-        font-size: 0.75rem !important;
-        padding: 6px 6px !important;
-      }
-      .inner-table-b1 td,
-      .inner-table-c1 td {
-        padding: 5px 3px;
-        font-size: 0.75rem;
-      }
-      .merged-cell, .account-cell {
-        padding: 8px 6px !important;
-        font-size: 0.75rem !important;
-      }
-      .inner-table-a2 td {
-        padding: 6px 3px;
-        font-size: 0.75rem;
-      }
-      .bottom-table {
-        font-size: 0.75rem;
-      }
-      .bottom-table td {
-        padding: 5px 6px;
-      }
-    }
-    /* Стили для таблицы с товарами/услугами */
+    /* ТАБЛИЦА С ТОВАРАМИ */
     .items-table {
       width: 100%;
       border-collapse: collapse;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 0.95rem;
-      color: #000000;
-      margin-top: 24px;
-      table-layout: auto;
-      border: 2px solid #000000;
+      font-size: 0.85rem;
+      margin-top: 16px;
+      border: 2px solid #000;
     }
 
     .items-table th,
     .items-table td {
-      border: 1px solid #000000;
-      padding: 10px 8px;
+      border: 1px solid #000;
+      padding: 6px 5px;
       vertical-align: top;
-      background-color: #ffffff;
-    }
-
-    .items-table thead tr {
-      background-color: #ffffff;
+      background-color: #fff;
     }
 
     .items-table th {
@@ -455,167 +270,133 @@ function getInvoice(
       background-color: #f2f2f2;
     }
 
-    .items-table td {
-      font-weight: normal;
-    }
-
-    /* Выравнивание числовых колонок по правому краю */
-    .items-table td:nth-child(1),
-    .items-table td:nth-child(3),
-    .items-table td:nth-child(5),
-    .items-table td:nth-child(6) {
+    .col-right {
       text-align: right;
     }
 
-    .items-table td:nth-child(2) {
+    .col-left {
       text-align: left;
     }
 
-    .items-table td:nth-child(4) {
+    .col-center {
       text-align: center;
     }
 
-    /* Итоговые строки */
-    .items-table tfoot td {
-      background-color: #ffffff;
-      padding: 10px 8px;
+    /* НИЖНЯЯ ТАБЛИЦА */
+    .middle-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      margin-top: 6px;
     }
 
-    /* Адаптивность */
-    @media (max-width: 700px) {
-      .items-table {
-        font-size: 0.75rem;
-      }
-      .items-table th,
-      .items-table td {
-        padding: 6px 4px;
-      }
+    .middle-table td {
+      border: none;
+      padding: 4px 6px;
+      vertical-align: top;
+      line-height: 1.35;
     }
-    </style>
-  </head>';
+
+    .label-cell {
+      width: 14%;
+      text-align: left;
+    }
+
+    .value-cell {
+      width: 86%;
+      font-weight: bold;
+      text-align: left;
+    }
+
+    p {
+      font-size: 0.85rem;
+      line-height: 1.3;
+    }
+  </style>
+</head>';
 
     $htmlInvoice .= '
-  <body>
-    <div class="table-wrapper">
-      <!-- ПЕРВАЯ ТАБЛИЦА — банковские реквизиты -->
-      <table class="main-table">
-        <colgroup>
-          <col style="width: 69.23%">
-          <col style="width: 7.69%">
-          <col style="width: 23.08%">
-        </colgroup>
+<body>
+<div class="table-wrapper">
 
-        <!-- строка 1 -->
-        <tr>
-          <td class="cell-a1">' . $bankDetails['recipient_bank'] . '<br><br>
-            Банк получателя
-          </td>
+  <!-- ПЕРВАЯ ТАБЛИЦА — банковские реквизиты -->
+  <table class="main-table">
+    <tr>
+      <td class="cell-bank-name" style="border-bottom: none;">' . $bankDetails['recipient_bank'] . '<br><br>
+      </td>
+      <td class="cell-bik-label">БИК</td>
+      <td class="cell-bik-value">' . $bankDetails['bank_identification_code'] . '</td>
+    </tr>
+    <tr>
+      <td class="cell-bank-name" style="border-top: none;">Банк получателя</td>
+      <td class="cell-bik-label">Сч. №</td>
+      <td class="cell-bik-value">' . $bankDetails['correspondent_bank_account'] . '</td>
+    </tr>
+    <tr>
+      <td class="cell-inn-kpp">
+        <span class="inn-cell">ИНН</span><span class="kpp-cell">КПП</span>
+      </td>
+      <td class="cell-account-label" rowspan="2">Сч. №</td>
+      <td class="cell-account-value" rowspan="2">' . $bankDetails['recipients_bank_account'] . '</td>
+    </tr>
+    <tr>
+      <td class="cell-recipient">' . $bankDetails['ip_name'] . '<br><br>Получатель</td>
+    </tr>
+  </table>';
 
-          <td class="split-cell-horizontal">
-            <table class="inner-table-b1">
-              <tr><td>БИК</td></tr>
-              <tr><td>Сч. №</td></tr>
-            </table>
-          </td>
-
-          <td class="cell-c1">
-            <table class="inner-table-c1">
-              <tr><td>' . $bankDetails['bank_identification_code'] . '</td></tr>
-              <tr><td>' . $bankDetails['correspondent_bank_account'] . '</td></tr>
-            </table>
-          </td>
-        </tr>
-
-        <!-- строка 2 -->
-        <tr>
-          <td class="split-cell-vertical">
-            <table class="inner-table-a2">
-              <tr>
-                <td>ИНН</td>
-                <td>КПП</td>
-              </tr>
-            </table>
-          </td>
-
-          <td class="merged-cell" rowspan="2">Сч. №</td>
-          <td class="account-cell" rowspan="2">' . $bankDetails['recipients_bank_account'] . '</td>
-        </tr>
-
-        <!-- строка 3 -->
-        <tr>
-          <td class="cell-a3">
-            ' . $bankDetails['ip_name'] . '<br><br>
-            Получатель
-          </td>
-        </tr>
-      </table>
-
-      <!-- пустая строка -->
-      <div class="empty-line"></div>';
-
-    $dateSpacer = str_repeat('&nbsp;', 14);
+    $dateSpacer = str_repeat('&nbsp;', 1);
     $htmlInvoice .= '
-      <!-- Счёт на оплату № 21 от 30 июня 2025 г. -->
-      <div class="invoice-header"21>
-        Счет на оплату № ' . $orderNumber . $dateSpacer . ' от ' . getCurrentRussianDate() . '
-      </div>
+  <div class="empty-line"></div>
 
-      <!-- пустая строка -->
-      <div class="empty-line"></div>
+  <div class="invoice-header">
+    Счет на оплату №' . $orderNumber . $dateSpacer . ' от ' . getCurrentRussianDate() . '
+  </div>
 
-      <!-- разделительная полоса -->
-      <div class="divider"></div>
+  <div class="empty-line"></div>
 
-      <!-- ВТОРАЯ ТАБЛИЦА — 2 столбца, 3 строки, без рамок, пропорции 1:7 -->
-      <table class="bottom-table">
-        <colgroup>
-          <col style="width: 12.5%">
-          <col style="width: 87.5%">
-        </colgroup>
-        <tr>
-          <td>Поставщик<br>(Исполнитель):</td>
-          <td>' . $bankDetails['ip_full_name'] . '</td>
-        </tr>';
+  <div class="divider"></div>';
 
     $htmlInvoice .= '
-        <tr>
-          <td>Покупатель<br>(Заказчик):</td>
-          <td>' . $customerName . '</td>
-        </tr>
-        <tr>
-          <td>Основание:</td>
-          <td>' . $bankDetails['payment_basis'] . '</td>
-        </tr>
-      </table>
-      <!-- ТАБЛИЦА С ГРАНИЦАМИ (6 колонок) -->
-      <!-- Первая строка — жирный шрифт, остальные — обычный -->
-      <table class="items-table">
-        <thead>
-          <tr>
-            <th>№</th>
-            <th>Товары (работы, услуги)</th>
-            <th>Кол-во</th>
-            <th>Ед.</th>
-            <th>Цена</th>
-            <th>Сумма</th>
-          </tr>
-        </thead>';
+  <table class="middle-table">
+    <tr>
+      <td class="label-cell">Поставщик<br>(Исполнитель):</td>
+      <td class="value-cell">' . $bankDetails['ip_full_name'] . '</td>
+    </tr>
+    <tr>
+      <td class="label-cell">Покупатель<br>(Заказчик):</td>
+      <td class="value-cell">' . $customerName . '</td>
+    </tr>
+    <tr>
+      <td class="label-cell">Основание:</td>
+      <td class="value-cell">' . $bankDetails['payment_basis'] . '</td>
+    </tr>
+  </table>';
 
     $htmlInvoice .= '
+  <table class="items-table">
+    <thead>
+      <tr>
+        <th class="col-right">№</th>
+        <th class="col-left">Товары (работы, услуги)</th>
+        <th class="col-right">Кол-во</th>
+        <th class="col-center">Ед.</th>
+        <th class="col-right">Цена</th>
+        <th class="col-right">Сумма</th>
+      </tr>
+    </thead>
     <tbody>
-          <tr>
-            <td>1</td>
-            <td>' . $items[$tariffKey]['name'] . '</td>
-            <td>' . $quantity . '</td>
-            <td>усл.</td>
-            <td>' . number_format($items[$tariffKey]['price'], 2, ',', ' ') . '</td>
-            <td>' . number_format($items[$tariffKey]['price'] * $quantity, 2, ',', ' ') . '</td>
-          </tr>
-          <tr>';
+      <tr>
+        <td class="col-right">1</td>
+        <td class="col-left">' . $items[$tariffKey]['name'] . '</td>
+        <td class="col-right">' . $quantity . '</td>
+        <td class="col-center">шт.</td>
+        <td class="col-right">' . number_format($items[$tariffKey]['price'], 2, ',', ' ') . '</td>
+        <td class="col-right">' . number_format($items[$tariffKey]['price'] * $quantity, 2, ',', ' ') . '</td>
+      </tr>';
 
     $total = $items[$tariffKey]['price'] * $quantity;
-
     $rowNumber = 1;
+
     foreach ($selectedAddons as $addonKey) {
         if (isset($addons[$addonKey])) {
             $rowNumber++;
@@ -625,64 +406,57 @@ function getInvoice(
 
             $htmlInvoice .= '
           <tr>
-            <td>' . $rowNumber . '</td>
-            <td>' . htmlspecialchars($addons[$addonKey]['name']) . '</td>
-            <td>' . $quantity . '</td>
-            <td>усл.</td>
-            <td>' . number_format($addonPrice, 2, ',', ' ') . '</td>
-            <td>' . number_format($addonSum, 2, ',', ' ') . '</td>
+            <td class="col-right">' . $rowNumber . '</td>
+            <td class="col-left">' . htmlspecialchars($addons[$addonKey]['name']) . '</td>
+            <td class="col-right">' . $quantity . '</td>
+            <td class="col-center">шт.</td>
+            <td class="col-right">' . number_format($addonPrice, 2, ',', ' ') . '</td>
+            <td class="col-right">' . number_format($addonSum, 2, ',', ' ') . '</td>
           </tr>';
         }
     }
 
     $htmlInvoice .= '
-        </tbody>
-        <tfoot>
-          <tr>
-            <td colspan="5" style="text-align:right; font-weight:bold;">Итого:</td>
-            <td style="font-weight:bold;">' . number_format($total, 2, ',', ' ') . '</td>
-          </tr>
-          <tr>
-            <td colspan="5" style="text-align:right; font-weight:bold;">В том числе НДС:</td>
-            <td style="font-weight:bold;">—</td>
-          </tr>
-          <tr>
-            <td colspan="5" style="text-align:right; font-weight:bold;">Всего к оплате:</td>
-            <td style="font-weight:bold;">' . number_format($total, 2, ',', ' ') . '</td>
-          </tr>
-        </tfoot>
-      </table>
-
-      <!-- пустая строка -->
-      <div class="empty-line"></div>';
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="5" style="text-align:right; font-weight:bold;">Итого:</td>
+        <td style="font-weight:bold;">' . number_format($total, 2, ',', ' ') . '</td>
+      </tr>
+      <tr>
+        <td colspan="5" style="text-align:right; font-weight:bold;">В том числе НДС:</td>
+        <td style="font-weight:bold;">—</td>
+      </tr>
+      <tr>
+        <td colspan="5" style="text-align:right; font-weight:bold;">Всего к оплате:</td>
+        <td style="font-weight:bold;">' . number_format($total, 2, ',', ' ') . '</td>
+      </tr>
+    </tfoot>
+  </table>';
 
     $totalInWords = num2words($total);
 
     $htmlInvoice .= '
-      <p>Всего наименований ' . $rowNumber . ', на сумму ' . number_format($total, 2, ',', ' ') . ' руб<br>
-      (' . $totalInWords . ')</p>
+  <div class="empty-line"></div>
 
-      <!-- пустая строка -->
-      <div class="empty-line"></div>';
+  <p>Всего наименований ' . $rowNumber . ', на сумму ' . number_format($total, 2, ',', ' ') . ' руб<br>
+  (' . $totalInWords . ')</p>
+
+  <div class="empty-line"></div>';
 
     // Текущая дата + 3 дня
     $htmlInvoice .= '
-      <p>Оплатить не позднее ' . date('d.m.Y', strtotime('+3 days')) . ' <br>
-      Оплата данного счета означает согласие с условиями поставки товара.<br>
-      Уведомление об оплате обязательно, в противном случае не гарантируется наличие товара на складе. <br>
-      Товар отпускается по факту прихода денег на р/с Поставщика, самовывозом, при наличии доверенности и
-      паспорта.</p>
+  <p>Оплатить не позднее ' . date('d.m.Y', strtotime('+3 days')) . '<br>
+  Оплата данного счета означает согласие с условиями поставки товара.<br>
+  Уведомление об оплате обязательно, в противном случае не гарантируется наличие товара на складе.<br>
+  Товар отпускается по факту прихода денег на р/с Поставщика, самовывозом, при наличии доверенности и паспорта.</p>
 
-      <!-- пустая строка -->
-      <div class="empty-line"></div>
+  <div class="empty-line"></div>
+  <div class="divider"></div>
 
-      <!-- разделительная полоса -->
-      <div class="divider"></div>
-
-      <p>Предприниматель______________________________________________' . $bankDetails['entrepreneurs_surname'] . '</p>
-
-    </div>
-  </body>
+  <p>Предприниматель______________________________________________' . $bankDetails['entrepreneurs_surname'] . '</p>
+</div>
+</body>
 </html>';
     return $htmlInvoice;
 }

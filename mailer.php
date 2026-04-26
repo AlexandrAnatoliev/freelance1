@@ -13,47 +13,30 @@ require_once 'vendor/autoload.php';
 require_once 'configs/mailerSettings.php';
 
 /**
- * Отправляет HTML-письмо получателю через настроенный SMTP-сервер.
+ * Отправляет HTML-письмо получателю через настроенный SMTP-сервер
+ * с прикреплённым PDF-файлом счёта.
  *
- * @param  $toEmail   - Email получателя. Должен быть валидным адресом.
- *                      Используется в $mail->addAddress().
- * @param  $toName    - Имя получателя (отображается в почтовом клиенте).
- *                      Может быть пустым.
- * @param  $subject   - Тема письма. Отображается в списке писем.
- *                      Например: "Счет на оплату №Б-20260425-153045"
- * @param  $htmlBody  - Полное HTML-содержимое письма. Может содержать
- *                      любые HTML-теги, стили и изображения.
- *                      Будет вставлено как есть в тело письма.
- * @return true       - письмо успешно отправлено
- *         false      - произошла ошибка при отправке.
- *                      При ошибке детали выводятся на экран через echo.
+ * @param  string $toEmail      - Email получателя
+ * @param  string $toName       - Имя получателя
+ * @param  string $subject      - Тема письма
+ * @param  string $htmlBody     - HTML-содержимое письма
+ * @param  string $pdfContent   - Бинарное содержимое PDF (опционально)
+ * @param  string $pdfFilename  - Имя PDF-файла (опционально)
+ * @return true|false
  */
 function sendInvoiceEmail(
     string $toEmail,
     string $toName,
     string $subject,
-    string $htmlBody
+    string $htmlBody,
+    string $pdfContent = '',
+    string $pdfFilename = 'invoice.pdf'
 ): bool {
     $mail         = new PHPMailer(true);
     $mailSettings = getMailSettings();
 
     try {
-        // для вывода диагностики в браузер включить DEBUG_SERVER
         $mail->SMTPDebug    = SMTP::DEBUG_OFF;
-        $mail->Debugoutput  = function ($str, $level) {
-            $colors = [
-                SMTP::DEBUG_CLIENT     => '#3498db',
-                SMTP::DEBUG_SERVER     => '#2ecc71',
-                SMTP::DEBUG_CONNECTION => '#9b59b6',
-                SMTP::DEBUG_LOWLEVEL   => '#e74c3c',
-            ];
-
-            $color = $colors[$level] ?? '#f5f5f5';
-
-            echo "<pre style='background:{$color}; padding:3px; margin:2px; font-family:monospace;'>"
-              . htmlspecialchars($str) . "</pre>";
-        };
-
         $mail->isSMTP();
         $mail->Host         = $mailSettings['host'];
         $mail->SMTPAuth     = true;
@@ -77,8 +60,18 @@ function sendInvoiceEmail(
         $mail->Subject = $subject;
         $mail->Body    = $htmlBody;
         $mail->AltBody = strip_tags($htmlBody);
-        $mail->send();
 
+        // Прикрепляем PDF, если он передан
+        if (!empty($pdfContent)) {
+            $mail->addStringAttachment(
+                $pdfContent,
+                $pdfFilename,
+                'base64',
+                'application/pdf'
+            );
+        }
+
+        $mail->send();
         return true;
     } catch (Exception $e) {
         echo "<div style='color:red; padding:10px; border:1px solid red;'>";
