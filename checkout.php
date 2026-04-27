@@ -6,15 +6,17 @@ declare(strict_types=1);
 require_once 'utils/debug.php';
 require_once 'utils/session.php';
 
+$location = 'Location: index.php';
+
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: index.php');
+    header($location);
     exit;
 }
 
 // Проверка CAPTCHA
 if (!isset($_POST['captcha']) || !isset($_SESSION['captcha_answer'])) {
     $_SESSION['error_message'] = 'Ошибка проверки. Пожалуйста, обновите страницу и попробуйте снова.';
-    header('Location: index.php');
+    header($location);
     exit;
 }
 
@@ -25,7 +27,7 @@ $correctAnswer = (int) $_SESSION['captcha_answer'];
 $captchaAge = time() - ($_SESSION['captcha_generated_at'] ?? 0);
 if ($captchaAge > 1800) { // 30 минут
     $_SESSION['error_message'] = 'Время проверки истекло. Пожалуйста, обновите страницу.';
-    header('Location: index.php');
+    header($location);
     exit;
 }
 
@@ -33,7 +35,7 @@ if ($captchaAge > 1800) { // 30 минут
 if ($userAnswer !== $correctAnswer) {
     $_SESSION['error_message'] = 'Неверный ответ на проверочный вопрос. Попробуйте снова.';
     // Генерируем новую капчу при ошибке
-    header('Location: index.php');
+    header($location);
     exit;
 }
 
