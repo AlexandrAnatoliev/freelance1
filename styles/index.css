@@ -10,7 +10,7 @@ body {
   background: white; 
   padding: 30px; 
   border-radius: 16px; 
-  box-shadow: 0 10px 30px rgb(0 0 0 / 10%); 
+  box-shadow: 0 10px 30px rgb(0, 0, 0, 0.1); 
 }
 
 h1 { 
@@ -81,7 +81,7 @@ h2 {
 .card:has(input:checked) { 
   border-color: #3498db; 
   background: #ebf5ff; 
-  box-shadow: 0 0 0 3px rgb(52 152 219 / 20%); 
+  box-shadow: 0 0 0 3px rgb(52, 152, 219, 0.2); 
 }
 
 

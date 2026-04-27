@@ -7,3 +7,6 @@ composer.lock
 .php-cs-fixer.dist.php
 .todo
 .stylelintrc.json
+node_modules
+package-lock.json
+package.json
