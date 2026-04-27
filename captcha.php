@@ -13,8 +13,8 @@ require_once 'utils/session.php';
  */
 function generateCaptcha(): array
 {
-    $num1 = rand(1, 10);
-    $num2 = rand(1, 10);
+    $num1 = random_int(1, 10);
+    $num2 = random_int(1, 10);
     $operators = ['+', '-'];
     $operator = $operators[array_rand($operators)];
 
