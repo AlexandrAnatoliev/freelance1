@@ -1034,7 +1034,29 @@ function getResponsibleInvoice(
           <td class="col-left">' . $items[$tariffKey]['name'] . '</td>
           <td class="col-right">' . $quantity . ' шт.</td>
           <td class="col-right">' . number_format($items[$tariffKey]['price'], 2, ',', ' ') . '</td>
-        </tr>
+        </tr>';
+
+    $total = $items[$tariffKey]['price'] * $quantity;
+    $rowNumber = 1;
+
+    foreach ($selectedAddons as $addonKey) {
+        if (isset($addons[$addonKey])) {
+            $rowNumber++;
+            $addonPrice = $addons[$addonKey]['price'];
+            $addonSum = $addonPrice * $quantity;
+            $total += $addonSum;
+
+            $responsibleInvoice .= '
+          <tr>
+            <td class="col-right">' . $rowNumber . '</td>
+            <td class="col-left">' . htmlspecialchars($addons[$addonKey]['name']) . '</td>
+            <td class="col-right">' . $quantity . ' шт.</td>
+            <td class="col-right">' . number_format($addonPrice, 2, ',', ' ') . '</td>
+          </tr>';
+        }
+    }
+
+    $responsibleInvoice .= '
       </tbody>
     </table>
   </div>';
