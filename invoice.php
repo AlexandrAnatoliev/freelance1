@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 // раскомментировать для вывода ошибок на экран
 require_once 'utils/debug.php';
+require_once 'utils/session.php';
 
-session_start();
 $items = $_SESSION['items_session'];
 $addons = $_SESSION['addons_session'];
 

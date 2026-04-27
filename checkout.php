@@ -4,11 +4,43 @@ declare(strict_types=1);
 
 // раскомментировать для вывода ошибок на экран
 require_once 'utils/debug.php';
+require_once 'utils/session.php';
+
+$location = 'Location: index.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: index.php');
+    header($location);
     exit;
 }
+
+// Проверка CAPTCHA
+if (!isset($_POST['captcha']) || !isset($_SESSION['captcha_answer'])) {
+    $_SESSION['error_message'] = 'Ошибка проверки. Пожалуйста, обновите страницу и попробуйте снова.';
+    header($location);
+    exit;
+}
+
+$userAnswer = (int) $_POST['captcha'];
+$correctAnswer = (int) $_SESSION['captcha_answer'];
+
+// Проверяем, не истекла ли капча (30 минут)
+$captchaAge = time() - ($_SESSION['captcha_generated_at'] ?? 0);
+if ($captchaAge > 1800) { // 30 минут
+    $_SESSION['error_message'] = 'Время проверки истекло. Пожалуйста, обновите страницу.';
+    header($location);
+    exit;
+}
+
+// Проверяем правильность ответа
+if ($userAnswer !== $correctAnswer) {
+    $_SESSION['error_message'] = 'Неверный ответ на проверочный вопрос. Попробуйте снова.';
+    // Генерируем новую капчу при ошибке
+    header($location);
+    exit;
+}
+
+// Очищаем капчу после успешной проверки
+unset($_SESSION['captcha_answer'], $_SESSION['captcha_generated_at']);
 
 // Получаем данные из формы
 $tariffKey      = $_POST['tariff'] ?? null;

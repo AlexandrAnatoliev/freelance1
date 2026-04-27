@@ -20,8 +20,10 @@ declare(strict_types=1);
 
 // раскомментировать для вывода ошибок на экран
 require_once 'utils/debug.php';
+require_once 'captcha.php';
 
-session_start();
+// Генерируем капчу при загрузке страницы
+$captcha = generateCaptcha();
 
 // ------------------------------------------------------------------
 // КОНФИГУРАЦИЯ ТОВАРОВ (ОСНОВНЫЕ ТАРИФЫ)
@@ -83,6 +85,7 @@ function getImagePath(string $path, string $placeholder = 'img/placeholder.jpg')
     return $placeholder;
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -146,6 +149,25 @@ function getImagePath(string $path, string $placeholder = 'img/placeholder.jpg')
             <input type="text" name="customer_name" placeholder="Ваше имя / Организация" required>
             <input type="email" name="customer_email" placeholder="Email для отправки счета" required>
             <input type="tel" name="customer_phone" placeholder="Телефон" required>
+
+            <!-- CAPTCHA -->
+            <h2>5. Проверка: вы не робот?</h2>
+            <div class="captcha-block">
+                <div class="captcha-question">
+                    🤔 Сколько будет: <?= htmlspecialchars($captcha['question']) ?>?
+                </div>
+                <input
+                    type="number"
+                    name="captcha"
+                    class="captcha-input"
+                    placeholder="Введите ответ цифрой"
+                    required
+                    id="captchaInput"
+                >
+                <div class="captcha-hint">
+                    💡 Введите результат математического выражения цифрой
+                </div>
+            </div>
 
             <button type="submit">Отправить заказ и получить счет</button>
         </form>
@@ -213,6 +235,23 @@ function calculateTotal() {
 
     totalSpan.textContent = new Intl.NumberFormat('ru-RU').format(total);
 }
+
+// Валидация капчи перед отправкой
+form.addEventListener('submit', function(e) {
+    const captchaInput = document.getElementById('captchaInput');
+    const captchaValue = parseInt(captchaInput.value);
+    
+    // Простая клиентская проверка (основная проверка на сервере в checkout.php)
+    if (isNaN(captchaValue)) {
+        e.preventDefault();
+        captchaInput.classList.add('error');
+        alert('Пожалуйста, введите ответ на проверочный вопрос цифрой');
+        captchaInput.focus();
+        return false;
+    }
+    
+    captchaInput.classList.remove('error');
+});
 
 form.addEventListener('change', function() {
     updateSelectedItems();
