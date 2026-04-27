@@ -955,26 +955,26 @@ function getResponsibleInvoice(
 
     $responsibleInvoice .= '
   <div class="hide-on-mobile">
-  <table class="items-table">
-    <thead>
-      <tr>
-        <th class="col-right">№</th>
-        <th class="col-left">Товары (работы, услуги)</th>
-        <th class="col-right">Кол-во</th>
-        <th class="col-center">Ед.</th>
-        <th class="col-right">Цена</th>
-        <th class="col-right">Сумма</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td class="col-right">1</td>
-        <td class="col-left">' . $items[$tariffKey]['name'] . '</td>
-        <td class="col-right">' . $quantity . '</td>
-        <td class="col-center">шт.</td>
-        <td class="col-right">' . number_format($items[$tariffKey]['price'], 2, ',', ' ') . '</td>
-        <td class="col-right">' . number_format($items[$tariffKey]['price'] * $quantity, 2, ',', ' ') . '</td>
-      </tr>';
+    <table class="items-table">
+      <thead>
+        <tr>
+          <th class="col-right">№</th>
+          <th class="col-left">Товары (работы, услуги)</th>
+          <th class="col-right">Кол-во</th>
+          <th class="col-center">Ед.</th>
+          <th class="col-right">Цена</th>
+          <th class="col-right">Сумма</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-right">1</td>
+          <td class="col-left">' . $items[$tariffKey]['name'] . '</td>
+          <td class="col-right">' . $quantity . '</td>
+          <td class="col-center">шт.</td>
+          <td class="col-right">' . number_format($items[$tariffKey]['price'], 2, ',', ' ') . '</td>
+          <td class="col-right">' . number_format($items[$tariffKey]['price'] * $quantity, 2, ',', ' ') . '</td>
+        </tr>';
 
     $total = $items[$tariffKey]['price'] * $quantity;
     $rowNumber = 1;
@@ -999,23 +999,39 @@ function getResponsibleInvoice(
     }
 
     $responsibleInvoice .= '
-    </tbody>
-    <tfoot>
-      <tr>
-        <td colspan="5" style="text-align:right; font-weight:bold;">Итого:</td>
-        <td style="font-weight:bold;">' . number_format($total, 2, ',', ' ') . '</td>
-      </tr>
-      <tr>
-        <td colspan="5" style="text-align:right; font-weight:bold;">В том числе НДС:</td>
-        <td style="font-weight:bold;">—</td>
-      </tr>
-      <tr>
-        <td colspan="5" style="text-align:right; font-weight:bold;">Всего к оплате:</td>
-        <td style="font-weight:bold;">' . number_format($total, 2, ',', ' ') . '</td>
-      </tr>
-    </tfoot>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="5" style="text-align:right; font-weight:bold;">Итого:</td>
+          <td style="font-weight:bold;">' . number_format($total, 2, ',', ' ') . '</td>
+        </tr>
+        <tr>
+          <td colspan="5" style="text-align:right; font-weight:bold;">В том числе НДС:</td>
+          <td style="font-weight:bold;">—</td>
+        </tr>
+        <tr>
+          <td colspan="5" style="text-align:right; font-weight:bold;">Всего к оплате:</td>
+          <td style="font-weight:bold;">' . number_format($total, 2, ',', ' ') . '</td>
+        </tr>
+      </tfoot>
     </table>
-    </div>';
+  </div>';
+
+    $responsibleInvoice .= '
+  <div class="show-only-mobile">
+    <table class="items-table">
+      <thead>
+        <tr>
+          <th class="col-right">№</th>
+          <th class="col-left">Товары (работы, услуги)</th>
+          <th class="col-right">Кол-во</th>
+          <th class="col-center">Ед.</th>
+          <th class="col-right">Цена</th>
+          <th class="col-right">Сумма</th>
+        </tr>
+      </thead>
+    </table>
+  </div>';
 
     $totalInWords = num2words($total);
 
