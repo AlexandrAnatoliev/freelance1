@@ -1,0 +1,15 @@
+<FilesMatch "^\.env$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^configs/ - [F,L]
+    RewriteRule ^utils/ - [F,L]
+    RewriteRule ^vendor/ - [F,L]
+    RewriteRule ^generatePDF\.php$ - [F,L]
+    RewriteRule ^mailer\.php$ - [F,L]
+    RewriteRule ^invoice\.php$ - [F,L]
+    RewriteRule ^composer\.(json|lock)$ - [F,L]
+</IfModule>

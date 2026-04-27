@@ -38,6 +38,7 @@ $subject        = "Счет на оплату №{$orderNumber} от " . date('d
 // счет
 $fullInvoiceHTML = getInvoice($tariffKey, $selectedAddons, $quantity, $customerName, $orderNumber);
 $emailMessage = getEmailMessage($tariffKey, $selectedAddons, $quantity, $orderNumber);
+$responsibleInvoice = getResponsibleInvoice($tariffKey, $selectedAddons, $quantity, $customerName, $orderNumber);
 
 // Генерация PDF
 $pdfContent = generatePDF($fullInvoiceHTML);
@@ -110,15 +111,15 @@ $resultAdmin = sendInvoiceEmail(
         </div>
 
         <div class="print-note">
-            <p>💡 Нажмите кнопку выше, затем выберите "Сохранить как PDF" в списке принтеров</p>
+            <p>💡 Нажмите кнопку "ОТКРЫТЬ СЧЕТ В PDF", чтобы получить счет в PDF</p>
         </div>
 
         <div class="invoice-preview">
-            <?= $fullInvoiceHTML ?>
+            <?= $responsibleInvoice ?>
         </div>
 
         <div class="print-note">
-            <p>📧 Простая версия счета отправлена на вашу почту для удобной оплаты с телефона</p>
+            <p>📧 Полная версия версия счета отправлена на вашу почту для удобной оплаты с телефона</p>
         </div>
     </div>
 </body>
