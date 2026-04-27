@@ -1073,6 +1073,7 @@ function getResponsibleInvoice(
 
     // Текущая дата + 3 дня
     $responsibleInvoice .= '
+  <div class="hide-on-mobile">
   <p>Оплатить не позднее ' . date('d.m.Y', strtotime('+3 days')) . '<br>
   Оплата данного счета означает согласие с условиями поставки товара.<br>
   Уведомление об оплате обязательно, в противном случае не гарантируется наличие товара на складе.<br>
@@ -1082,6 +1083,7 @@ function getResponsibleInvoice(
   <div class="divider"></div>
 
   <p>Предприниматель______________________________________________' . $bankDetails['entrepreneurs_surname'] . '</p>
+    </div>
 </div>
 </body>
 </html>';
