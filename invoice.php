@@ -1025,11 +1025,17 @@ function getResponsibleInvoice(
           <th class="col-right">№</th>
           <th class="col-left">Товары (работы, услуги)</th>
           <th class="col-right">Кол-во</th>
-          <th class="col-center">Ед.</th>
-          <th class="col-right">Цена</th>
-          <th class="col-right">Сумма</th>
+          <th class="col-right">Цена/шт.</th>
         </tr>
       </thead>
+      <tbody>
+        <tr>
+          <td class="col-right">1</td>
+          <td class="col-left">' . $items[$tariffKey]['name'] . '</td>
+          <td class="col-right">' . $quantity . ' шт.</td>
+          <td class="col-right">' . number_format($items[$tariffKey]['price'], 2, ',', ' ') . '</td>
+        </tr>
+      </tbody>
     </table>
   </div>';
 
