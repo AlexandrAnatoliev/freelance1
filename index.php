@@ -156,11 +156,11 @@ function getImagePath(string $path, string $placeholder = 'img/placeholder.jpg')
                 <div class="captcha-question">
                     🤔 Сколько будет: <?= htmlspecialchars($captcha['question']) ?>?
                 </div>
-                <input 
-                    type="number" 
-                    name="captcha" 
-                    class="captcha-input" 
-                    placeholder="Введите ответ цифрой" 
+                <input
+                    type="number"
+                    name="captcha"
+                    class="captcha-input"
+                    placeholder="Введите ответ цифрой"
                     required
                     id="captchaInput"
                 >

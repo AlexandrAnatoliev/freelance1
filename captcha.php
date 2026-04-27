@@ -23,7 +23,7 @@ function generateCaptcha(): array
         [$num1, $num2] = [$num2, $num1];
     }
 
-    $num1word = convert_num_to_word($num1);
+    $num1word = convertNumToWord($num1);
     $question = "$num1word $operator $num2";
     $answer = $operator === '+' ? $num1 + $num2 : $num1 - $num2;
 
@@ -42,7 +42,7 @@ function generateCaptcha(): array
  * @param  $num - число, которое нужно преобразовать.
  * @return      - число прописью
  */
-function convert_num_to_word(int $num): string
+function convertNumToWord(int $num): string
 {
     $word = [
         ['', 'один', 'два', 'три', 'четыре', 'пять', 'шесть', 'семь', 'восемь', 'девять', 'десять'],
