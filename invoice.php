@@ -954,6 +954,7 @@ function getResponsibleInvoice(
   </table>';
 
     $responsibleInvoice .= '
+  <div class="hide-on-mobile">
   <table class="items-table">
     <thead>
       <tr>
@@ -1013,7 +1014,8 @@ function getResponsibleInvoice(
         <td style="font-weight:bold;">' . number_format($total, 2, ',', ' ') . '</td>
       </tr>
     </tfoot>
-  </table>';
+    </table>
+    </div>';
 
     $totalInWords = num2words($total);
 
