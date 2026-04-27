@@ -107,8 +107,8 @@
 
 ##### Защита от спама
 
-* [ ] **Капча (CAPTCHA):**
-  * [ ] Простой вариант (например, математический вопрос "Сколько будет 5 + 7? Введите цифрой").
+* [x] **Капча (CAPTCHA):**
+  * [x] Простой вариант (например, математический вопрос "Сколько будет 5 + 7? Введите цифрой").
   * [ ] Rate Limiting (тайм-аут на отправку, например, 1 раз в минуту с одного IP).
 
 #### 3. Безопасность и структура кода
@@ -215,7 +215,13 @@ classDiagram
   class index.php {
   }
 
+  class captcha.php {
+  }
+
   class checkout.php {
+  }
+
+  class generatePDF.php {
   }
 
   class mailer.php {
@@ -224,8 +230,11 @@ classDiagram
   class SMTP-сервер {
   }
 
-  index.php --|> checkout.php
+  index.php --|> captcha.php
+  captcha.php --|> checkout.php
+  checkout.php --|> generatePDF.php
   checkout.php --|> mailer.php
+  generatePDF.php --|> mailer.php
   mailer.php --|> SMTP-сервер
 ```
 
@@ -327,6 +336,7 @@ composer require dompdf/dompdf
 
 ```
 /project/
+├── captcha.php
 ├── checkout.php
 ├── configs/
 │   ├── .env
@@ -344,7 +354,8 @@ composer require dompdf/dompdf
 │   ├── checkout.css
 │   └── index.css
 ├── utils
-│   └── debug.php
+│   ├── debug.php
+│   └── session.php
 └── vendor
     ├── phpmailer/
     ├── dompdf/
