@@ -24,6 +24,41 @@ require_once 'utils/debug.php';
 session_start();
 
 // ------------------------------------------------------------------
+// Генерация CAPTCHA
+// ------------------------------------------------------------------
+/**
+ * Генерирует простую математическую капчу.
+ * Сохраняет правильный ответ в сессии и возвращает вопрос для отображения.
+ *
+ * @return array  ['question' => string, 'answer' => int]
+ */
+function generateCaptcha(): array
+{
+    $num1 = rand(1, 10);
+    $num2 = rand(1, 10);
+    $operators = ['+', '-'];
+    $operator = $operators[array_rand($operators)];
+
+    // Для вычитания убеждаемся, что результат положительный
+    if ($operator === '-' && $num1 < $num2) {
+        [$num1, $num2] = [$num2, $num1];
+    }
+
+    $question = "$num1 $operator $num2";
+    $answer = $operator === '+' ? $num1 + $num2 : $num1 - $num2;
+
+    $_SESSION['captcha_answer'] = $answer;
+    $_SESSION['captcha_generated_at'] = time();
+
+    return [
+        'question' => $question,
+        'answer' => $answer,
+    ];
+}
+
+// Генерируем капчу при загрузке страницы
+$captcha = generateCaptcha();
+// ------------------------------------------------------------------
 // КОНФИГУРАЦИЯ ТОВАРОВ (ОСНОВНЫЕ ТАРИФЫ)
 //
 // Здесь администратор задаёт основные услуги/тарифы.
@@ -89,6 +124,48 @@ function getImagePath(string $path, string $placeholder = 'img/placeholder.jpg')
     <meta charset="UTF-8">
     <title>Калькулятор заказа</title>
     <link rel="stylesheet" href="styles/index.css">
+     <style>
+        /* Стили для капчи */
+        .captcha-block {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f5f5f5;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+        
+        .captcha-question {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .captcha-input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+        
+        .captcha-input:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+        
+        .captcha-input.error {
+            border-color: #dc3545;
+            background: #fff5f5;
+        }
+        
+        .captcha-hint {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 5px;
+        }
+    </style>
 </head>
 <body>
     <div class="calculator">
@@ -146,6 +223,25 @@ function getImagePath(string $path, string $placeholder = 'img/placeholder.jpg')
             <input type="text" name="customer_name" placeholder="Ваше имя / Организация" required>
             <input type="email" name="customer_email" placeholder="Email для отправки счета" required>
             <input type="tel" name="customer_phone" placeholder="Телефон" required>
+
+            <!-- CAPTCHA -->
+            <h2>5. Проверка: вы не робот?</h2>
+            <div class="captcha-block">
+                <div class="captcha-question">
+                    🤔 Сколько будет: <?= htmlspecialchars($captcha['question']) ?>?
+                </div>
+                <input 
+                    type="number" 
+                    name="captcha" 
+                    class="captcha-input" 
+                    placeholder="Введите ответ цифрой" 
+                    required
+                    id="captchaInput"
+                >
+                <div class="captcha-hint">
+                    💡 Введите результат математического выражения цифрой
+                </div>
+            </div>
 
             <button type="submit">Отправить заказ и получить счет</button>
         </form>
@@ -213,6 +309,23 @@ function calculateTotal() {
 
     totalSpan.textContent = new Intl.NumberFormat('ru-RU').format(total);
 }
+
+// Валидация капчи перед отправкой
+form.addEventListener('submit', function(e) {
+    const captchaInput = document.getElementById('captchaInput');
+    const captchaValue = parseInt(captchaInput.value);
+    
+    // Простая клиентская проверка (основная проверка на сервере в checkout.php)
+    if (isNaN(captchaValue)) {
+        e.preventDefault();
+        captchaInput.classList.add('error');
+        alert('Пожалуйста, введите ответ на проверочный вопрос цифрой');
+        captchaInput.focus();
+        return false;
+    }
+    
+    captchaInput.classList.remove('error');
+});
 
 form.addEventListener('change', function() {
     updateSelectedItems();
