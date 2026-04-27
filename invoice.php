@@ -344,12 +344,11 @@ function getInvoice(
     </tr>
   </table>';
 
-    $dateSpacer = str_repeat('&nbsp;', 1);
     $htmlInvoice .= '
   <div class="empty-line"></div>
 
   <div class="message-header">
-    Счет на оплату №' . $orderNumber . $dateSpacer . ' от ' . getCurrentRussianDate() . '
+    Счет на оплату №' . $orderNumber . ' от ' . getCurrentRussianDate() . '
   </div>
 
   <div class="empty-line"></div>
@@ -587,14 +586,13 @@ function getEmailMessage(
   </style>
 </head>';
 
-    $dateSpacer = str_repeat('&nbsp;', 1);
     $emailMessage .= '
 <body>
 <div class="table-wrapper">
   <div class="empty-line"></div>
 
   <div class="invoice-header">
-    <b>Счет на оплату</b> №' . $orderNumber . $dateSpacer . ' от ' . getCurrentRussianDate() . '
+    <b>Счет на оплату</b> №' . $orderNumber . ' от ' . getCurrentRussianDate() . '
   </div>
 
   <div class="empty-line"></div>
@@ -925,12 +923,11 @@ function getResponsibleInvoice(
     </table>
   </div>';
 
-    $dateSpacer = str_repeat('&nbsp;', 1);
     $responsibleInvoice .= '
   <div class="empty-line"></div>
 
   <div class="message-header">
-    Счет на оплату №' . $orderNumber . $dateSpacer . ' от ' . getCurrentRussianDate() . '
+    Счет на оплату №' . $orderNumber . ' от ' . getCurrentRussianDate() . '
   </div>
 
   <div class="empty-line"></div>
