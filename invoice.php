@@ -462,7 +462,7 @@ function getInvoice(
 }
 
 /**
- * Формирует email сщщбщение счёта на оплату.
+ * Формирует email сообщение счёта на оплату.
  *
  * @param  $tariffKey       - ключ выбранного тарифа (напр. 'standart')
  * @param  $selectedAddons  - массив ключей выбранных аддонов (напр. ['support'])

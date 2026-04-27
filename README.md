@@ -331,6 +331,8 @@ composer require dompdf/dompdf
 │   └── debug.php
 └── vendor
     ├── phpmailer/
+    ├── dompdf/
+    ├── phpdotenv/
     └── autoload.php
 ```
 
