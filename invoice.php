@@ -899,29 +899,31 @@ function getResponsibleInvoice(
 <div class="table-wrapper">
 
   <!-- ПЕРВАЯ ТАБЛИЦА — банковские реквизиты -->
-  <table class="main-table hide-on-mobile">
-    <tr>
-      <td class="cell-bank-name" style="border-bottom: none;">' . $bankDetails['recipient_bank'] . '<br><br>
-      </td>
-      <td class="cell-bik-label">БИК</td>
-      <td class="cell-bik-value">' . $bankDetails['bank_identification_code'] . '</td>
-    </tr>
-    <tr>
-      <td class="cell-bank-name" style="border-top: none;">Банк получателя</td>
-      <td class="cell-bik-label">Сч. №</td>
-      <td class="cell-bik-value">' . $bankDetails['correspondent_bank_account'] . '</td>
-    </tr>
-    <tr>
-      <td class="cell-inn-kpp">
-        <span class="inn-cell">ИНН</span><span class="kpp-cell">КПП</span>
-      </td>
-      <td class="cell-account-label" rowspan="2">Сч. №</td>
-      <td class="cell-account-value" rowspan="2">' . $bankDetails['recipients_bank_account'] . '</td>
-    </tr>
-    <tr>
-      <td class="cell-recipient">' . $bankDetails['ip_name'] . '<br><br>Получатель</td>
-    </tr>
-  </table>';
+  <div class="hide-on-mobile">
+    <table class="main-table">
+      <tr>
+        <td class="cell-bank-name" style="border-bottom: none;">' . $bankDetails['recipient_bank'] . '<br><br>
+        </td>
+        <td class="cell-bik-label">БИК</td>
+        <td class="cell-bik-value">' . $bankDetails['bank_identification_code'] . '</td>
+      </tr>
+      <tr>
+        <td class="cell-bank-name" style="border-top: none;">Банк получателя</td>
+        <td class="cell-bik-label">Сч. №</td>
+        <td class="cell-bik-value">' . $bankDetails['correspondent_bank_account'] . '</td>
+      </tr>
+      <tr>
+        <td class="cell-inn-kpp">
+          <span class="inn-cell">ИНН</span><span class="kpp-cell">КПП</span>
+        </td>
+        <td class="cell-account-label" rowspan="2">Сч. №</td>
+        <td class="cell-account-value" rowspan="2">' . $bankDetails['recipients_bank_account'] . '</td>
+      </tr>
+      <tr>
+        <td class="cell-recipient">' . $bankDetails['ip_name'] . '<br><br>Получатель</td>
+      </tr>
+    </table>
+  </div>';
 
     $dateSpacer = str_repeat('&nbsp;', 1);
     $responsibleInvoice .= '
