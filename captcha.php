@@ -23,7 +23,8 @@ function generateCaptcha(): array
         [$num1, $num2] = [$num2, $num1];
     }
 
-    $question = "$num1 $operator $num2";
+    $num1word = convert_num_to_word($num1);
+    $question = "$num1word $operator $num2";
     $answer = $operator === '+' ? $num1 + $num2 : $num1 - $num2;
 
     $_SESSION['captcha_answer'] = $answer;
@@ -33,4 +34,18 @@ function generateCaptcha(): array
         'question' => $question,
         'answer' => $answer,
     ];
+}
+
+/**
+ * Преобразует число в слово прописью.
+ *
+ * @param  $num - число, которое нужно преобразовать.
+ * @return      - число прописью
+ */
+function convert_num_to_word(int $num): string
+{
+    $word = [
+        ['', 'один', 'два', 'три', 'четыре', 'пять', 'шесть', 'семь', 'восемь', 'девять', 'десять'],
+    ];
+    return $word[0][$num];
 }
