@@ -29,7 +29,7 @@ $dotenv->load();
  */
 function envOr(string $key, string $default = 'Заполнить настройки!'): string
 {
-    return $_ENV[$key] ?: getenv($key) ?: $default;
+    return $_ENV[$key] ?? getenv($key) ?: $default;
 }
 
 /**
