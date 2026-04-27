@@ -123,48 +123,6 @@ function getImagePath(string $path, string $placeholder = 'img/placeholder.jpg')
     <meta charset="UTF-8">
     <title>Калькулятор заказа</title>
     <link rel="stylesheet" href="styles/index.css">
-     <style>
-        /* Стили для капчи */
-        .captcha-block {
-            margin: 20px 0;
-            padding: 15px;
-            background: #f5f5f5;
-            border-radius: 8px;
-            border: 1px solid #ddd;
-        }
-        
-        .captcha-question {
-            font-size: 1.2em;
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: #333;
-        }
-        
-        .captcha-input {
-            width: 97%;
-            padding: 10px;
-            border: 2px solid #ddd;
-            border-radius: 4px;
-            font-size: 1em;
-            transition: border-color 0.3s;
-        }
-        
-        .captcha-input:focus {
-            border-color: #007bff;
-            outline: none;
-        }
-        
-        .captcha-input.error {
-            border-color: #dc3545;
-            background: #fff5f5;
-        }
-        
-        .captcha-hint {
-            font-size: 0.9em;
-            color: #666;
-            margin-top: 5px;
-        }
-    </style>
 </head>
 <body>
     <div class="calculator">
