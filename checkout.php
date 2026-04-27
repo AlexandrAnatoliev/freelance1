@@ -4,10 +4,7 @@ declare(strict_types=1);
 
 // раскомментировать для вывода ошибок на экран
 require_once 'utils/debug.php';
-
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+require_once 'utils/session.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: index.php');
