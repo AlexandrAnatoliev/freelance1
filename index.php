@@ -144,7 +144,7 @@ function getImagePath(string $path, string $placeholder = 'img/placeholder.jpg')
         }
         
         .captcha-input {
-            width: 100%;
+            width: 97%;
             padding: 10px;
             border: 2px solid #ddd;
             border-radius: 4px;
