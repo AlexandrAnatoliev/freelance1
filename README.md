@@ -220,10 +220,14 @@ classDiagram
   <h2>Требования к серверу</h2>
 </div>
 
-* PHP: версия 7.4 и выше
-* Расширения PHP: openssl, sockets
-* Composer: менеджер пакетов PHP
 * Права доступа: возможность записи в папку проекта
+* PHP: версия 8.1 и выше
+* Composer: менеджер пакетов PHP
+* Расширения PHP: openssl, sockets
+* Библиотеки (устанавливаются через Composer):
+  * phpmailer/phpmailer: версия 7.0 и выше
+  * vlucas/phpdotenv: версия 5.6 и выше
+  * dompdf/dompdf: версия 3.1 и выше
 
 <div align="center">
   <h3>Проверка установленных расширений</h3>
