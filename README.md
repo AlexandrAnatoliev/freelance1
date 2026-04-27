@@ -123,9 +123,25 @@
 * [x] Строгая типизация типов данных
   * [x] Вывод ошибок на экран при разработке
   * [x] Отключение вывода в продакшене
-* [ ] **Доступ к `.env`:** Запрещен через настройки Apache (.htaccess) или права доступа.
-  * [ ] Проверить возможность при пробном хостинге (через администратора)
-  * [ ] Описать в документации
+* [x] **Доступ к `.env`:** Запрещен через настройки Apache (.htaccess):
+  * `.env`
+  * `generatePDF.php`
+  * `mailer.php`
+  * `invoice.php`
+  * `composer.json`
+  * `composer.lock`
+  * `configs/`
+    * `adminSettings.php`
+    * `bankDetailsSettings.php`
+    * `mailerSettings.php`
+  * `utils/`
+    * `debug.php`
+  * `vendor/`
+    * `phpmailer/`
+    * `dompdf/`
+    * `phpdotenv/`
+    * `autoload.php`
+    * `composer/`
 
 ##### Админка (MVP)
 
