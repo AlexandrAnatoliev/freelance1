@@ -21,7 +21,9 @@ declare(strict_types=1);
 // раскомментировать для вывода ошибок на экран
 require_once 'utils/debug.php';
 
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 // ------------------------------------------------------------------
 // Генерация CAPTCHA
