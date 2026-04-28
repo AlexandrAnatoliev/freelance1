@@ -153,19 +153,6 @@ function getInvoice(
     $htmlInvoice .= getItemsTableStyle();
 
     $htmlInvoice .= '
-
-    /* ТАБЛИЦА С ТОВАРАМИ */
-    .col-right {
-      text-align: right;
-    }
-
-    .col-left {
-      text-align: left;
-    }
-
-    .col-center {
-      text-align: center;
-    }
   </style>
 </head>';
 
@@ -359,16 +346,6 @@ function getEmailMessage(
     $emailMessage .= getItemsTableStyle();
 
     $emailMessage .= '
-
-    /* ТАБЛИЦА С ТОВАРАМИ */
-
-    .col-right {
-      text-align: right;
-    }
-
-    .col-left {
-      text-align: left;
-    }
   </style>
 </head>';
 
@@ -492,22 +469,6 @@ function getResponsibleInvoice(
     $responsibleInvoice .= getItemsTableStyle();
 
     $responsibleInvoice .= '
-
-    /* ТАБЛИЦА С ТОВАРАМИ */
-    .col-right {
-      text-align: right;
-    }
-
-    .col-left {
-      text-align: left;
-    }
-
-    .col-center {
-      text-align: center;
-    }
-
-    /* НИЖНЯЯ ТАБЛИЦА */
-
     .hide-on-mobile {
       /* По умолчанию показываем */
       display: block;
@@ -899,6 +860,18 @@ function getItemsTableStyle()
       font-weight: bold;
       text-align: center;
       background-color: #f2f2f2;
+    }
+
+    .col-right {
+      text-align: right;
+    }
+
+    .col-left {
+      text-align: left;
+    }
+
+    .col-center {
+      text-align: center;
     }';
 
     return $itemsTableStyle;
