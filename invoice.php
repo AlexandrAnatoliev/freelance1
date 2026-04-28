@@ -154,22 +154,6 @@ function getInvoice(
 
     /* ГЛАВНАЯ ТАБЛИЦА */
 
-    .cell-bank-name {
-      width: 67%;
-      line-height: 1;
-      text-align: left;
-    }
-
-    .cell-bik-label {
-      width: 9%;
-      text-align: left;
-    }
-
-    .cell-bik-value {
-      width: 24%;
-      text-align: left;
-    }
-
     .cell-inn-kpp {
       text-align: center;
     }
@@ -666,22 +650,6 @@ function getResponsibleInvoice(
 
     /* ГЛАВНАЯ ТАБЛИЦА */
 
-    .cell-bank-name {
-      width: 67%;
-      line-height: 1.3;
-      text-align: left;
-    }
-
-    .cell-bik-label {
-      width: 9%;
-      text-align: center;
-    }
-
-    .cell-bik-value {
-      width: 24%;
-      text-align: left;
-    }
-
     .cell-inn-kpp {
       padding: 5px 4px;
       text-align: center;
@@ -1055,6 +1023,23 @@ function getMainTableStyle()
       padding: 1px;
       background-color: #fff;
       vertical-align: middle;
+    }
+
+    .cell-bank-name {
+      width: 67%;
+      line-height: 1;
+      text-align: left;
+    }
+
+    .cell-bik-label {
+      width: 9%;
+      text-align: left;
+    }
+
+    .cell-bik-value {
+      width: 24%;
+      text-align: left;
     }';
+
     return $mainTable;
 }
