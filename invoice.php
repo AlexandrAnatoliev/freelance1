@@ -214,13 +214,13 @@ function getInvoice(
       width: 54%;
       padding-right: 8px;
       border-right: 2px solid #000;
-      text-align: center;
+      text-align: left;
     }
 
     .kpp-cell {
       display: inline-block;
       width: 40%;
-      text-align: center;
+      text-align: left;
     }
 
     .cell-account-label {
