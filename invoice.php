@@ -238,11 +238,38 @@ function getInvoice(
       text-align: left;
     }
 
+    /* СЧЕТ НА ОПЛАТУ № */
     .invoice-header {
       font-weight: bold;
       font-size: 1.2rem;
       text-align: left;
       margin-bottom: 6px;
+    }
+
+    /* СРЕДНЯЯ ТАБЛИЦА */
+    .middle-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      margin-top: 6px;
+    }
+
+    .middle-table td {
+      border: none;
+      padding: 4px 6px;
+      vertical-align: top;
+      line-height: 1;
+    }
+
+    .label-cell {
+      width: 14%;
+      text-align: left;
+    }
+
+    .value-cell {
+      width: 86%;
+      font-weight: bold;
+      text-align: left;
     }
 
     /* ТАБЛИЦА С ТОВАРАМИ */
@@ -278,32 +305,6 @@ function getInvoice(
 
     .col-center {
       text-align: center;
-    }
-
-    /* НИЖНЯЯ ТАБЛИЦА */
-    .middle-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.85rem;
-      margin-top: 6px;
-    }
-
-    .middle-table td {
-      border: none;
-      padding: 4px 6px;
-      vertical-align: top;
-      line-height: 1.35;
-    }
-
-    .label-cell {
-      width: 14%;
-      text-align: left;
-    }
-
-    .value-cell {
-      width: 86%;
-      font-weight: bold;
-      text-align: left;
     }
 
     p {
