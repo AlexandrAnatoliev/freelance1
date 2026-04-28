@@ -309,7 +309,7 @@ function getInvoice(
 
     p {
       font-size: 0.85rem;
-      line-height: 1.3;
+      line-height: 1;
     }
   </style>
 </head>';
@@ -438,7 +438,7 @@ function getInvoice(
   <div class="empty-line"></div>
 
   <p>Всего наименований ' . $rowNumber . ', на сумму ' . number_format($total, 2, ',', ' ') . ' руб<br>
-  (' . $totalInWords . ')</p>
+  (<b>' . $totalInWords . '</b>)</p>
 
   <div class="empty-line"></div>';
 
@@ -452,7 +452,7 @@ function getInvoice(
   <div class="empty-line"></div>
   <div class="divider"></div>
 
-  <p>Предприниматель______________________________________________' . $bankDetails['entrepreneurs_surname'] . '</p>
+  <p><b>Предприниматель</b>______________________________________________' . $bankDetails['entrepreneurs_surname'] . '</p>
 </div>
 </body>
 </html>';
