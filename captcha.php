@@ -44,8 +44,6 @@ function generateCaptcha(): array
  */
 function convertNumToWord(int $num): string
 {
-    $word = [
-        ['', 'один', 'два', 'три', 'четыре', 'пять', 'шесть', 'семь', 'восемь', 'девять', 'десять'],
-    ];
-    return $word[0][$num];
+    $word = ['ноль', 'один', 'два', 'три', 'четыре', 'пять', 'шесть', 'семь', 'восемь', 'девять', 'десять'];
+    return $word[$num];
 }
