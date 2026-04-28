@@ -655,7 +655,7 @@ function getBodyStyle(): string
       font-family: "DejaVu Sans", DejaVu, sans-serif;
       color: #000;
       background: #fff;
-      margin: 20 10px;
+      margin: 10px;
     }
 
     .table-wrapper {
@@ -803,7 +803,7 @@ function getItemsTableStyle(): string
     .items-table th,
     .items-table td {
       border: 1px solid #000;
-      padding: 2px 2px;
+      padding: 2px;
       vertical-align: top;
       background-color: #fff;
     }
