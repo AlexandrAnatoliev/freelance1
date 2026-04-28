@@ -153,17 +153,6 @@ function getInvoice(
     $htmlInvoice .= '
 
     /* ГЛАВНАЯ ТАБЛИЦА */
-
-    .cell-account-label {
-      vertical-align: top;
-      text-align: center;
-    }
-
-    .cell-account-value {
-      vertical-align: top;
-      text-align: left;
-    }
-
     .cell-recipient {
       line-height: 1.3;
       text-align: left;
@@ -633,17 +622,6 @@ function getResponsibleInvoice(
 
     /* ГЛАВНАЯ ТАБЛИЦА */
 
-    .cell-account-label {
-      vertical-align: top;
-      text-align: center;
-      padding: 6px 4px;
-    }
-
-    .cell-account-value {
-      vertical-align: top;
-      text-align: left;
-    }
-
     .cell-recipient {
       line-height: 1.3;
       text-align: left;
@@ -975,7 +953,7 @@ function getBodyStyle()
 
 function getMainTableStyle()
 {
-    $mainTable = '
+    $mainTableStyle = '
     .main-table {
       width: 100%;
       border-collapse: collapse;
@@ -1020,7 +998,17 @@ function getMainTableStyle()
       display: inline-block;
       width: 40%;
       text-align: left;
+    }
+
+    .cell-account-label {
+      vertical-align: top;
+      text-align: center;
+    }
+
+    .cell-account-value {
+      vertical-align: top;
+      text-align: left;
     }';
 
-    return $mainTable;
+    return $mainTableStyle;
 }
