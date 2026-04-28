@@ -150,13 +150,6 @@ function getInvoice(
     $htmlInvoice .= getBodyStyle();
 
     $htmlInvoice .= '
-    .table-wrapper {
-      background: #fff;
-      padding: 10px;
-      width: 90%;
-      margin: 0 auto;
-    }
-
     .empty-line {
       height: 20px;
     }
@@ -494,12 +487,6 @@ function getEmailMessage(
     $emailMessage .= getBodyStyle();
 
     $emailMessage .= '
-    .table-wrapper {
-      background: #fff;
-      padding: 10px;
-      width: 90%;
-      margin: 0 auto;
-    }
 
     .message-header {
       font-weight: bold;
@@ -700,12 +687,6 @@ function getResponsibleInvoice(
     $responsibleInvoice .= getBodyStyle();
 
     $responsibleInvoice .= '
-    .table-wrapper {
-      background: #fff;
-      padding: 10px;
-      width: 90%;
-      margin: 0 auto;
-    }
 
     .invoice-header {
       font-weight: bold;
@@ -1091,6 +1072,13 @@ function getBodyStyle()
       color: #000;
       background: #fff;
       margin: 20 10px;
+    }
+
+    .table-wrapper {
+      background: #fff;
+      padding: 10px;
+      width: 90%;
+      margin: 0 auto;
     }';
 
     return $bodyStyle;
