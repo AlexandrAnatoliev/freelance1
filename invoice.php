@@ -154,7 +154,7 @@ function getInvoice(
       font-family: "DejaVu Sans", DejaVu, sans-serif;
       color: #000;
       background: #fff;
-      margin: 10px;
+      margin: 20 10px;
     }
 
     .table-wrapper {
@@ -165,8 +165,6 @@ function getInvoice(
     }
 
     .invoice-header {
-      font-weight: bold;
-      font-size: 1.2rem;
       text-align: left;
       margin-bottom: 6px;
     }
@@ -191,20 +189,20 @@ function getInvoice(
 
     .main-table td {
       border: 2px solid #000;
-      padding: 6px 8px;
+      padding: 1px;
       background-color: #fff;
       vertical-align: middle;
     }
 
     .cell-bank-name {
       width: 67%;
-      line-height: 1.3;
+      line-height: 1;
       text-align: left;
     }
 
     .cell-bik-label {
       width: 9%;
-      text-align: center;
+      text-align: left;
     }
 
     .cell-bik-value {
@@ -213,7 +211,6 @@ function getInvoice(
     }
 
     .cell-inn-kpp {
-      padding: 5px 4px;
       text-align: center;
     }
 
@@ -234,7 +231,6 @@ function getInvoice(
     .cell-account-label {
       vertical-align: top;
       text-align: center;
-      padding: 6px 4px;
     }
 
     .cell-account-value {
@@ -324,20 +320,20 @@ function getInvoice(
     <tr>
       <td class="cell-bank-name" style="border-bottom: none;">' . $bankDetails['recipient_bank'] . '<br><br>
       </td>
-      <td class="cell-bik-label">БИК</td>
-      <td class="cell-bik-value">' . $bankDetails['bank_identification_code'] . '</td>
+      <td class="cell-bik-label" style="vertical-align: top;">БИК</td>
+      <td class="cell-bik-value" style="border-bottom: none; vertical-align: top;">' . $bankDetails['bank_identification_code'] . '</td>
     </tr>
     <tr>
       <td class="cell-bank-name" style="border-top: none;">Банк получателя</td>
       <td class="cell-bik-label">Сч. №</td>
-      <td class="cell-bik-value">' . $bankDetails['correspondent_bank_account'] . '</td>
+      <td class="cell-bik-value" style="border-top: none;">' . $bankDetails['correspondent_bank_account'] . '</td>
     </tr>
     <tr>
       <td class="cell-inn-kpp">
         <span class="inn-cell">ИНН</span><span class="kpp-cell">КПП</span>
       </td>
-      <td class="cell-account-label" rowspan="2">Сч. №</td>
-      <td class="cell-account-value" rowspan="2">' . $bankDetails['recipients_bank_account'] . '</td>
+      <td class="cell-account-label" style="vertical-align: top;" rowspan="2">Сч. №</td>
+      <td class="cell-account-value" style="vertical-align: top;" rowspan="2">' . $bankDetails['recipients_bank_account'] . '</td>
     </tr>
     <tr>
       <td class="cell-recipient">' . $bankDetails['ip_name'] . '<br><br>Получатель</td>
