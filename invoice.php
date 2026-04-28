@@ -154,13 +154,6 @@ function getInvoice(
 
     /* ГЛАВНАЯ ТАБЛИЦА */
 
-    .main-table td {
-      border: 2px solid #000;
-      padding: 1px;
-      background-color: #fff;
-      vertical-align: middle;
-    }
-
     .cell-bank-name {
       width: 67%;
       line-height: 1;
@@ -673,13 +666,6 @@ function getResponsibleInvoice(
 
     /* ГЛАВНАЯ ТАБЛИЦА */
 
-    .main-table td {
-      border: 2px solid #000;
-      padding: 6px 8px;
-      background-color: #fff;
-      vertical-align: middle;
-    }
-
     .cell-bank-name {
       width: 67%;
       line-height: 1.3;
@@ -1062,6 +1048,13 @@ function getMainTableStyle()
       width: 100%;
       border-collapse: collapse;
       font-size: 0.85rem;
+    }
+
+    .main-table td {
+      border: 2px solid #000;
+      padding: 1px;
+      background-color: #fff;
+      vertical-align: middle;
     }';
     return $mainTable;
 }
