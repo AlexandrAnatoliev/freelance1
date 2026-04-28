@@ -154,13 +154,6 @@ function getInvoice(
 
     /* ГЛАВНАЯ ТАБЛИЦА */
     /* СЧЕТ НА ОПЛАТУ № */
-    .invoice-header {
-      font-weight: bold;
-      font-size: 1.2rem;
-      text-align: left;
-      margin-bottom: 6px;
-    }
-
     /* СРЕДНЯЯ ТАБЛИЦА */
     .middle-table {
       width: 100%;
@@ -263,7 +256,7 @@ function getInvoice(
   <div class="empty-line"></div>
 
   <div class="invoice-header">
-    Счет на оплату №' . $orderNumber . ' от ' . getCurrentRussianDate() . '
+    Счет на оплату № ' . $orderNumber . ' от ' . getCurrentRussianDate() . '
   </div>
 
   <div class="empty-line"></div>
@@ -418,13 +411,6 @@ function getEmailMessage(
 
     $emailMessage .= '
 
-    .message-header {
-      font-weight: bold;
-      font-size: 1.2rem;
-      text-align: left;
-      margin-bottom: 6px;
-    }
-
     /* ТАБЛИЦА С ТОВАРАМИ */
     .items-table {
       width: 100%;
@@ -495,7 +481,7 @@ function getEmailMessage(
   <div class="empty-line"></div>
 
   <div class="invoice-header">
-    <b>Счет на оплату</b> №' . $orderNumber . ' от ' . getCurrentRussianDate() . '
+    Счет на оплату № ' . $orderNumber . ' от ' . getCurrentRussianDate() . '
   </div>
 
   <div class="empty-line"></div>
@@ -607,13 +593,6 @@ function getResponsibleInvoice(
     $responsibleInvoice .= getMainTableStyle();
 
     $responsibleInvoice .= '
-
-    .invoice-header {
-      font-weight: bold;
-      font-size: 1.2rem;
-      text-align: left;
-      margin-bottom: 6px;
-    }
 
     /* ГЛАВНАЯ ТАБЛИЦА */
 
@@ -742,8 +721,8 @@ function getResponsibleInvoice(
     $responsibleInvoice .= '
   <div class="empty-line"></div>
 
-  <div class="message-header">
-    Счет на оплату №' . $orderNumber . ' от ' . getCurrentRussianDate() . '
+  <div class="invoice-header">
+    Счет на оплату № ' . $orderNumber . ' от ' . getCurrentRussianDate() . '
   </div>
 
   <div class="empty-line"></div>
@@ -936,6 +915,13 @@ function getBodyStyle()
       height: 2px;
       background-color: #000;
       margin-bottom: 12px;
+    }
+
+    .invoice-header {
+      font-weight: bold;
+      font-size: 1.2rem;
+      text-align: left;
+      margin-bottom: 6px;
     }';
 
     return $bodyStyle;
