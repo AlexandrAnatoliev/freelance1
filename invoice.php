@@ -152,23 +152,7 @@ function getInvoice(
 
     $htmlInvoice .= '
 
-    /* ГЛАВНАЯ ТАБЛИЦА */
-    /* СЧЕТ НА ОПЛАТУ № */
     /* СРЕДНЯЯ ТАБЛИЦА */
-    .middle-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.85rem;
-      margin-top: 6px;
-    }
-
-    .middle-table td {
-      border: none;
-      padding: 4px 6px;
-      vertical-align: top;
-      line-height: 1;
-    }
-
     .label-cell {
       width: 14%;
       text-align: left;
@@ -443,20 +427,6 @@ function getEmailMessage(
     }
 
     /* НИЖНЯЯ ТАБЛИЦА */
-    .middle-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.85rem;
-      margin-top: 6px;
-    }
-
-    .middle-table td {
-      border: none;
-      padding: 4px 6px;
-      vertical-align: top;
-      line-height: 1.35;
-    }
-
     .label-cell {
       width: 14%;
       text-align: left;
@@ -632,19 +602,6 @@ function getResponsibleInvoice(
     }
 
     /* НИЖНЯЯ ТАБЛИЦА */
-    .middle-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.85rem;
-      margin-top: 6px;
-    }
-
-    .middle-table td {
-      border: none;
-      padding: 4px 6px;
-      vertical-align: top;
-      line-height: 1.35;
-    }
 
     .label-cell {
       width: 14%;
@@ -992,4 +949,24 @@ function getMainTableStyle()
     }';
 
     return $mainTableStyle;
+}
+
+function getMiddleTableStyle()
+{
+    $middleTableStyle = '
+    .middle-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      margin-top: 6px;
+    }
+
+    .middle-table td {
+      border: none;
+      padding: 4px 6px;
+      vertical-align: top;
+      line-height: 1;
+    }';
+
+    return $middleTableStyle;
 }
