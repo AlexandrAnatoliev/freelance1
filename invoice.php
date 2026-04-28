@@ -148,22 +148,11 @@ function getInvoice(
   <style>';
 
     $htmlInvoice .= getBodyStyle();
+    $htmlInvoice .= getMainTableStyle();
 
     $htmlInvoice .= '
 
-    .divider {
-      width: 100%;
-      height: 2px;
-      background-color: #000;
-      margin-bottom: 12px;
-    }
-
     /* ГЛАВНАЯ ТАБЛИЦА */
-    .main-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.85rem;
-    }
 
     .main-table td {
       border: 2px solid #000;
@@ -492,13 +481,6 @@ function getEmailMessage(
       margin-bottom: 6px;
     }
 
-    .divider {
-      width: 100%;
-      height: 2px;
-      background-color: #000;
-      margin-bottom: 12px;
-    }
-
     /* ТАБЛИЦА С ТОВАРАМИ */
     .items-table {
       width: 100%;
@@ -678,6 +660,7 @@ function getResponsibleInvoice(
   <style>';
 
     $responsibleInvoice .= getBodyStyle();
+    $responsibleInvoice .= getMainTableStyle();
 
     $responsibleInvoice .= '
 
@@ -688,19 +671,7 @@ function getResponsibleInvoice(
       margin-bottom: 6px;
     }
 
-    .divider {
-      width: 100%;
-      height: 2px;
-      background-color: #000;
-      margin-bottom: 12px;
-    }
-
     /* ГЛАВНАЯ ТАБЛИЦА */
-    .main-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.85rem;
-    }
 
     .main-table td {
       border: 2px solid #000;
@@ -1072,7 +1043,25 @@ function getBodyStyle()
 
     .empty-line {
       height: 20px;
+    }
+
+    .divider {
+      width: 100%;
+      height: 2px;
+      background-color: #000;
+      margin-bottom: 12px;
     }';
 
     return $bodyStyle;
+}
+
+function getMainTableStyle()
+{
+    $mainTable = '
+    .main-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }';
+    return $mainTable;
 }
