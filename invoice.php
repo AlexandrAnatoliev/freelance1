@@ -154,23 +154,6 @@ function getInvoice(
 
     /* ГЛАВНАЯ ТАБЛИЦА */
 
-    .cell-inn-kpp {
-      text-align: center;
-    }
-
-    .inn-cell {
-      display: inline-block;
-      width: 54%;
-      border-right: 2px solid #000;
-      text-align: left;
-    }
-
-    .kpp-cell {
-      display: inline-block;
-      width: 40%;
-      text-align: left;
-    }
-
     .cell-account-label {
       vertical-align: top;
       text-align: center;
@@ -650,25 +633,6 @@ function getResponsibleInvoice(
 
     /* ГЛАВНАЯ ТАБЛИЦА */
 
-    .cell-inn-kpp {
-      padding: 5px 4px;
-      text-align: center;
-    }
-
-    .inn-cell {
-      display: inline-block;
-      width: 54%;
-      padding-right: 8px;
-      border-right: 2px solid #000;
-      text-align: center;
-    }
-
-    .kpp-cell {
-      display: inline-block;
-      width: 40%;
-      text-align: center;
-    }
-
     .cell-account-label {
       vertical-align: top;
       text-align: center;
@@ -1038,6 +1002,23 @@ function getMainTableStyle()
 
     .cell-bik-value {
       width: 24%;
+      text-align: left;
+    }
+
+    .cell-inn-kpp {
+      text-align: center;
+    }
+
+    .inn-cell {
+      display: inline-block;
+      width: 54%;
+      border-right: 2px solid #000;
+      text-align: left;
+    }
+
+    .kpp-cell {
+      display: inline-block;
+      width: 40%;
       text-align: left;
     }';
 
