@@ -153,11 +153,6 @@ function getInvoice(
     $htmlInvoice .= '
 
     /* ГЛАВНАЯ ТАБЛИЦА */
-    .cell-recipient {
-      line-height: 1.3;
-      text-align: left;
-    }
-
     /* СЧЕТ НА ОПЛАТУ № */
     .invoice-header {
       font-weight: bold;
@@ -622,11 +617,6 @@ function getResponsibleInvoice(
 
     /* ГЛАВНАЯ ТАБЛИЦА */
 
-    .cell-recipient {
-      line-height: 1.3;
-      text-align: left;
-    }
-
     /* ТАБЛИЦА С ТОВАРАМИ */
     .items-table {
       width: 100%;
@@ -1007,6 +997,11 @@ function getMainTableStyle()
 
     .cell-account-value {
       vertical-align: top;
+      text-align: left;
+    }
+
+    .cell-recipient {
+      line-height: 1.3;
       text-align: left;
     }';
 
