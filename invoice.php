@@ -149,21 +149,11 @@ function getInvoice(
 
     $htmlInvoice .= getBodyStyle();
     $htmlInvoice .= getMainTableStyle();
+    $htmlInvoice .= getMiddleTableStyle();
 
     $htmlInvoice .= '
 
     /* СРЕДНЯЯ ТАБЛИЦА */
-    .label-cell {
-      width: 14%;
-      text-align: left;
-    }
-
-    .value-cell {
-      width: 86%;
-      font-weight: bold;
-      text-align: left;
-    }
-
     /* ТАБЛИЦА С ТОВАРАМИ */
     .items-table {
       width: 100%;
@@ -392,6 +382,7 @@ function getEmailMessage(
   <style>';
 
     $emailMessage .= getBodyStyle();
+    $emailMessage .= getMiddleTableStyle();
 
     $emailMessage .= '
 
@@ -427,16 +418,6 @@ function getEmailMessage(
     }
 
     /* НИЖНЯЯ ТАБЛИЦА */
-    .label-cell {
-      width: 14%;
-      text-align: left;
-    }
-
-    .value-cell {
-      width: 86%;
-      font-weight: bold;
-      text-align: left;
-    }
 
     p {
       font-size: 0.85rem;
@@ -561,6 +542,7 @@ function getResponsibleInvoice(
 
     $responsibleInvoice .= getBodyStyle();
     $responsibleInvoice .= getMainTableStyle();
+    $responsibleInvoice .= getMiddleTableStyle();
 
     $responsibleInvoice .= '
 
@@ -602,17 +584,6 @@ function getResponsibleInvoice(
     }
 
     /* НИЖНЯЯ ТАБЛИЦА */
-
-    .label-cell {
-      width: 14%;
-      text-align: left;
-    }
-
-    .value-cell {
-      width: 86%;
-      font-weight: bold;
-      text-align: left;
-    }
 
     p {
       font-size: 0.85rem;
@@ -966,6 +937,17 @@ function getMiddleTableStyle()
       padding: 4px 6px;
       vertical-align: top;
       line-height: 1;
+    }
+
+    .label-cell {
+      width: 14%;
+      text-align: left;
+    }
+
+    .value-cell {
+      width: 86%;
+      font-weight: bold;
+      text-align: left;
     }';
 
     return $middleTableStyle;
