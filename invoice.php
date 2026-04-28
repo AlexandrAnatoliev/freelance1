@@ -158,33 +158,9 @@ function getInvoice(
 
     $htmlInvoice .= '
 <body>
-<div class="table-wrapper">
+<div class="table-wrapper">';
 
-  <!-- ПЕРВАЯ ТАБЛИЦА — банковские реквизиты -->
-  <table class="main-table">
-    <tr>
-      <td class="cell-bank-name" style="border-bottom: none;">' . $bankDetails['recipient_bank'] . '<br><br>
-      </td>
-      <td class="cell-bik-label" style="vertical-align: top;">БИК</td>
-      <td class="cell-bik-value" style="border-bottom: none; vertical-align: top;">' . $bankDetails['bank_identification_code'] . '</td>
-    </tr>
-    <tr>
-      <td class="cell-bank-name" style="border-top: none;">Банк получателя</td>
-      <td class="cell-bik-label">Сч. №</td>
-      <td class="cell-bik-value" style="border-top: none;">' . $bankDetails['correspondent_bank_account'] . '</td>
-    </tr>
-    <tr>
-      <td class="cell-inn-kpp">
-        <span class="inn-cell">ИНН ' . $bankDetails['inn'] . '</span>
-        <span class="kpp-cell">КПП ' . $bankDetails['kpp'] . '</span>
-      </td>
-      <td class="cell-account-label" style="vertical-align: top;" rowspan="2">Сч. №</td>
-      <td class="cell-account-value" style="vertical-align: top;" rowspan="2">' . $bankDetails['recipients_bank_account'] . '</td>
-    </tr>
-    <tr>
-      <td class="cell-recipient">' . $bankDetails['ip_name'] . '<br><br>Получатель</td>
-    </tr>
-  </table>';
+    $htmlInvoice .= getMainTableHTML($bankDetails);
 
     $htmlInvoice .= '
   <div class="empty-line"></div>
@@ -691,7 +667,7 @@ function getResponsibleInvoice(
     return $responsibleInvoice;
 }
 
-function getBodyStyle()
+function getBodyStyle(): string
 {
     $bodyStyle = '
     * {
@@ -734,7 +710,7 @@ function getBodyStyle()
     return $bodyStyle;
 }
 
-function getMainTableStyle()
+function getMainTableStyle(): string
 {
     $mainTableStyle = '
     .main-table {
@@ -772,14 +748,14 @@ function getMainTableStyle()
 
     .inn-cell {
       display: inline-block;
-      width: 54%;
+      width: 59%;
       border-right: 2px solid #000;
       text-align: left;
     }
 
     .kpp-cell {
       display: inline-block;
-      width: 40%;
+      width: 39%;
       text-align: left;
     }
 
@@ -806,7 +782,7 @@ function getMainTableStyle()
     return $mainTableStyle;
 }
 
-function getMiddleTableStyle()
+function getMiddleTableStyle(): string
 {
     $middleTableStyle = '
     .middle-table {
@@ -837,7 +813,7 @@ function getMiddleTableStyle()
     return $middleTableStyle;
 }
 
-function getItemsTableStyle()
+function getItemsTableStyle(): string
 {
     $itemsTableStyle = '
     .items-table {
@@ -875,4 +851,43 @@ function getItemsTableStyle()
     }';
 
     return $itemsTableStyle;
+}
+
+function getMainTableHTML(array $bankDetails): string
+{
+    $mainTableHTML = '
+  <!-- ПЕРВАЯ ТАБЛИЦА — банковские реквизиты -->
+  <table class="main-table">
+    <tr>
+      <td class="cell-bank-name" style="border-bottom: none;">
+        ' . $bankDetails['recipient_bank'] . '<br><br>
+      </td>
+      <td class="cell-bik-label" style="vertical-align: top;">БИК</td>
+      <td class="cell-bik-value" style="border-bottom: none; vertical-align: top;">
+        ' . $bankDetails['bank_identification_code'] . '
+      </td>
+    </tr>
+    <tr>
+      <td class="cell-bank-name" style="border-top: none;">Банк получателя</td>
+      <td class="cell-bik-label">Сч. №</td>
+      <td class="cell-bik-value" style="border-top: none;">
+        ' . $bankDetails['correspondent_bank_account'] . '
+      </td>
+    </tr>
+    <tr>
+      <td class="cell-inn-kpp">
+        <span class="inn-cell">ИНН ' . $bankDetails['inn'] . '</span>
+        <span class="kpp-cell">КПП ' . $bankDetails['kpp'] . '</span>
+      </td>
+      <td class="cell-account-label" style="vertical-align: top;" rowspan="2">Сч. №</td>
+      <td class="cell-account-value" style="vertical-align: top;" rowspan="2">
+        ' . $bankDetails['recipients_bank_account'] . '
+      </td>
+    </tr>
+    <tr>
+      <td class="cell-recipient">' . $bankDetails['ip_name'] . '<br><br>Получатель</td>
+    </tr>
+  </table>';
+
+    return $mainTableHTML;
 }
