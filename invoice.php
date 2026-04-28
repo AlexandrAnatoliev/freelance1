@@ -463,6 +463,15 @@ function getResponsibleInvoice(
     <div class="empty-line"></div>
 
     <div class="divider"></div>
+
+    <div class="empty-line"></div>
+
+    <p>Поставщик (исполнитель):</p>
+    <p><b>' . $bankDetails['ip_full_name'] . '</b></p>
+
+    <div class="empty-line"></div>
+
+    <div class="divider"></div>
   </div>';
 
     $responsibleInvoice .= '
