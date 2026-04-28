@@ -478,6 +478,8 @@ function getResponsibleInvoice(
     $responsibleInvoice .= getMainTableHTML($bankDetails);
 
     $responsibleInvoice .= '
+  </div>
+
   <div class="empty-line"></div>
 
   <div class="invoice-header">
