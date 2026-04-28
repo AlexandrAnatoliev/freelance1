@@ -68,9 +68,27 @@ $orderNumber    = 'Б-' . date('Ymd-His');
 $subject        = "Счет на оплату №{$orderNumber} от " . date('d.m.Y');
 
 // счет
-$fullInvoiceHTML = getInvoice($tariffKey, $selectedAddons, $quantity, $customerName, $orderNumber);
-$emailMessage = getEmailMessage($tariffKey, $selectedAddons, $quantity, $orderNumber);
-$responsibleInvoice = getResponsibleInvoice($tariffKey, $selectedAddons, $quantity, $customerName, $orderNumber);
+$fullInvoiceHTML = getInvoice(
+    $tariffKey,
+    $selectedAddons,
+    $quantity,
+    $customerName,
+    $customerPhone,
+    $orderNumber
+);
+$emailMessage = getEmailMessage(
+    $tariffKey,
+    $selectedAddons,
+    $quantity,
+    $orderNumber
+);
+$responsibleInvoice = getResponsibleInvoice(
+    $tariffKey,
+    $selectedAddons,
+    $quantity,
+    $customerName,
+    $orderNumber
+);
 
 // Генерация PDF
 $pdfContent = generatePDF($fullInvoiceHTML);
@@ -112,6 +130,7 @@ $resultAdmin = sendInvoiceEmail(
         <h1>✓ Заказ оформлен!</h1>
 
         <div class="success-message">
+            <p>Наш менеджер свяжется с вами дополнительно.</p><br>
             <p>Счет отправлен на <strong><?= htmlspecialchars($customerEmail) ?></strong>
             <?php if (!empty($customerPhone)) : ?>
                 (<strong><?= htmlspecialchars($customerPhone) ?></strong>)

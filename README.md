@@ -3,7 +3,7 @@
   <h1>Скрипт php: Калькулятор-заказа с отправкой счёта на оплату</h1>
 
   ![Stars](https://img.shields.io/github/stars/AlexandrAnatoliev/freelance.svg?style=flat)
-  ![Version 0.1.39](https://img.shields.io/badge/Version-0.1.39-orange.svg)
+  ![Version 0.1.40](https://img.shields.io/badge/Version-0.1.40-orange.svg)
   ![Forks](https://img.shields.io/github/forks/AlexandrAnatoliev/freelance.svg?style=flat)
   ![GitHub repo size](https://img.shields.io/github/repo-size/AlexandrAnatoliev/freelance)
   
@@ -197,6 +197,9 @@
   <img src="img/checkout.png" width=640>
 </div>
 * Сохранение в pdf-файл:
+<div align="center">
+  <img src="img/save-in-pdf.png" width=640>
+</div>
 * Отправка письма на почту покупателю:
 <div align="center">
   <img src="img/phone-mail.jpg" width=320>
@@ -230,12 +233,12 @@ classDiagram
   class SMTP-сервер {
   }
 
-  index.php --|> captcha.php
-  captcha.php --|> checkout.php
-  checkout.php --|> generatePDF.php
-  checkout.php --|> mailer.php
-  generatePDF.php --|> mailer.php
-  mailer.php --|> SMTP-сервер
+  index.php --> captcha.php
+  captcha.php --> checkout.php
+  checkout.php --> generatePDF.php
+  checkout.php --> mailer.php
+  generatePDF.php --> mailer.php
+  mailer.php --> SMTP-сервер
 ```
 
 ---

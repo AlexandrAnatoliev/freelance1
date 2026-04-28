@@ -134,6 +134,7 @@ function getInvoice(
     array $selectedAddons,
     int $quantity,
     string $customerName,
+    string $customerPhone,
     string $orderNumber
 ): string {
     global $items;
@@ -154,7 +155,7 @@ function getInvoice(
       font-family: "DejaVu Sans", DejaVu, sans-serif;
       color: #000;
       background: #fff;
-      margin: 10px;
+      margin: 20 10px;
     }
 
     .table-wrapper {
@@ -162,13 +163,6 @@ function getInvoice(
       padding: 10px;
       width: 90%;
       margin: 0 auto;
-    }
-
-    .invoice-header {
-      font-weight: bold;
-      font-size: 1.2rem;
-      text-align: left;
-      margin-bottom: 6px;
     }
 
     .empty-line {
@@ -191,20 +185,20 @@ function getInvoice(
 
     .main-table td {
       border: 2px solid #000;
-      padding: 6px 8px;
+      padding: 1px;
       background-color: #fff;
       vertical-align: middle;
     }
 
     .cell-bank-name {
       width: 67%;
-      line-height: 1.3;
+      line-height: 1;
       text-align: left;
     }
 
     .cell-bik-label {
       width: 9%;
-      text-align: center;
+      text-align: left;
     }
 
     .cell-bik-value {
@@ -213,28 +207,25 @@ function getInvoice(
     }
 
     .cell-inn-kpp {
-      padding: 5px 4px;
       text-align: center;
     }
 
     .inn-cell {
       display: inline-block;
       width: 54%;
-      padding-right: 8px;
       border-right: 2px solid #000;
-      text-align: center;
+      text-align: left;
     }
 
     .kpp-cell {
       display: inline-block;
       width: 40%;
-      text-align: center;
+      text-align: left;
     }
 
     .cell-account-label {
       vertical-align: top;
       text-align: center;
-      padding: 6px 4px;
     }
 
     .cell-account-value {
@@ -244,6 +235,40 @@ function getInvoice(
 
     .cell-recipient {
       line-height: 1.3;
+      text-align: left;
+    }
+
+    /* СЧЕТ НА ОПЛАТУ № */
+    .invoice-header {
+      font-weight: bold;
+      font-size: 1.2rem;
+      text-align: left;
+      margin-bottom: 6px;
+    }
+
+    /* СРЕДНЯЯ ТАБЛИЦА */
+    .middle-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      margin-top: 6px;
+    }
+
+    .middle-table td {
+      border: none;
+      padding: 4px 6px;
+      vertical-align: top;
+      line-height: 1;
+    }
+
+    .label-cell {
+      width: 14%;
+      text-align: left;
+    }
+
+    .value-cell {
+      width: 86%;
+      font-weight: bold;
       text-align: left;
     }
 
@@ -259,7 +284,7 @@ function getInvoice(
     .items-table th,
     .items-table td {
       border: 1px solid #000;
-      padding: 6px 5px;
+      padding: 2px 2px;
       vertical-align: top;
       background-color: #fff;
     }
@@ -282,35 +307,9 @@ function getInvoice(
       text-align: center;
     }
 
-    /* НИЖНЯЯ ТАБЛИЦА */
-    .middle-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.85rem;
-      margin-top: 6px;
-    }
-
-    .middle-table td {
-      border: none;
-      padding: 4px 6px;
-      vertical-align: top;
-      line-height: 1.35;
-    }
-
-    .label-cell {
-      width: 14%;
-      text-align: left;
-    }
-
-    .value-cell {
-      width: 86%;
-      font-weight: bold;
-      text-align: left;
-    }
-
     p {
       font-size: 0.85rem;
-      line-height: 1.3;
+      line-height: 1;
     }
   </style>
 </head>';
@@ -324,20 +323,21 @@ function getInvoice(
     <tr>
       <td class="cell-bank-name" style="border-bottom: none;">' . $bankDetails['recipient_bank'] . '<br><br>
       </td>
-      <td class="cell-bik-label">БИК</td>
-      <td class="cell-bik-value">' . $bankDetails['bank_identification_code'] . '</td>
+      <td class="cell-bik-label" style="vertical-align: top;">БИК</td>
+      <td class="cell-bik-value" style="border-bottom: none; vertical-align: top;">' . $bankDetails['bank_identification_code'] . '</td>
     </tr>
     <tr>
       <td class="cell-bank-name" style="border-top: none;">Банк получателя</td>
       <td class="cell-bik-label">Сч. №</td>
-      <td class="cell-bik-value">' . $bankDetails['correspondent_bank_account'] . '</td>
+      <td class="cell-bik-value" style="border-top: none;">' . $bankDetails['correspondent_bank_account'] . '</td>
     </tr>
     <tr>
       <td class="cell-inn-kpp">
-        <span class="inn-cell">ИНН</span><span class="kpp-cell">КПП</span>
+        <span class="inn-cell">ИНН ' . $bankDetails['inn'] . '</span>
+        <span class="kpp-cell">КПП ' . $bankDetails['kpp'] . '</span>
       </td>
-      <td class="cell-account-label" rowspan="2">Сч. №</td>
-      <td class="cell-account-value" rowspan="2">' . $bankDetails['recipients_bank_account'] . '</td>
+      <td class="cell-account-label" style="vertical-align: top;" rowspan="2">Сч. №</td>
+      <td class="cell-account-value" style="vertical-align: top;" rowspan="2">' . $bankDetails['recipients_bank_account'] . '</td>
     </tr>
     <tr>
       <td class="cell-recipient">' . $bankDetails['ip_name'] . '<br><br>Получатель</td>
@@ -347,13 +347,26 @@ function getInvoice(
     $htmlInvoice .= '
   <div class="empty-line"></div>
 
-  <div class="message-header">
+  <div class="invoice-header">
     Счет на оплату №' . $orderNumber . ' от ' . getCurrentRussianDate() . '
   </div>
 
   <div class="empty-line"></div>
 
   <div class="divider"></div>';
+
+    // '89261234567';
+    $phone = preg_replace('/\D/', '', $customerPhone);          // 89261234567
+    $phone = '+7' . substr($phone, 1);                     // +79261234567
+
+    $formatted = sprintf(
+        '+7 (%s) %s-%s-%s',
+        substr($phone, 2, 3),   // 926
+        substr($phone, 5, 3),   // 123
+        substr($phone, 8, 2),   // 45
+        substr($phone, 10, 2)   // 67
+    );
+    // +7 (926) 123-45-67
 
     $htmlInvoice .= '
   <table class="middle-table">
@@ -363,7 +376,7 @@ function getInvoice(
     </tr>
     <tr>
       <td class="label-cell">Покупатель<br>(Заказчик):</td>
-      <td class="value-cell">' . $customerName . '</td>
+      <td class="value-cell">' . $customerName . ', тел: ' . $formatted . '</td>
     </tr>
     <tr>
       <td class="label-cell">Основание:</td>
@@ -420,15 +433,15 @@ function getInvoice(
     <tfoot>
       <tr>
         <td colspan="5" style="text-align:right; font-weight:bold;">Итого:</td>
-        <td style="font-weight:bold;">' . number_format($total, 2, ',', ' ') . '</td>
+        <td class="col-right" style="font-weight:bold;">' . number_format($total, 2, ',', ' ') . '</td>
       </tr>
       <tr>
         <td colspan="5" style="text-align:right; font-weight:bold;">В том числе НДС:</td>
-        <td style="font-weight:bold;">—</td>
+        <td class="col-right" style="font-weight:bold;">—</td>
       </tr>
       <tr>
         <td colspan="5" style="text-align:right; font-weight:bold;">Всего к оплате:</td>
-        <td style="font-weight:bold;">' . number_format($total, 2, ',', ' ') . '</td>
+        <td class="col-right" style="font-weight:bold;">' . number_format($total, 2, ',', ' ') . '</td>
       </tr>
     </tfoot>
   </table>';
@@ -439,7 +452,7 @@ function getInvoice(
   <div class="empty-line"></div>
 
   <p>Всего наименований ' . $rowNumber . ', на сумму ' . number_format($total, 2, ',', ' ') . ' руб<br>
-  (' . $totalInWords . ')</p>
+  (<b>' . $totalInWords . '</b>)</p>
 
   <div class="empty-line"></div>';
 
@@ -453,7 +466,7 @@ function getInvoice(
   <div class="empty-line"></div>
   <div class="divider"></div>
 
-  <p>Предприниматель______________________________________________' . $bankDetails['entrepreneurs_surname'] . '</p>
+  <p><b>Предприниматель</b>______________________________________________' . $bankDetails['entrepreneurs_surname'] . '</p>
 </div>
 </body>
 </html>';

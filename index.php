@@ -146,9 +146,9 @@ function getImagePath(string $path, string $placeholder = 'img/placeholder.jpg')
 
             <!-- Данные покупателя -->
             <h2>4. Ваши данные для получения счёта на оплату на почту</h2>
-            <input type="text" name="customer_name" placeholder="Ваше имя / Организация" required>
+            <input type="text" name="customer_name" placeholder="Наименование организации для счёта" required>
             <input type="email" name="customer_email" placeholder="Email для отправки счета" required>
-            <input type="tel" name="customer_phone" placeholder="Телефон" required>
+            <input type="tel" name="customer_phone" placeholder="Телефон контакта" required>
 
             <!-- CAPTCHA -->
             <h2>5. Проверка: вы не робот?</h2>
@@ -169,7 +169,7 @@ function getImagePath(string $path, string $placeholder = 'img/placeholder.jpg')
                 </div>
             </div>
 
-            <button type="submit">Отправить заказ и получить счет</button>
+            <button type="submit">Заказать и получить счёт на оплату на email</button>
         </form>
     </div>
 
