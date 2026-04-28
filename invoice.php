@@ -161,46 +161,12 @@ function getInvoice(
 <div class="table-wrapper">';
 
     $htmlInvoice .= getMainTableHTML($bankDetails);
-
-    $htmlInvoice .= '
-  <div class="empty-line"></div>
-
-  <div class="invoice-header">
-    Счет на оплату № ' . $orderNumber . ' от ' . getCurrentRussianDate() . '
-  </div>
-
-  <div class="empty-line"></div>
-
-  <div class="divider"></div>';
-
-    // '89261234567';
-    $phone = preg_replace('/\D/', '', $customerPhone);          // 89261234567
-    $phone = '+7' . substr($phone, 1);                     // +79261234567
-
-    $formatted = sprintf(
-        '+7 (%s) %s-%s-%s',
-        substr($phone, 2, 3),   // 926
-        substr($phone, 5, 3),   // 123
-        substr($phone, 8, 2),   // 45
-        substr($phone, 10, 2)   // 67
+    $htmlInvoice .= getMiddleTableHTML(
+        $bankDetails,
+        $orderNumber,
+        $customerPhone,
+        $customerName
     );
-    // +7 (926) 123-45-67
-
-    $htmlInvoice .= '
-  <table class="middle-table">
-    <tr>
-      <td class="label-cell">Поставщик<br>(Исполнитель):</td>
-      <td class="value-cell">' . $bankDetails['ip_full_name'] . '</td>
-    </tr>
-    <tr>
-      <td class="label-cell">Покупатель<br>(Заказчик):</td>
-      <td class="value-cell">' . $customerName . ', тел: ' . $formatted . '</td>
-    </tr>
-    <tr>
-      <td class="label-cell">Основание:</td>
-      <td class="value-cell">' . $bankDetails['payment_basis'] . '</td>
-    </tr>
-  </table>';
 
     $htmlInvoice .= '
   <table class="items-table">
@@ -475,7 +441,10 @@ function getResponsibleInvoice(
 <div class="table-wrapper">
   <div class="hide-on-mobile">';
 
-    $responsibleInvoice .= getMainTableHTML($bankDetails);
+    $responsibleInvoice .= getMainTableHTML(
+        $bankDetails,
+        $orderNumber
+    );
 
     $responsibleInvoice .= '
   </div>
@@ -868,4 +837,52 @@ function getMainTableHTML(array $bankDetails): string
   </table>';
 
     return $mainTableHTML;
+}
+
+function getMiddleTableHTML(
+    array $bankDetails,
+    string $orderNumber,
+    string $customerPhone,
+    string $customerName,
+): string {
+    $middleTableHTML = '
+  <div class="empty-line"></div>
+
+  <div class="invoice-header">
+    Счет на оплату № ' . $orderNumber . ' от ' . getCurrentRussianDate() . '
+  </div>
+
+  <div class="empty-line"></div>
+
+  <div class="divider"></div>';
+
+    // '89261234567';
+    $phone = preg_replace('/\D/', '', $customerPhone);          // 89261234567
+    $phone = '+7' . substr($phone, 1);                     // +79261234567
+
+    $formatted = sprintf(
+        '+7 (%s) %s-%s-%s',
+        substr($phone, 2, 3),   // 926
+        substr($phone, 5, 3),   // 123
+        substr($phone, 8, 2),   // 45
+        substr($phone, 10, 2)   // 67
+    );
+    // +7 (926) 123-45-67
+
+    $middleTableHTML .= '
+  <table class="middle-table">
+    <tr>
+      <td class="label-cell">Поставщик<br>(Исполнитель):</td>
+      <td class="value-cell">' . $bankDetails['ip_full_name'] . '</td>
+    </tr>
+    <tr>
+      <td class="label-cell">Покупатель<br>(Заказчик):</td>
+      <td class="value-cell">' . $customerName . ', тел: ' . $formatted . '</td>
+    </tr>
+    <tr>
+      <td class="label-cell">Основание:</td>
+      <td class="value-cell">' . $bankDetails['payment_basis'] . '</td>
+    </tr>
+  </table>';
+    return $middleTableHTML;
 }
