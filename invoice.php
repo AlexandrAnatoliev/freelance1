@@ -150,13 +150,6 @@ function getInvoice(
     $htmlInvoice .= getBodyStyle();
 
     $htmlInvoice .= '
-    body {
-      font-family: "DejaVu Sans", DejaVu, sans-serif;
-      color: #000;
-      background: #fff;
-      margin: 20 10px;
-    }
-
     .table-wrapper {
       background: #fff;
       padding: 10px;
@@ -501,13 +494,6 @@ function getEmailMessage(
     $emailMessage .= getBodyStyle();
 
     $emailMessage .= '
-    body {
-      font-family: "DejaVu Sans", DejaVu, sans-serif;
-      color: #000;
-      background: #fff;
-      margin: 10px;
-    }
-
     .table-wrapper {
       background: #fff;
       padding: 10px;
@@ -714,13 +700,6 @@ function getResponsibleInvoice(
     $responsibleInvoice .= getBodyStyle();
 
     $responsibleInvoice .= '
-    body {
-      font-family: "DejaVu Sans", DejaVu, sans-serif;
-      color: #000;
-      background: #fff;
-      margin: 10px;
-    }
-
     .table-wrapper {
       background: #fff;
       padding: 10px;
@@ -1105,6 +1084,14 @@ function getBodyStyle()
     * {
       margin: 0;
       padding: 0;
+    }
+
+    body {
+      font-family: "DejaVu Sans", DejaVu, sans-serif;
+      color: #000;
+      background: #fff;
+      margin: 20 10px;
     }';
+
     return $bodyStyle;
 }
