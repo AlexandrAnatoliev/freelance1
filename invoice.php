@@ -284,7 +284,7 @@ function getInvoice(
     .items-table th,
     .items-table td {
       border: 1px solid #000;
-      padding: 6px 5px;
+      padding: 2px 2px;
       vertical-align: top;
       background-color: #fff;
     }
@@ -419,15 +419,15 @@ function getInvoice(
     <tfoot>
       <tr>
         <td colspan="5" style="text-align:right; font-weight:bold;">Итого:</td>
-        <td style="font-weight:bold;">' . number_format($total, 2, ',', ' ') . '</td>
+        <td class="col-right" style="font-weight:bold;">' . number_format($total, 2, ',', ' ') . '</td>
       </tr>
       <tr>
         <td colspan="5" style="text-align:right; font-weight:bold;">В том числе НДС:</td>
-        <td style="font-weight:bold;">—</td>
+        <td class="col-right" style="font-weight:bold;">—</td>
       </tr>
       <tr>
         <td colspan="5" style="text-align:right; font-weight:bold;">Всего к оплате:</td>
-        <td style="font-weight:bold;">' . number_format($total, 2, ',', ' ') . '</td>
+        <td class="col-right" style="font-weight:bold;">' . number_format($total, 2, ',', ' ') . '</td>
       </tr>
     </tfoot>
   </table>';
