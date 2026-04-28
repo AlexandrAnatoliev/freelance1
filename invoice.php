@@ -150,9 +150,6 @@ function getInvoice(
     $htmlInvoice .= getBodyStyle();
 
     $htmlInvoice .= '
-    .empty-line {
-      height: 20px;
-    }
 
     .divider {
       width: 100%;
@@ -495,10 +492,6 @@ function getEmailMessage(
       margin-bottom: 6px;
     }
 
-    .empty-line {
-      height: 20px;
-    }
-
     .divider {
       width: 100%;
       height: 2px;
@@ -693,10 +686,6 @@ function getResponsibleInvoice(
       font-size: 1.2rem;
       text-align: left;
       margin-bottom: 6px;
-    }
-
-    .empty-line {
-      height: 20px;
     }
 
     .divider {
@@ -1079,6 +1068,10 @@ function getBodyStyle()
       padding: 10px;
       width: 90%;
       margin: 0 auto;
+    }
+
+    .empty-line {
+      height: 20px;
     }';
 
     return $bodyStyle;
