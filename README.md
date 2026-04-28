@@ -197,6 +197,9 @@
   <img src="img/checkout.png" width=640>
 </div>
 * Сохранение в pdf-файл:
+<div align="center">
+  <img src="img/save-in-pdf.png" width=640>
+</div>
 * Отправка письма на почту покупателю:
 <div align="center">
   <img src="img/phone-mail.jpg" width=320>
@@ -230,12 +233,12 @@ classDiagram
   class SMTP-сервер {
   }
 
-  index.php --|> captcha.php
-  captcha.php --|> checkout.php
-  checkout.php --|> generatePDF.php
-  checkout.php --|> mailer.php
-  generatePDF.php --|> mailer.php
-  mailer.php --|> SMTP-сервер
+  index.php --> captcha.php
+  captcha.php --> checkout.php
+  checkout.php --> generatePDF.php
+  checkout.php --> mailer.php
+  generatePDF.php --> mailer.php
+  mailer.php --> SMTP-сервер
 ```
 
 ---
