@@ -153,7 +153,6 @@ function getInvoice(
 
     $htmlInvoice .= '
 
-    /* СРЕДНЯЯ ТАБЛИЦА */
     /* ТАБЛИЦА С ТОВАРАМИ */
     .items-table {
       width: 100%;
@@ -187,11 +186,6 @@ function getInvoice(
 
     .col-center {
       text-align: center;
-    }
-
-    p {
-      font-size: 0.85rem;
-      line-height: 1;
     }
   </style>
 </head>';
@@ -416,13 +410,6 @@ function getEmailMessage(
     .col-left {
       text-align: left;
     }
-
-    /* НИЖНЯЯ ТАБЛИЦА */
-
-    p {
-      font-size: 0.85rem;
-      line-height: 1.3;
-    }
   </style>
 </head>';
 
@@ -584,11 +571,6 @@ function getResponsibleInvoice(
     }
 
     /* НИЖНЯЯ ТАБЛИЦА */
-
-    p {
-      font-size: 0.85rem;
-      line-height: 1.3;
-    }
 
     .hide-on-mobile {
       /* По умолчанию показываем */
@@ -917,6 +899,11 @@ function getMainTableStyle()
     .cell-recipient {
       line-height: 1.3;
       text-align: left;
+    }
+
+    p {
+      font-size: 0.85rem;
+      line-height: 1;
     }';
 
     return $mainTableStyle;
