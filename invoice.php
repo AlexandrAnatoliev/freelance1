@@ -737,7 +737,7 @@ function getMainTableStyle(): string
 
     .cell-account-label {
       vertical-align: top;
-      text-align: center;
+      text-align: left;
     }
 
     .cell-account-value {
