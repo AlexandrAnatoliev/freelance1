@@ -150,32 +150,11 @@ function getInvoice(
     $htmlInvoice .= getBodyStyle();
     $htmlInvoice .= getMainTableStyle();
     $htmlInvoice .= getMiddleTableStyle();
+    $htmlInvoice .= getItemsTableStyle();
 
     $htmlInvoice .= '
 
     /* ТАБЛИЦА С ТОВАРАМИ */
-    .items-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.85rem;
-      margin-top: 16px;
-      border: 2px solid #000;
-    }
-
-    .items-table th,
-    .items-table td {
-      border: 1px solid #000;
-      padding: 2px 2px;
-      vertical-align: top;
-      background-color: #fff;
-    }
-
-    .items-table th {
-      font-weight: bold;
-      text-align: center;
-      background-color: #f2f2f2;
-    }
-
     .col-right {
       text-align: right;
     }
@@ -377,31 +356,11 @@ function getEmailMessage(
 
     $emailMessage .= getBodyStyle();
     $emailMessage .= getMiddleTableStyle();
+    $emailMessage .= getItemsTableStyle();
 
     $emailMessage .= '
 
     /* ТАБЛИЦА С ТОВАРАМИ */
-    .items-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.85rem;
-      margin-top: 16px;
-      border: 2px solid #000;
-    }
-
-    .items-table th,
-    .items-table td {
-      border: 1px solid #000;
-      padding: 6px 5px;
-      vertical-align: top;
-      background-color: #fff;
-    }
-
-    .items-table th {
-      font-weight: bold;
-      text-align: center;
-      background-color: #f2f2f2;
-    }
 
     .col-right {
       text-align: right;
@@ -530,34 +489,11 @@ function getResponsibleInvoice(
     $responsibleInvoice .= getBodyStyle();
     $responsibleInvoice .= getMainTableStyle();
     $responsibleInvoice .= getMiddleTableStyle();
+    $responsibleInvoice .= getItemsTableStyle();
 
     $responsibleInvoice .= '
 
-    /* ГЛАВНАЯ ТАБЛИЦА */
-
     /* ТАБЛИЦА С ТОВАРАМИ */
-    .items-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.85rem;
-      margin-top: 16px;
-      border: 2px solid #000;
-    }
-
-    .items-table th,
-    .items-table td {
-      border: 1px solid #000;
-      padding: 6px 5px;
-      vertical-align: top;
-      background-color: #fff;
-    }
-
-    .items-table th {
-      font-weight: bold;
-      text-align: center;
-      background-color: #f2f2f2;
-    }
-
     .col-right {
       text-align: right;
     }
@@ -938,4 +874,32 @@ function getMiddleTableStyle()
     }';
 
     return $middleTableStyle;
+}
+
+function getItemsTableStyle()
+{
+    $itemsTableStyle = '
+    .items-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      margin-top: 16px;
+      border: 2px solid #000;
+    }
+
+    .items-table th,
+    .items-table td {
+      border: 1px solid #000;
+      padding: 2px 2px;
+      vertical-align: top;
+      background-color: #fff;
+    }
+
+    .items-table th {
+      font-weight: bold;
+      text-align: center;
+      background-color: #f2f2f2;
+    }';
+
+    return $itemsTableStyle;
 }
