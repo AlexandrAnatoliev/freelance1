@@ -164,11 +164,6 @@ function getInvoice(
       margin: 0 auto;
     }
 
-    .invoice-header {
-      text-align: left;
-      margin-bottom: 6px;
-    }
-
     .empty-line {
       height: 20px;
     }
@@ -243,7 +238,7 @@ function getInvoice(
       text-align: left;
     }
 
-    .message-header {
+    .invoice-header {
       font-weight: bold;
       font-size: 1.2rem;
       text-align: left;
@@ -350,7 +345,7 @@ function getInvoice(
     $htmlInvoice .= '
   <div class="empty-line"></div>
 
-  <div class="message-header">
+  <div class="invoice-header">
     Счет на оплату №' . $orderNumber . ' от ' . getCurrentRussianDate() . '
   </div>
 
