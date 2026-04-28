@@ -134,6 +134,7 @@ function getInvoice(
     array $selectedAddons,
     int $quantity,
     string $customerName,
+    string $customerPhone,
     string $orderNumber
 ): string {
     global $items;
@@ -362,7 +363,7 @@ function getInvoice(
     </tr>
     <tr>
       <td class="label-cell">Покупатель<br>(Заказчик):</td>
-      <td class="value-cell">' . $customerName . '</td>
+      <td class="value-cell">' . $customerName . ', тел: ' . $customerPhone . '</td>
     </tr>
     <tr>
       <td class="label-cell">Основание:</td>
