@@ -393,6 +393,7 @@ function getResponsibleInvoice(
     array $selectedAddons,
     int $quantity,
     string $customerName,
+    string $customerPhone,
     string $orderNumber
 ): string {
     global $items;
@@ -441,41 +442,28 @@ function getResponsibleInvoice(
 <div class="table-wrapper">
   <div class="hide-on-mobile">';
 
-    $responsibleInvoice .= getMainTableHTML(
+    $responsibleInvoice .= getMainTableHTML($bankDetails);
+
+    $responsibleInvoice .= getMiddleTableHTML(
         $bankDetails,
-        $orderNumber
+        $orderNumber,
+        $customerPhone,
+        $customerName
     );
-
     $responsibleInvoice .= '
   </div>
 
-  <div class="empty-line"></div>
+  <div class="show-only-mobile">
+    <div class="empty-line"></div>
 
-  <div class="invoice-header">
-    Счет на оплату № ' . $orderNumber . ' от ' . getCurrentRussianDate() . '
-  </div>
+    <div class="invoice-header">
+      Счет на оплату № ' . $orderNumber . ' от ' . getCurrentRussianDate() . '
+    </div>
 
-  <div class="empty-line"></div>
+    <div class="empty-line"></div>
 
-  <div class="divider"></div>';
-
-    $responsibleInvoice .= '
-  <table class="middle-table">
-    <tr>
-      <td class="label-cell">Поставщик<br>(Исполнитель):</td>
-      <td class="value-cell">' . $bankDetails['ip_full_name'] . '</td>
-    </tr>
-  </table>
-  <table class="middle-table hide-on-mobile">
-    <tr>
-      <td class="label-cell">Покупатель<br>(Заказчик):</td>
-      <td class="value-cell">' . $customerName . '</td>
-    </tr>
-    <tr>
-      <td class="label-cell">Основание:</td>
-      <td class="value-cell">' . $bankDetails['payment_basis'] . '</td>
-    </tr>
-  </table>';
+    <div class="divider"></div>
+  </div>';
 
     $responsibleInvoice .= '
   <div class="hide-on-mobile">
