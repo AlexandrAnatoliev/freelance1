@@ -212,7 +212,6 @@ function getInvoice(
     .inn-cell {
       display: inline-block;
       width: 54%;
-      padding-right: 8px;
       border-right: 2px solid #000;
       text-align: left;
     }
@@ -333,7 +332,8 @@ function getInvoice(
     </tr>
     <tr>
       <td class="cell-inn-kpp">
-        <span class="inn-cell">ИНН</span><span class="kpp-cell">КПП</span>
+        <span class="inn-cell">ИНН ' . $bankDetails['inn'] . '</span>
+        <span class="kpp-cell">КПП ' . $bankDetails['kpp'] . '</span>
       </td>
       <td class="cell-account-label" style="vertical-align: top;" rowspan="2">Сч. №</td>
       <td class="cell-account-value" style="vertical-align: top;" rowspan="2">' . $bankDetails['recipients_bank_account'] . '</td>
