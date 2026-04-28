@@ -145,12 +145,11 @@ function getInvoice(
 <head>
   <meta charset="UTF-8">
   <title>Счёт на оплату · банковские реквизиты</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-    }
+  <style>';
 
+    $htmlInvoice .= getBodyStyle();
+
+    $htmlInvoice .= '
     body {
       font-family: "DejaVu Sans", DejaVu, sans-serif;
       color: #000;
@@ -497,12 +496,11 @@ function getEmailMessage(
 <head>
   <meta charset="UTF-8">
   <title>Счёт на оплату · банковские реквизиты</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-    }
+  <style>';
 
+    $emailMessage .= getBodyStyle();
+
+    $emailMessage .= '
     body {
       font-family: "DejaVu Sans", DejaVu, sans-serif;
       color: #000;
@@ -711,12 +709,11 @@ function getResponsibleInvoice(
 <head>
   <meta charset="UTF-8">
   <title>Счёт на оплату · банковские реквизиты</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-    }
+  <style>';
 
+    $responsibleInvoice .= getBodyStyle();
+
+    $responsibleInvoice .= '
     body {
       font-family: "DejaVu Sans", DejaVu, sans-serif;
       color: #000;
@@ -1100,4 +1097,14 @@ function getResponsibleInvoice(
 </body>
 </html>';
     return $responsibleInvoice;
+}
+
+function getBodyStyle()
+{
+    $bodyStyle = '
+    * {
+      margin: 0;
+      padding: 0;
+    }';
+    return $bodyStyle;
 }
