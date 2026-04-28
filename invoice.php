@@ -243,6 +243,13 @@ function getInvoice(
       text-align: left;
     }
 
+    .message-header {
+      font-weight: bold;
+      font-size: 1.2rem;
+      text-align: left;
+      margin-bottom: 6px;
+    }
+
     /* ТАБЛИЦА С ТОВАРАМИ */
     .items-table {
       width: 100%;
