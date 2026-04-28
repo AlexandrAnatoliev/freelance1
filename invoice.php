@@ -355,6 +355,19 @@ function getInvoice(
 
   <div class="divider"></div>';
 
+    // '89261234567';
+    $phone = preg_replace('/\D/', '', $customerPhone);          // 89261234567
+    $phone = '+7' . substr($phone, 1);                     // +79261234567
+
+    $formatted = sprintf(
+        '+7 (%s) %s-%s-%s',
+        substr($phone, 2, 3),   // 926
+        substr($phone, 5, 3),   // 123
+        substr($phone, 8, 2),   // 45
+        substr($phone, 10, 2)   // 67
+    );
+    // +7 (926) 123-45-67
+
     $htmlInvoice .= '
   <table class="middle-table">
     <tr>
@@ -363,7 +376,7 @@ function getInvoice(
     </tr>
     <tr>
       <td class="label-cell">Покупатель<br>(Заказчик):</td>
-      <td class="value-cell">' . $customerName . ', тел: ' . $customerPhone . '</td>
+      <td class="value-cell">' . $customerName . ', тел: ' . $formatted . '</td>
     </tr>
     <tr>
       <td class="label-cell">Основание:</td>
