@@ -328,11 +328,6 @@ function getResponsibleInvoice(
   <title>Счёт на оплату · банковские реквизиты</title>
   <style>';
 
-    $responsibleInvoice .= getBodyStyle();
-    $responsibleInvoice .= getMainTableStyle();
-    $responsibleInvoice .= getMiddleTableStyle();
-    $responsibleInvoice .= getItemsTableStyle();
-
     $responsibleInvoice .= '
     .hide-on-mobile {
       /* По умолчанию показываем */
