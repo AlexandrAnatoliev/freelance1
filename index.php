@@ -48,9 +48,21 @@ $captcha = generateCaptcha();
 //   - Чтобы удалить тариф, удалите соответствующую строку
 // ------------------------------------------------------------------
 $items = [
-    'standart' => ['name' => 'Тариф Стандарт', 'price'  => 1000, 'img' => 'img/standart.jpg'],
-    'pro'      => ['name' => 'Тариф Про', 'price'       => 2500, 'img' => 'img/pro.jpg'],
-    'vip'      => ['name' => 'Тариф VIP', 'price'       => 5000, 'img' => 'img/vip.jpg'],
+    'standart'  => [
+        'name'  => 'Ручка Океан',
+        'price' => 16,
+        'img'   => 'img/standart.jpg',
+    ],
+    'pro'       => [
+        'name'  => 'Ручка Сенатор',
+        'price' => 19,
+        'img'   => 'img/pro.jpg',
+    ],
+    'vip'       => [
+        'name'  => 'Ручка Личи',
+        'price' => 15,
+        'img'   => 'img/vip.jpg',
+    ],
 ];
 // ------------------------------------------------------------------
 // КОНФИГУРАЦИЯ ДОПОЛНИТЕЛЬНЫХ УСЛУГ (АДДОНЫ)
@@ -61,9 +73,21 @@ $items = [
 // КАК ИЗМЕНИТЬ / ДОБАВИТЬ АДДОН: аналогично тарифам выше.
 // ------------------------------------------------------------------
 $addons = [
-    'support' => ['name' => 'Поддержка 24/7', 'price'         => 500, 'img' => 'img/support.png'],
-    'backup'  => ['name' => 'Резервное копирование', 'price'  => 300, 'img' => 'img/backup.png'],
-    'seo'     => ['name' => 'SEO-аудит', 'price'              => 700, 'img' => 'img/seo.png'],
+    'support'   => [
+        'name'  => 'Нанесение на клип',
+        'price' => 46,
+        'img'   => 'img/support.png',
+    ],
+    'backup'    => [
+        'name'  => 'Нанесение на цветной корпус',
+        'price' => 43,
+        'img'   => 'img/backup.png',
+    ],
+    'seo'       => [
+        'name'  => 'Нанесение на белый корпус',
+        'price' => 33,
+        'img'   => 'img/seo.png',
+    ],
 ];
 
 $_SESSION['items_session'] = $items;
@@ -83,7 +107,7 @@ $_SESSION['addons_session'] = $addons;
         <form id="orderForm" action="checkout.php" method="post">
 
             <!-- Блок выбора основного тарифа (Радио) -->
-            <h2>1. Выберите тариф</h2>
+            <h2>1. Выберите сувенир</h2>
             <div class="radio-group">
                 <?php foreach ($items as $key => $item) : ?>
                 <label class="card">
@@ -103,7 +127,7 @@ $_SESSION['addons_session'] = $addons;
             </div>
 
             <!-- Блок дополнительных услуг (Чекбоксы) -->
-            <h2>3. Дополнительные услуги</h2>
+            <h2>3. Выберите нанесение</h2>
             <div class="checkbox-group">
                 <?php foreach ($addons as $key => $addon) : ?>
                 <label class="card small">
