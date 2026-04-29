@@ -53,7 +53,7 @@ $items = [
         'price' => 16,
         'img'   => 'img/ocean_pen.jpg',
     ],
-    'pro'       => [
+    'senator_pen'       => [
         'name'  => 'Ручка Сенатор',
         'price' => 19,
         'img'   => 'img/pro.jpg',
