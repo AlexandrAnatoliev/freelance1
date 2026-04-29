@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 // раскомментировать для вывода ошибок на экран
 require_once 'utils/debug.php';
+require_once 'utils/imagePath.php';
 require_once 'captcha.php';
 
 // Генерируем капчу при загрузке страницы
@@ -67,23 +68,6 @@ $addons = [
 
 $_SESSION['items_session'] = $items;
 $_SESSION['addons_session'] = $addons;
-
-/**
- * Проверяет, существует ли файл изображения на сервере.
- * Если файла нет — возвращает путь к заглушке (placeholder),
- * чтобы не показывать битую иконку в браузере.
- *
- * @param  $path        - путь к проверяемому изображению
- * @param  $placeholder - путь к заглушке (по умолчанию img/placeholder.jpg)
- * @return
- */
-function getImagePath(string $path, string $placeholder = 'img/placeholder.jpg'): string
-{
-    if (!empty($path) && file_exists($path)) {
-        return $path;
-    }
-    return $placeholder;
-}
 ?>
 
 <!DOCTYPE html>
