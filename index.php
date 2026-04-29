@@ -122,8 +122,15 @@ $_SESSION['addons_session'] = $addons;
             <!-- Количество / Срок -->
             <h2>2. Нужное количество</h2>
             <div class="quantity-block">
-                <input type="number" id="quantity" name="quantity" min="1" max="100" value="1" step="1" required>
-                <label for="quantity">шт.</label>
+              <select id="quantity" name="quantity">
+                <option value="50">50 шт.</option>
+                <option value="100">100 шт.</option>
+                <option value="150">150 шт.</option>
+                <option value="200">200 шт.</option>
+                <option value="250">250 шт.</option>
+                <option value="300">300 шт.</option>
+                <!-- можно продолжать сколько угодно -->
+              </select>
             </div>
 
             <!-- Блок дополнительных услуг (Чекбоксы) -->
