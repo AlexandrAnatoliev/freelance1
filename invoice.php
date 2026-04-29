@@ -349,7 +349,7 @@ function getResponsibleInvoice(
 
 function getBodyStyle(): string
 {
-    $bodyStyle = '
+    return '
     * {
       margin: 0;
       padding: 0;
@@ -408,13 +408,11 @@ function getBodyStyle(): string
         display: block;
       }
     }';
-
-    return $bodyStyle;
 }
 
 function getMainTableStyle(): string
 {
-    $mainTableStyle = '
+    return '
     .main-table {
       width: 100%;
       border-collapse: collapse;
@@ -480,13 +478,11 @@ function getMainTableStyle(): string
       font-size: 0.85rem;
       line-height: 1;
     }';
-
-    return $mainTableStyle;
 }
 
 function getMiddleTableStyle(): string
 {
-    $middleTableStyle = '
+    return '
     .middle-table {
       width: 100%;
       border-collapse: collapse;
@@ -511,8 +507,6 @@ function getMiddleTableStyle(): string
       font-weight: bold;
       text-align: left;
     }';
-
-    return $middleTableStyle;
 }
 
 function getItemsTableStyle(): string
