@@ -78,15 +78,15 @@ $addons = [
         'price' => 46,
         'img'   => 'img/print_on_clip.png',
     ],
-    'backup'    => [
+    'print_on_colored_case'    => [
         'name'  => 'Нанесение на цветной корпус',
         'price' => 43,
-        'img'   => 'img/backup.png',
+        'img'   => 'img/print_on_colored_case.png',
     ],
-    'seo'       => [
+    'print_on_white_case'       => [
         'name'  => 'Нанесение на белый корпус',
         'price' => 33,
-        'img'   => 'img/seo.png',
+        'img'   => 'img/print_on_white_case.png',
     ],
 ];
 
