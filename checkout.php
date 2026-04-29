@@ -87,6 +87,7 @@ $responsibleInvoice = getResponsibleInvoice(
     $selectedAddons,
     $quantity,
     $customerName,
+    $customerPhone,
     $orderNumber
 );
 
