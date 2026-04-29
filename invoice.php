@@ -549,7 +549,7 @@ function getItemsTableStyle(): string
 
 function getMainTableHTML(array $bankDetails): string
 {
-    $mainTableHTML = '
+    return '
   <!-- ПЕРВАЯ ТАБЛИЦА — банковские реквизиты -->
   <table class="main-table">
     <tr>
@@ -582,8 +582,6 @@ function getMainTableHTML(array $bankDetails): string
       <td class="cell-recipient">' . $bankDetails['ip_name'] . '<br><br>Получатель</td>
     </tr>
   </table>';
-
-    return $mainTableHTML;
 }
 
 function getMiddleTableHTML(
