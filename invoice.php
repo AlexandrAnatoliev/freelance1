@@ -326,32 +326,6 @@ function getResponsibleInvoice(
 <head>
   <meta charset="UTF-8">
   <title>Счёт на оплату · банковские реквизиты</title>
-  <style>';
-
-    $responsibleInvoice .= '
-    .hide-on-mobile {
-      /* По умолчанию показываем */
-      display: block;
-    }
-    
-    /* Скрываем на экранах меньше 768px */
-    @media screen and (max-width: 767px) {
-      .hide-on-mobile {
-        display: none;
-      }
-    }
-    
-    /* Или наоборот - показываем только на мобильных */
-    .show-only-mobile {
-      display: none;
-    }
-    
-    @media screen and (max-width: 767px) {
-      .show-only-mobile {
-        display: block;
-      }
-    }
-  </style>
 </head>';
 
     $responsibleInvoice .= '
@@ -426,6 +400,28 @@ function getBodyStyle(): string
       font-size: 1.2rem;
       text-align: left;
       margin-bottom: 6px;
+    }
+    .hide-on-mobile {
+      /* По умолчанию показываем */
+      display: block;
+    }
+    
+    /* Скрываем на экранах меньше 768px */
+    @media screen and (max-width: 767px) {
+      .hide-on-mobile {
+        display: none;
+      }
+    }
+    
+    /* Или наоборот - показываем только на мобильных */
+    .show-only-mobile {
+      display: none;
+    }
+    
+    @media screen and (max-width: 767px) {
+      .show-only-mobile {
+        display: block;
+      }
     }';
 
     return $bodyStyle;
