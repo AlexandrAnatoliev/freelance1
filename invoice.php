@@ -381,13 +381,23 @@ function getResponsibleInvoice(
   <div class="hide-on-mobile">';
 
     $responsibleInvoice .= getMainTableHTML($bankDetails);
-
     $responsibleInvoice .= getMiddleTableHTML(
         $bankDetails,
         $orderNumber,
         $customerPhone,
         $customerName
     );
+    $responsibleInvoice .= getItemsTableHTML(
+        $items,
+        $tariffKey,
+        $quantity,
+        $selectedAddons,
+        $addons,
+    );
+
+    $responsibleInvoice .= '
+  <div class="empty-line"></div>';
+
     $responsibleInvoice .= '
   </div>
 
@@ -410,70 +420,6 @@ function getResponsibleInvoice(
     <div class="empty-line"></div>
 
     <div class="divider"></div>
-  </div>';
-
-    $responsibleInvoice .= '
-  <div class="hide-on-mobile">
-    <table class="items-table">
-      <thead>
-        <tr>
-          <th class="col-right">№</th>
-          <th class="col-left">Товары (работы, услуги)</th>
-          <th class="col-right">Кол-во</th>
-          <th class="col-center">Ед.</th>
-          <th class="col-right">Цена</th>
-          <th class="col-right">Сумма</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td class="col-right">1</td>
-          <td class="col-left">' . $items[$tariffKey]['name'] . '</td>
-          <td class="col-right">' . $quantity . '</td>
-          <td class="col-center">шт.</td>
-          <td class="col-right">' . number_format($items[$tariffKey]['price'], 2, ',', ' ') . '</td>
-          <td class="col-right">' . number_format($items[$tariffKey]['price'] * $quantity, 2, ',', ' ') . '</td>
-        </tr>';
-
-    $total = $items[$tariffKey]['price'] * $quantity;
-    $rowNumber = 1;
-
-    foreach ($selectedAddons as $addonKey) {
-        if (isset($addons[$addonKey])) {
-            $rowNumber++;
-            $addonPrice = $addons[$addonKey]['price'];
-            $addonSum = $addonPrice * $quantity;
-            $total += $addonSum;
-
-            $responsibleInvoice .= '
-          <tr>
-            <td class="col-right">' . $rowNumber . '</td>
-            <td class="col-left">' . htmlspecialchars($addons[$addonKey]['name']) . '</td>
-            <td class="col-right">' . $quantity . '</td>
-            <td class="col-center">шт.</td>
-            <td class="col-right">' . number_format($addonPrice, 2, ',', ' ') . '</td>
-            <td class="col-right">' . number_format($addonSum, 2, ',', ' ') . '</td>
-          </tr>';
-        }
-    }
-
-    $responsibleInvoice .= '
-      </tbody>
-      <tfoot>
-        <tr>
-          <td colspan="5" style="text-align:right; font-weight:bold;">Итого:</td>
-          <td style="font-weight:bold;">' . number_format($total, 2, ',', ' ') . '</td>
-        </tr>
-        <tr>
-          <td colspan="5" style="text-align:right; font-weight:bold;">В том числе НДС:</td>
-          <td style="font-weight:bold;">—</td>
-        </tr>
-        <tr>
-          <td colspan="5" style="text-align:right; font-weight:bold;">Всего к оплате:</td>
-          <td style="font-weight:bold;">' . number_format($total, 2, ',', ' ') . '</td>
-        </tr>
-      </tfoot>
-    </table>
   </div>';
 
     $responsibleInvoice .= '
