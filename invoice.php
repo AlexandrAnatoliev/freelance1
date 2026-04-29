@@ -443,48 +443,6 @@ function getResponsibleInvoice(
       <li>Количество: ' . $quantity . ' шт.</li>
     </ul></p>';
 
-    $responsibleInvoice .= '
-    <table class="items-table">
-      <thead>
-        <tr>
-          <th class="col-right">№</th>
-          <th class="col-left">Товары (работы, услуги)</th>
-          <th class="col-right">Кол-во</th>
-          <th class="col-right">Цена/шт.</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td class="col-right">1</td>
-          <td class="col-left">' . $items[$tariffKey]['name'] . '</td>
-          <td class="col-right">' . $quantity . ' шт.</td>
-          <td class="col-right">' . number_format($items[$tariffKey]['price'], 2, ',', ' ') . '</td>
-        </tr>';
-
-    $total = $items[$tariffKey]['price'] * $quantity;
-    $rowNumber = 1;
-
-    foreach ($selectedAddons as $addonKey) {
-        if (isset($addons[$addonKey])) {
-            $rowNumber++;
-            $addonPrice = $addons[$addonKey]['price'];
-            $addonSum = $addonPrice * $quantity;
-            $total += $addonSum;
-
-            $responsibleInvoice .= '
-          <tr>
-            <td class="col-right">' . $rowNumber . '</td>
-            <td class="col-left">' . htmlspecialchars($addons[$addonKey]['name']) . '</td>
-            <td class="col-right">' . $quantity . ' шт.</td>
-            <td class="col-right">' . number_format($addonPrice, 2, ',', ' ') . '</td>
-          </tr>';
-        }
-    }
-
-    $responsibleInvoice .= '
-      </tbody>
-    </table>
-  </div>';
 
     $totalInWords = num2words($total);
 
@@ -492,23 +450,14 @@ function getResponsibleInvoice(
   <div class="empty-line"></div>
 
   <p>Всего наименований ' . $rowNumber . ', на сумму ' . number_format($total, 2, ',', ' ') . ' руб<br>
-  (' . $totalInWords . ')</p>
+  (<b>' . $totalInWords . '</b>)</p>
 
   <div class="empty-line"></div>';
 
-    // Текущая дата + 3 дня
     $responsibleInvoice .= '
-  <div class="hide-on-mobile">
-    <p>Оплатить не позднее ' . date('d.m.Y', strtotime('+3 days')) . '<br>
-    Оплата данного счета означает согласие с условиями поставки товара.<br>
-    Уведомление об оплате обязательно, в противном случае не гарантируется наличие товара на складе.<br>
-    Товар отпускается по факту прихода денег на р/с Поставщика, самовывозом, при наличии доверенности и паспорта.</p>
+  </div>';
 
-    <div class="empty-line"></div>
-    <div class="divider"></div>
-
-    <p>Предприниматель______________________________________________' . $bankDetails['entrepreneurs_surname'] . '</p>
-  </div>
+    $responsibleInvoice .= '
 </div>
 </body>
 </html>';
@@ -622,7 +571,7 @@ function getMainTableStyle(): string
       text-align: left;
     }
 
-    p {
+    p ul li {
       font-size: 0.85rem;
       line-height: 1;
     }';
