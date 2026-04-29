@@ -412,11 +412,9 @@ function getResponsibleInvoice(
 
     <div class="empty-line"></div>
 
-    <div class="divider"></div>
-  </div>';
+    <div class="divider"></div>';
 
     $responsibleInvoice .= '
-  <div class="show-only-mobile">
     <div class="empty-line"></div>
 
     <p><b>Товары (работы, услуги):</b>
