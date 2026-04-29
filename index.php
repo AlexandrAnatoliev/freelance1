@@ -48,20 +48,20 @@ $captcha = generateCaptcha();
 //   - Чтобы удалить тариф, удалите соответствующую строку
 // ------------------------------------------------------------------
 $items = [
-    'ocean_pen'  => [
+    'ocean_pen' => [
         'name'  => 'Ручка Океан',
         'price' => 16,
         'img'   => 'img/ocean_pen.jpg',
     ],
-    'senator_pen'       => [
+    'senator_pen' => [
         'name'  => 'Ручка Сенатор',
         'price' => 19,
-        'img'   => 'img/pro.jpg',
+        'img'   => 'img/senator_pen.jpg',
     ],
-    'vip'       => [
+    'lychee_pen' => [
         'name'  => 'Ручка Личи',
         'price' => 15,
-        'img'   => 'img/vip.jpg',
+        'img'   => 'img/lychee_pen.jpg',
     ],
 ];
 // ------------------------------------------------------------------
