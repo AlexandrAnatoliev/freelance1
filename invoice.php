@@ -517,7 +517,7 @@ function getMiddleTableStyle(): string
 
 function getItemsTableStyle(): string
 {
-    $itemsTableStyle = '
+    return '
     .items-table {
       width: 100%;
       border-collapse: collapse;
@@ -551,8 +551,6 @@ function getItemsTableStyle(): string
     .col-center {
       text-align: center;
     }';
-
-    return $itemsTableStyle;
 }
 
 function getMainTableHTML(array $bankDetails): string
