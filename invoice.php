@@ -240,34 +240,27 @@ function getEmailMessage(
 
   <div class="empty-line"></div>
 
+  <div class="divider"></div>
+
+  <div class="empty-line"></div>
+
+  <p>Поставщик (исполнитель):</p>
+
+  <div class="empty-line"></div>
+
+  <p><b>' . $bankDetails['ip_full_name'] . '</b></p>
+
+  <div class="empty-line"></div>
+
   <div class="divider"></div>';
 
     $emailMessage .= '
-  <table class="middle-table">
-    <tr>
-      <td class="label-cell">Поставщик<br>(Исполнитель):</td>
-      <td class="value-cell">' . $bankDetails['ip_full_name'] . '</td>
-    </tr>
-    <tr>
-  </table>';
+  <div class="empty-line"></div>
 
-    $emailMessage .= '
-  <table class="items-table">
-    <thead>
-      <tr>
-        <th class="col-right">№</th>
-        <th class="col-left">Товары (работы, услуги)</th>
-        <th class="col-right">Кол-во</th>
-        <th class="col-right">Цена/шт.</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td class="col-right">1</td>
-        <td class="col-left">' . $items[$tariffKey]['name'] . '</td>
-        <td class="col-right">' . $quantity . ' шт.</td>
-        <td class="col-right">' . number_format($items[$tariffKey]['price'], 2, ',', ' ') . '</td>
-      </tr>';
+  <p><b>Товары (работы, услуги):</b>
+
+    <ul>
+      <li>' . $items[$tariffKey]['name'] . '</li>';
 
     $total = $items[$tariffKey]['price'] * $quantity;
     $rowNumber = 1;
@@ -280,18 +273,14 @@ function getEmailMessage(
             $total += $addonSum;
 
             $emailMessage .= '
-          <tr>
-            <td class="col-right">' . $rowNumber . '</td>
-            <td class="col-left">' . htmlspecialchars($addons[$addonKey]['name']) . '</td>
-            <td class="col-right">' . $quantity . ' шт.</td>
-            <td class="col-right">' . number_format($addonPrice, 2, ',', ' ') . '</td>
-          </tr>';
+        <li>' . htmlspecialchars($addons[$addonKey]['name']) . '</li>';
         }
     }
 
     $emailMessage .= '
-    </tbody>
-  </table>';
+      <li>Количество: ' . $quantity . ' шт.</li>
+    </ul></p>';
+
 
     $totalInWords = num2words($total);
 
@@ -299,16 +288,11 @@ function getEmailMessage(
   <div class="empty-line"></div>
 
   <p>Всего наименований ' . $rowNumber . ', на сумму ' . number_format($total, 2, ',', ' ') . ' руб<br>
-  (' . $totalInWords . ')</p>
+  (<b>' . $totalInWords . '</b>)</p>
 
   <div class="empty-line"></div>';
 
-    // Текущая дата + 3 дня
     $emailMessage .= '
-  <p>Оплатить не позднее ' . date('d.m.Y', strtotime('+3 days')) . '<br>
-  Оплата данного счета означает согласие с условиями поставки товара.<br>
-  Уведомление об оплате обязательно, в противном случае не гарантируется наличие товара на складе.<br>
-  Товар отпускается по факту прихода денег на р/с Поставщика, самовывозом, при наличии доверенности и паспорта.</p>
 </div>
 </body>
 </html>';
