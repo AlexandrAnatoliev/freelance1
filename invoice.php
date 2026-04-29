@@ -318,20 +318,9 @@ function getResponsibleInvoice(
     string $customerPhone,
     string $orderNumber
 ): string {
-    global $items;
-    global $addons;
-    global $bankDetails;
-    $responsibleInvoice = '<!DOCTYPE html>
-<html lang="ru">
-<head>
-  <meta charset="UTF-8">
-  <title>Счёт на оплату · банковские реквизиты</title>
-</head>';
 
-    $responsibleInvoice .= '
-<body>
-<div class="table-wrapper">
-  <div class="hide-on-mobile">';
+    $responsibleInvoice = '
+<div class="hide-on-mobile">';
     $responsibleInvoice .= getInvoice(
         $tariffKey,
         $selectedAddons,
@@ -342,9 +331,9 @@ function getResponsibleInvoice(
     );
 
     $responsibleInvoice .= '
-  </div>
+</div>
 
-  <div class="show-only-mobile">';
+<div class="show-only-mobile">';
     $responsibleInvoice .= getEmailMessage(
         $tariffKey,
         $selectedAddons,
@@ -353,12 +342,8 @@ function getResponsibleInvoice(
     );
 
     $responsibleInvoice .= '
-  </div>';
+</div>';
 
-    $responsibleInvoice .= '
-</div>
-</body>
-</html>';
     return $responsibleInvoice;
 }
 
