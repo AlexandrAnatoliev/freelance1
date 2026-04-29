@@ -95,8 +95,15 @@ $_SESSION['addons_session'] = $addons;
                 <?php endforeach; ?>
             </div>
 
+            <!-- Количество / Срок -->
+            <h2>2. Нужное количество</h2>
+            <div class="quantity-block">
+                <input type="number" id="quantity" name="quantity" min="1" max="100" value="1" step="1" required>
+                <label for="quantity">шт.</label>
+            </div>
+
             <!-- Блок дополнительных услуг (Чекбоксы) -->
-            <h2>2. Дополнительные услуги</h2>
+            <h2>3. Дополнительные услуги</h2>
             <div class="checkbox-group">
                 <?php foreach ($addons as $key => $addon) : ?>
                 <label class="card small">
@@ -114,13 +121,6 @@ $_SESSION['addons_session'] = $addons;
                 <ul class="selected-list" id="selectedList">
                     <li class="empty-selection">Ничего не выбрано</li>
                 </ul>
-            </div>
-
-            <!-- Количество / Срок -->
-            <h2>3. Нужное количество</h2>
-            <div class="quantity-block">
-                <input type="number" id="quantity" name="quantity" min="1" max="100" value="1" step="1" required>
-                <label for="quantity">шт.</label>
             </div>
 
             <!-- Итог -->
