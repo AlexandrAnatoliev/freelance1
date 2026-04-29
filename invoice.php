@@ -122,7 +122,7 @@ function getCurrentRussianDate(): string
  * Основная функция. Формирует полный HTML-документ счёта на оплату.
  *
  * @param  $tariffKey       - ключ выбранного тарифа (напр. 'ocean_pen')
- * @param  $selectedAddons  - массив ключей выбранных аддонов (напр. ['support'])
+ * @param  $selectedAddons  - массив ключей выбранных аддонов (напр. ['print_on_clip'])
  * @param  $quantity        - количество месяцев
  * @param  $customerName    - название организации/имя покупателя
  * @param  $orderNumber     - номер счёта (напр. 'Б-20260425-153045')
@@ -199,7 +199,7 @@ function getInvoice(
  * Формирует email сообщение счёта на оплату.
  *
  * @param  $tariffKey       - ключ выбранного тарифа (напр. 'ocean_pen')
- * @param  $selectedAddons  - массив ключей выбранных аддонов (напр. ['support'])
+ * @param  $selectedAddons  - массив ключей выбранных аддонов (напр. ['print_on_clip'])
  * @param  $quantity        - количество месяцев
  * @param  $orderNumber     - номер счёта (напр. 'Б-20260425-153045')
  * @return                  - готовый HTML-документ счёта со всеми стилями и данными.
@@ -303,7 +303,7 @@ function getEmailMessage(
  * Основная функция. Формирует адаптивный HTML-документ счёта на оплату
  *
  * @param  $tariffKey       - ключ выбранного тарифа (напр. 'ocean_pen')
- * @param  $selectedAddons  - массив ключей выбранных аддонов (напр. ['support'])
+ * @param  $selectedAddons  - массив ключей выбранных аддонов (напр. ['print_on_clip'])
  * @param  $quantity        - количество месяцев
  * @param  $customerName    - название организации/имя покупателя
  * @param  $orderNumber     - номер счёта (напр. 'Б-20260425-153045')
