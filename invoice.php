@@ -379,24 +379,14 @@ function getResponsibleInvoice(
 <body>
 <div class="table-wrapper">
   <div class="hide-on-mobile">';
-
-    $responsibleInvoice .= getMainTableHTML($bankDetails);
-    $responsibleInvoice .= getMiddleTableHTML(
-        $bankDetails,
-        $orderNumber,
-        $customerPhone,
-        $customerName
-    );
-    $responsibleInvoice .= getItemsTableHTML(
-        $items,
+    $responsibleInvoice .= getInvoice(
         $tariffKey,
-        $quantity,
         $selectedAddons,
-        $addons,
+        $quantity,
+        $customerName,
+        $customerPhone,
+        $orderNumber
     );
-
-    $responsibleInvoice .= '
-  <div class="empty-line"></div>';
 
     $responsibleInvoice .= '
   </div>
