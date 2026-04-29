@@ -2,10 +2,10 @@
   <a id="russian"></a>
   <h1>Скрипт php: Калькулятор-заказа с отправкой счёта на оплату</h1>
 
-  ![Stars](https://img.shields.io/github/stars/AlexandrAnatoliev/freelance.svg?style=flat)
+  ![Stars](https://img.shields.io/github/stars/AlexandrAnatoliev/freelance1.svg?style=flat)
   ![Version 0.1.41](https://img.shields.io/badge/Version-0.1.41-orange.svg)
-  ![Forks](https://img.shields.io/github/forks/AlexandrAnatoliev/freelance.svg?style=flat)
-  ![GitHub repo size](https://img.shields.io/github/repo-size/AlexandrAnatoliev/freelance)
+  ![Forks](https://img.shields.io/github/forks/AlexandrAnatoliev/freelance1.svg?style=flat)
+  ![GitHub repo size](https://img.shields.io/github/repo-size/AlexandrAnatoliev/freelance1)
   
 </div>
 
@@ -158,7 +158,7 @@
 
 * [x] **Бланк строгой формы**, аналогичный «1С» и принятый в документообороте РФ.
 * [x] **Границы таблицы:** Чёткие рамки у всех ячеек (как в предоставленных PDF-образцах).
-* [x] **Нумерация:** Формат номера с префиксом «Б». Пример: `Счёт на оплату № Б-001 от 21.04.2026 г.` (генерируется автоматически с автоинкрементом и датой).
+* [x] **Нумерация:** Формат номера с префиксом «Б». Пример: `Счёт на оплату № Б-001 от 21.04.2026 г.` (генерируется автоматически с  датой).
 * [x] **Шапка:** Реквизиты Продавца (подтягиваются из настроек).
 * [x] **Шапка:** Реквизиты Покупателя (Название компании, телефон, email — только то, что ввел клиент).
 * [x] **Каждая выбранная позиция — в отдельной строке** счёта
@@ -591,8 +591,10 @@ cp .env.example .env
 # BANK_DETAILS_BANK_IDENTIFICATION_CODE='123456789'
 # BANK_DETAILS_CORRESPONDENT_BANK_ACCOUNT='30101000000000000000'
 # BANK_DETAILS_RECIPIENTS_BANK_ACCOUNT='40802000000000000000'
+# BANK_DETAILS_INN='1234567890'
+# BANK_DETAILS_KPP='123456789'
 # BANK_DETAILS_IP_NAME='ИП Иванов Иван'
-# BANK_DETAILS_IP_FULL_NAME='ИП Иванов Иван, ИНН 123456789876, 123456, Ивановская область, г.о. Ивановский, г Иваново, ул Ивановская, д. 12, кв./оф. 34, тел.: +7 1234567890'
+# BANK_DETAILS_IP_FULL_NAME='ИП Иванов Иван, ИНН 123456789876, 123456, Ивановская область, г.о. Ивановский, г Иваново, ул Ивановская, д. 12, кв./оф. 34, тел: +7 (123) 456-78-90'
 # BANK_DETAILS_PAYMENT_BASIS='Основной договор'
 # BANK_DETAILS_ENTREPRENEURS_SURNAME='Иванов И.'
 ```
