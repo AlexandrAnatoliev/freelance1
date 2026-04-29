@@ -375,66 +375,13 @@ function getResponsibleInvoice(
     $responsibleInvoice .= '
   </div>
 
-  <div class="show-only-mobile">
-    <div class="empty-line"></div>
-
-    <div class="invoice-header">
-      Счет на оплату № ' . $orderNumber . ' от ' . getCurrentRussianDate() . '
-    </div>
-
-    <div class="empty-line"></div>
-
-    <div class="divider"></div>
-
-    <div class="empty-line"></div>
-
-    <p>Поставщик (исполнитель):</p>
-
-    <div class="empty-line"></div>
-
-    <p><b>' . $bankDetails['ip_full_name'] . '</b></p>
-
-    <div class="empty-line"></div>
-
-    <div class="divider"></div>';
-
-    $responsibleInvoice .= '
-    <div class="empty-line"></div>
-
-    <p><b>Товары (работы, услуги):</b>
-
-    <ul>
-      <li>' . $items[$tariffKey]['name'] . '</li>';
-
-    $total = $items[$tariffKey]['price'] * $quantity;
-    $rowNumber = 1;
-
-    foreach ($selectedAddons as $addonKey) {
-        if (isset($addons[$addonKey])) {
-            $rowNumber++;
-            $addonPrice = $addons[$addonKey]['price'];
-            $addonSum = $addonPrice * $quantity;
-            $total += $addonSum;
-
-            $responsibleInvoice .= '
-        <li>' . htmlspecialchars($addons[$addonKey]['name']) . '</li>';
-        }
-    }
-
-    $responsibleInvoice .= '
-      <li>Количество: ' . $quantity . ' шт.</li>
-    </ul></p>';
-
-
-    $totalInWords = num2words($total);
-
-    $responsibleInvoice .= '
-  <div class="empty-line"></div>
-
-  <p>Всего наименований ' . $rowNumber . ', на сумму ' . number_format($total, 2, ',', ' ') . ' руб<br>
-  (<b>' . $totalInWords . '</b>)</p>
-
-  <div class="empty-line"></div>';
+  <div class="show-only-mobile">';
+    $responsibleInvoice .= getEmailMessage(
+        $tariffKey,
+        $selectedAddons,
+        $quantity,
+        $orderNumber,
+    );
 
     $responsibleInvoice .= '
   </div>';
