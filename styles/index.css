@@ -92,7 +92,8 @@ h2 {
 }
 
 .quantity-block select { 
-  width: 80px; 
+  min-width: 120px; 
+  width: 32%; 
   padding: 10px; 
   font-size: 1.2rem; 
   text-align: center; 
