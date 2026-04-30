@@ -21,6 +21,7 @@ declare(strict_types=1);
 // раскомментировать для вывода ошибок на экран
 require_once 'utils/debug.php';
 require_once 'utils/imagePath.php';
+require_once 'utils/session.php';
 require_once 'utils/selector.php';
 require_once 'captcha.php';
 
@@ -91,23 +92,6 @@ $addons = [
     ],
 ];
 
-function getPrice(
-    array $addons,
-    array $addon_prices,
-    string $addonName,
-    int $circulation
-): int {
-    $addon = $addons[$addonName];
-    $price = $addon['price1']['value'];
-
-    foreach ($addon as $prices) {
-        $price = $prices['value'];
-        if ($prices['circulation'] > $circulation) {
-            break;
-        }
-    }
-    return $price;
-}
 // ------------------------------------------------------------------
 // КОНФИГУРАЦИЯ ЦЕН НА ДОПОЛНИТЕЛЬНЫЕ УСЛУГИ
 // ------------------------------------------------------------------
@@ -182,6 +166,7 @@ $addon_prices = [
 
 $_SESSION['items_session'] = $items;
 $_SESSION['addons_session'] = $addons;
+$_SESSION['addon_prices_session'] = $addon_prices;
 ?>
 
 <!DOCTYPE html>

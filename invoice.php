@@ -5,11 +5,39 @@ declare(strict_types=1);
 // раскомментировать для вывода ошибок на экран
 require_once 'utils/debug.php';
 require_once 'utils/session.php';
+require_once 'configs/bankDetailsSettings.php';
 
 $items = $_SESSION['items_session'];
 $addons = $_SESSION['addons_session'];
+$addon_prices = $_SESSION['addon_prices_session'];
 
-require_once 'configs/bankDetailsSettings.php';
+/**
+ * Возвращает цену услуги в зависимости от партии
+ *
+ * @param  $addons        массив с услугами
+ * @param  $addon_prices  массив с ценами на услуги
+ * @param  $addonName     название услуги
+ * @param  $circulation   размер партии
+ * @return цену услуги
+ */
+function getPrice(
+    array $addons,
+    array $addon_prices,
+    string $addonName,
+    int $circulation
+): int {
+    $addon = $addon_prices[$addonName];
+    $price = $addon['price1']['value'];
+
+    foreach ($addon as $prices) {
+        $price = $prices['value'];
+        if ($prices['circulation'] > $circulation) {
+            break;
+        }
+    }
+    return $price;
+}
+
 $bankDetails  = getBankDetailsSettings();
 
 /**
@@ -140,6 +168,7 @@ function getInvoice(
     global $items;
     global $addons;
     global $bankDetails;
+    global $addon_prices;
     $htmlInvoice = '<!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -173,6 +202,7 @@ function getInvoice(
         $quantity,
         $selectedAddons,
         $addons,
+        $addon_prices,
     );
 
     $htmlInvoice .= '
@@ -637,6 +667,7 @@ function getItemsTableHTML(
     int $quantity,
     array $selectedAddons,
     array $addons,
+    array $addon_prices,
 ): string {
     $itemsTableHTML = '
   <table class="items-table">
@@ -666,7 +697,12 @@ function getItemsTableHTML(
     foreach ($selectedAddons as $addonKey) {
         if (isset($addons[$addonKey])) {
             $rowNumber++;
-            $addonPrice = $addons[$addonKey]['price'];
+            $addonPrice = getPrice(
+                $addons,
+                $addon_prices,
+                $addonKey,
+                $quantity
+            );
             $addonSum = $addonPrice * $quantity;
             $total += $addonSum;
 
