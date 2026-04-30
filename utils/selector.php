@@ -1,12 +1,18 @@
 <?php
 
-function getSelector(): string
-{
-    $min = 50;
-    $max = 1000;
-    $step = 50;
-    $value = $min;
+declare(strict_types=1);
 
+/**
+ * Формирует селектор
+ *
+ * @param  $min   минимальное значение селектора
+ * @param  $max   максимальное
+ * @param  $step  шаг изменения
+ * @return html код селектора
+ */
+function getSelector(int $min, int $max, int $step): string
+{
+    $value = $min;
     $option = '';
 
     while ($value <= $max) {

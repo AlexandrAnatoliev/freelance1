@@ -124,7 +124,7 @@ $_SESSION['addons_session'] = $addons;
             <h2>2. Нужное количество</h2>
             <div class="quantity-block">
               <select id="quantity" name="quantity" required>
-                <?php echo getSelector(); ?> 
+                <?= getSelector(min: 50, max: 1000, step: 50); ?> 
               </select>
             </div>
 
