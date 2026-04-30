@@ -121,7 +121,7 @@ function getCurrentRussianDate(): string
 /**
  * Основная функция. Формирует полный HTML-документ счёта на оплату.
  *
- * @param  $tariffKey       - ключ выбранного тарифа (напр. 'ocean_pen')
+ * @param  $itemNameKey       - ключ выбранного тарифа (напр. 'ocean_pen')
  * @param  $selectedAddons  - массив ключей выбранных аддонов (напр. ['print_on_clip'])
  * @param  $quantity        - количество месяцев
  * @param  $customerName    - название организации/имя покупателя
@@ -130,7 +130,7 @@ function getCurrentRussianDate(): string
  *                            Может быть отправлен в письме или показан на странице.
  */
 function getInvoice(
-    string $tariffKey,
+    string $itemNameKey,
     array $selectedAddons,
     int $quantity,
     string $customerName,
@@ -169,7 +169,7 @@ function getInvoice(
     );
     $htmlInvoice .= getItemsTableHTML(
         $items,
-        $tariffKey,
+        $itemNameKey,
         $quantity,
         $selectedAddons,
         $addons,
@@ -198,7 +198,7 @@ function getInvoice(
 /**
  * Формирует email сообщение счёта на оплату.
  *
- * @param  $tariffKey       - ключ выбранного тарифа (напр. 'ocean_pen')
+ * @param  $itemNameKey       - ключ выбранного тарифа (напр. 'ocean_pen')
  * @param  $selectedAddons  - массив ключей выбранных аддонов (напр. ['print_on_clip'])
  * @param  $quantity        - количество месяцев
  * @param  $orderNumber     - номер счёта (напр. 'Б-20260425-153045')
@@ -206,7 +206,7 @@ function getInvoice(
  *                            Может быть отправлен в письме или показан на странице.
  */
 function getEmailMessage(
-    string $tariffKey,
+    string $itemNameKey,
     array $selectedAddons,
     int $quantity,
     string $orderNumber
@@ -260,9 +260,9 @@ function getEmailMessage(
   <p><b>Товары (работы, услуги):</b>
 
     <ul>
-      <li>' . $items[$tariffKey]['name'] . '</li>';
+      <li>' . $items[$itemNameKey]['name'] . '</li>';
 
-    $total = $items[$tariffKey]['price'] * $quantity;
+    $total = $items[$itemNameKey]['price'] * $quantity;
     $rowNumber = 1;
 
     foreach ($selectedAddons as $addonKey) {
@@ -302,7 +302,7 @@ function getEmailMessage(
 /**
  * Основная функция. Формирует адаптивный HTML-документ счёта на оплату
  *
- * @param  $tariffKey       - ключ выбранного тарифа (напр. 'ocean_pen')
+ * @param  $itemNameKey       - ключ выбранного тарифа (напр. 'ocean_pen')
  * @param  $selectedAddons  - массив ключей выбранных аддонов (напр. ['print_on_clip'])
  * @param  $quantity        - количество месяцев
  * @param  $customerName    - название организации/имя покупателя
@@ -311,7 +311,7 @@ function getEmailMessage(
  *                            Может быть отправлен в письме или показан на странице.
  */
 function getResponsibleInvoice(
-    string $tariffKey,
+    string $itemNameKey,
     array $selectedAddons,
     int $quantity,
     string $customerName,
@@ -322,7 +322,7 @@ function getResponsibleInvoice(
     $responsibleInvoice = '
 <div class="hide-on-mobile">';
     $responsibleInvoice .= getInvoice(
-        $tariffKey,
+        $itemNameKey,
         $selectedAddons,
         $quantity,
         $customerName,
@@ -335,7 +335,7 @@ function getResponsibleInvoice(
 
 <div class="show-only-mobile">';
     $responsibleInvoice .= getEmailMessage(
-        $tariffKey,
+        $itemNameKey,
         $selectedAddons,
         $quantity,
         $orderNumber,
@@ -633,7 +633,7 @@ function getMiddleTableHTML(
 }
 function getItemsTableHTML(
     array $items,
-    string $tariffKey,
+    string $itemNameKey,
     int $quantity,
     array $selectedAddons,
     array $addons,
@@ -653,14 +653,14 @@ function getItemsTableHTML(
     <tbody>
       <tr>
         <td class="col-right">1</td>
-        <td class="col-left">' . $items[$tariffKey]['name'] . '</td>
+        <td class="col-left">' . $items[$itemNameKey]['name'] . '</td>
         <td class="col-right">' . $quantity . '</td>
         <td class="col-center">шт.</td>
-        <td class="col-right">' . number_format($items[$tariffKey]['price'], 2, ',', ' ') . '</td>
-        <td class="col-right">' . number_format($items[$tariffKey]['price'] * $quantity, 2, ',', ' ') . '</td>
+        <td class="col-right">' . number_format($items[$itemNameKey]['price'], 2, ',', ' ') . '</td>
+        <td class="col-right">' . number_format($items[$itemNameKey]['price'] * $quantity, 2, ',', ' ') . '</td>
       </tr>';
 
-    $total = $items[$tariffKey]['price'] * $quantity;
+    $total = $items[$itemNameKey]['price'] * $quantity;
     $rowNumber = 1;
 
     foreach ($selectedAddons as $addonKey) {

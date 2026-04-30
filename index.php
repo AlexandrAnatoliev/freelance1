@@ -111,7 +111,7 @@ $_SESSION['addons_session'] = $addons;
             <div class="radio-group">
                 <?php foreach ($items as $key => $item) : ?>
                 <label class="card">
-                    <input type="radio" name="tariff" value="<?= $key ?>" data-price="<?= $item['price'] ?>" data-name="<?= htmlspecialchars($item['name']) ?>" required>
+                    <input type="radio" name="itemName" value="<?= $key ?>" data-price="<?= $item['price'] ?>" data-name="<?= htmlspecialchars($item['name']) ?>" required>
                     <img src="<?= getImagePath($item['img']) ?>" alt="<?= $item['name'] ?>">
                     <span class="title"><?= $item['name'] ?></span>
                     <span class="price"><?= number_format($item['price'], 0, ',', ' ') ?> ₽</span>
@@ -199,11 +199,11 @@ function updateSelectedItems() {
     const selectedItems = [];
     
     // Проверяем выбранный тариф
-    const tariffRadio = document.querySelector('input[name="tariff"]:checked');
-    if (tariffRadio) {
+    const itemNameRadio = document.querySelector('input[name="itemName"]:checked');
+    if (itemNameRadio) {
         selectedItems.push({
-            name: tariffRadio.dataset.name,
-            price: parseFloat(tariffRadio.dataset.price) || 0
+            name: itemNameRadio.dataset.name,
+            price: parseFloat(itemNameRadio.dataset.price) || 0
         });
     }
     
@@ -233,9 +233,9 @@ function calculateTotal() {
     let total = 0;
 
     // Тариф
-    const tariffRadio = document.querySelector('input[name="tariff"]:checked');
-    if (tariffRadio) {
-        total += parseFloat(tariffRadio.dataset.price) || 0;
+    const itemNameRadio = document.querySelector('input[name="itemName"]:checked');
+    if (itemNameRadio) {
+        total += parseFloat(itemNameRadio.dataset.price) || 0;
     }
 
     // Аддоны
