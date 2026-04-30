@@ -61,6 +61,7 @@
   * [ ] Добавить **галочку/птичку/индикатор** в углу картинки при выборе опции (чтобы пользователи не путались).
     * [x] Выбор опций пользователем выделяется изменением цвета поля опции и изменением списка выбранных опций внизу
 * [x] **Поле ввода количества:** 100 шт максимум.
+  * [x] Поле ввода количества заменить на кнопки `+` / `-`  (сделал селектор)
 * [ ] **Адаптивность:** Корректное отображение на мобильных и десктопе.
   * [ ] Решить вопрос с большим количеством опций (5-7+). Горизонтальный скролл с кнопками-стрелками или перенос строками?
   * [x] Упрощенная верстка страницы checkout для мобильной версии
@@ -358,6 +359,8 @@ composer require dompdf/dompdf
 │   └── index.css
 ├── utils
 │   ├── debug.php
+│   ├── imagePath.php
+│   ├── selector.php
 │   └── session.php
 └── vendor
     ├── phpmailer/
@@ -465,18 +468,18 @@ $items = [
 
 ```
 .
-├── img
-│  ├── backup.png
-│  ├── checkout.png
-│  ├── index.png
-│  ├── phone-mail.jpg
-│  ├── placeholder.jpg
-│  ├── pro.jpg
-│  ├── seo.png
-│  ├── standart.jpg
-│  ├── support.png
-│  └── vip.jpg
-└── index.php
+└── img
+    ├── checkout.png
+    ├── index.png
+    ├── lychee_pen.jpg
+    ├── ocean_pen.jpg
+    ├── phone_mail.jpg
+    ├── placeholder.jpg
+    ├── print_on_clip.png
+    ├── print_on_colored_case.png
+    ├── print_on_white_case.png
+    ├── save-in-pdf.png
+    └── senator_pen.jpg
 ```
 
 ---
