@@ -469,9 +469,21 @@ composer require dompdf/dompdf
 
 ```
 $items = [
-  'standart' => ['name' => 'Тариф Стандарт', 'price' => 1000, 'img' => 'img/standart.jpg'],
-  'pro'      => ['name' => 'Тариф Про', 'price' => 2500, 'img' => 'img/pro.jpg'],
-  'vip'      => ['name' => 'Тариф VIP', 'price' => 5000, 'img' => 'img/vip.jpg'],
+    'ocean_pen' => [
+        'name'  => 'Ручка Океан',
+        'price' => 16,
+        'img'   => 'img/ocean_pen.jpg',
+    ],
+    'senator_pen' => [
+        'name'  => 'Ручка Сенатор',
+        'price' => 19,
+        'img'   => 'img/senator_pen.jpg',
+    ],
+    'lychee_pen' => [
+        'name'  => 'Ручка Личи',
+        'price' => 15,
+        'img'   => 'img/lychee_pen.jpg',
+    ],
 ];
 ```
 
