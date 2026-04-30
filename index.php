@@ -21,6 +21,7 @@ declare(strict_types=1);
 // раскомментировать для вывода ошибок на экран
 require_once 'utils/debug.php';
 require_once 'utils/imagePath.php';
+require_once 'utils/selector.php';
 require_once 'captcha.php';
 
 // Генерируем капчу при загрузке страницы
@@ -122,14 +123,8 @@ $_SESSION['addons_session'] = $addons;
             <!-- Количество / Срок -->
             <h2>2. Нужное количество</h2>
             <div class="quantity-block">
-              <select id="quantity" name="quantity">
-                <option value="50">50 шт.</option>
-                <option value="100">100 шт.</option>
-                <option value="150">150 шт.</option>
-                <option value="200">200 шт.</option>
-                <option value="250">250 шт.</option>
-                <option value="300">300 шт.</option>
-                <!-- можно продолжать сколько угодно -->
+              <select id="quantity" name="quantity" required>
+                <?php echo getSelector(); ?> 
               </select>
             </div>
 
