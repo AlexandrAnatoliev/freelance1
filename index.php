@@ -270,8 +270,8 @@ function getAddonPrice(addonKey, quantity) {
     let price = tiers.price1.value; // значение по умолчанию
     for (const tierKey in tiers) {
         const tier = tiers[tierKey];
-        if (tier.circulation > quantity) break;
         price = tier.value;
+        if (tier.circulation > quantity) break;
     }
     return price;
 }
