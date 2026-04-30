@@ -14,14 +14,12 @@ $addon_prices = $_SESSION['addon_prices_session'];
 /**
  * Возвращает цену услуги в зависимости от партии
  *
- * @param  $addons        массив с услугами
  * @param  $addon_prices  массив с ценами на услуги
  * @param  $addonName     название услуги
  * @param  $circulation   размер партии
  * @return цену услуги
  */
 function getPrice(
-    array $addons,
     array $addon_prices,
     string $addonName,
     int $circulation
@@ -698,7 +696,6 @@ function getItemsTableHTML(
         if (isset($addons[$addonKey])) {
             $rowNumber++;
             $addonPrice = getPrice(
-                $addons,
                 $addon_prices,
                 $addonKey,
                 $quantity
