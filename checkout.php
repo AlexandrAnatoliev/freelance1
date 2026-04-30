@@ -52,7 +52,7 @@ $customerPhone  = htmlspecialchars($_POST['customer_phone'] ?? '');
 
 // Проверка обязательных полей
 if (!$itemNameKey) {
-    die('Ошибка: Не выбран тариф.');
+    die('Ошибка: Не выбран товар.');
 }
 
 if (empty($customerEmail)) {

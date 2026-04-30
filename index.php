@@ -21,6 +21,7 @@ declare(strict_types=1);
 // раскомментировать для вывода ошибок на экран
 require_once 'utils/debug.php';
 require_once 'utils/imagePath.php';
+require_once 'utils/session.php';
 require_once 'utils/selector.php';
 require_once 'captcha.php';
 
@@ -91,8 +92,81 @@ $addons = [
     ],
 ];
 
+// ------------------------------------------------------------------
+// КОНФИГУРАЦИЯ ЦЕН НА ДОПОЛНИТЕЛЬНЫЕ УСЛУГИ
+// ------------------------------------------------------------------
+$addon_prices = [
+    'print_on_clip' => [
+        'price1' => [
+            'value'       => 46,
+            'circulation' => 100,
+        ],
+        'price2' => [
+            'value'       => 36,
+            'circulation' => 200,
+        ],
+        'price3' => [
+            'value'       => 34,
+            'circulation' => 300,
+        ],
+        'price4' => [
+            'value'       => 31,
+            'circulation' => 500,
+        ],
+        'price5' => [
+            'value'       => 28,
+            'circulation' => 1000,
+        ],
+    ],
+    'print_on_colored_case' => [
+        'price1' => [
+            'value'       => 43,
+            'circulation' => 100,
+        ],
+        'price2' => [
+            'value'       => 34,
+            'circulation' => 200,
+        ],
+        'price3' => [
+            'value'       => 31,
+            'circulation' => 300,
+        ],
+        'price4' => [
+            'value'       => 29,
+            'circulation' => 500,
+        ],
+        'price5' => [
+            'value'       => 26,
+            'circulation' => 1000,
+        ],
+    ],
+    'print_on_white_case' => [
+        'price1' => [
+            'value'       => 33,
+            'circulation' => 100,
+        ],
+        'price2' => [
+            'value'       => 26,
+            'circulation' => 200,
+        ],
+        'price3' => [
+            'value'       => 24,
+            'circulation' => 300,
+        ],
+        'price4' => [
+            'value'       => 22,
+            'circulation' => 500,
+        ],
+        'price5' => [
+            'value'       => 20,
+            'circulation' => 1000,
+        ],
+    ],
+];
+
 $_SESSION['items_session'] = $items;
 $_SESSION['addons_session'] = $addons;
+$_SESSION['addon_prices_session'] = $addon_prices;
 ?>
 
 <!DOCTYPE html>
@@ -183,35 +257,67 @@ $_SESSION['addons_session'] = $addons;
         </form>
     </div>
 
+    <!-- Передаём цены аддонов, зависящие от тиража -->
 <script>
-// Калькуляция на лету
-const form      = document.getElementById('orderForm');
-const totalSpan = document.getElementById('totalPrice');
-const qtyInput  = document.getElementById('quantity');
-const selectedList = document.getElementById('selectedList');
+const addonPrices = <?= json_encode($addon_prices, JSON_UNESCAPED_UNICODE) ?>;
+</script>
 
+<script>
+// Получить цену аддона для заданного количества по логике из invoice.php
+function getAddonPrice(addonKey, quantity) {
+    if (!addonPrices[addonKey]) return 0;
+    const tiers = addonPrices[addonKey];
+    let price = tiers.price1.value; // значение по умолчанию
+    for (const tierKey in tiers) {
+        const tier = tiers[tierKey];
+        price = tier.value;
+        if (tier.circulation > quantity) break;
+    }
+    return price;
+}
+
+// Обновить отображаемую цену в карточках всех аддонов
+function updateAddonPricesDisplay() {
+    const qty = parseInt(document.getElementById('quantity').value) || 50;
+    const addonCards = document.querySelectorAll('.checkbox-group .card');
+    addonCards.forEach(card => {
+        const checkbox = card.querySelector('input[type="checkbox"]');
+        if (!checkbox) return;
+        const addonKey = checkbox.value;
+        const price = getAddonPrice(addonKey, qty);
+        const priceSpan = card.querySelector('.price');
+        if (priceSpan) {
+            priceSpan.textContent = '+' + new Intl.NumberFormat('ru-RU').format(price) + ' ₽';
+        }
+    });
+}
+
+// Обновление списка выбранных позиций с динамическими ценами
 function updateSelectedItems() {
     const selectedItems = [];
-    
-    // Проверяем выбранный тариф
-    const itemNameRadio = document.querySelector('input[name="itemName"]:checked');
-    if (itemNameRadio) {
+    const qty = parseInt(document.getElementById('quantity').value) || 50;
+
+    // Выбранный тариф
+    const itemRadio = document.querySelector('input[name="itemName"]:checked');
+    if (itemRadio) {
         selectedItems.push({
-            name: itemNameRadio.dataset.name,
-            price: parseFloat(itemNameRadio.dataset.price) || 0
+            name: itemRadio.dataset.name,
+            price: parseFloat(itemRadio.dataset.price) || 0
         });
     }
-    
-    // Проверяем выбранные аддоны
+
+    // Выбранные аддоны
     const checkedAddons = document.querySelectorAll('input[name="addons[]"]:checked');
     checkedAddons.forEach(cb => {
+        const addonKey = cb.value;
+        const price = getAddonPrice(addonKey, qty);
         selectedItems.push({
             name: cb.dataset.name,
-            price: parseFloat(cb.dataset.price) || 0
+            price: price
         });
     });
-    
-    // Обновляем список
+
+    const selectedList = document.getElementById('selectedList');
     if (selectedItems.length === 0) {
         selectedList.innerHTML = '<li class="empty-selection">Ничего не выбрано</li>';
     } else {
@@ -224,34 +330,60 @@ function updateSelectedItems() {
     }
 }
 
+// Расчёт итоговой суммы с учётом динамических цен аддонов
 function calculateTotal() {
     let total = 0;
+    const qty = parseInt(document.getElementById('quantity').value) || 50;
 
     // Тариф
-    const itemNameRadio = document.querySelector('input[name="itemName"]:checked');
-    if (itemNameRadio) {
-        total += parseFloat(itemNameRadio.dataset.price) || 0;
+    const itemRadio = document.querySelector('input[name="itemName"]:checked');
+    if (itemRadio) {
+        total += (parseFloat(itemRadio.dataset.price) || 0) * qty;
     }
 
     // Аддоны
     const checkedAddons = document.querySelectorAll('input[name="addons[]"]:checked');
     checkedAddons.forEach(cb => {
-        total += parseFloat(cb.dataset.price) || 0;
+        const addonKey = cb.value;
+        const unitPrice = getAddonPrice(addonKey, qty);
+        total += unitPrice * qty;
     });
 
-    // Умножаем на количество
-    const qty = parseInt(qtyInput.value) || 1;
-    total = total * qty;
-
-    totalSpan.textContent = new Intl.NumberFormat('ru-RU').format(total);
+    document.getElementById('totalPrice').textContent = new Intl.NumberFormat('ru-RU').format(total);
 }
+
+// Обработчики событий
+const form      = document.getElementById('orderForm');
+const qtySelect = document.getElementById('quantity');
+
+form.addEventListener('change', function(e) {
+    // При изменении любого radio/checkbox обновляем список, цены и итог
+    updateSelectedItems();
+    calculateTotal();
+    // Если изменилось количество, обновим отображаемые цены аддонов
+    if (e.target && e.target.id === 'quantity') {
+        updateAddonPricesDisplay();
+    }
+});
+
+qtySelect.addEventListener('change', function() {
+    updateAddonPricesDisplay();
+    updateSelectedItems();
+    calculateTotal();
+});
+
+// Инициализация при загрузке
+window.addEventListener('DOMContentLoaded', function() {
+    updateAddonPricesDisplay();
+    updateSelectedItems();
+    calculateTotal();
+});
 
 // Валидация капчи перед отправкой
 form.addEventListener('submit', function(e) {
     const captchaInput = document.getElementById('captchaInput');
     const captchaValue = parseInt(captchaInput.value);
-    
-    // Простая клиентская проверка (основная проверка на сервере в checkout.php)
+
     if (isNaN(captchaValue)) {
         e.preventDefault();
         captchaInput.classList.add('error');
@@ -259,19 +391,8 @@ form.addEventListener('submit', function(e) {
         captchaInput.focus();
         return false;
     }
-    
+
     captchaInput.classList.remove('error');
-});
-
-form.addEventListener('change', function() {
-    updateSelectedItems();
-    calculateTotal();
-});
-
-qtyInput.addEventListener('input', calculateTotal);
-window.addEventListener('DOMContentLoaded', function() {
-    updateSelectedItems();
-    calculateTotal();
 });
 </script>
 </body>
