@@ -237,11 +237,12 @@ function getEmailMessage(
     string $itemNameKey,
     array $selectedAddons,
     int $quantity,
-    string $orderNumber
+    string $orderNumber,
 ): string {
     global $items;
     global $addons;
     global $bankDetails;
+    global $addon_prices;
     $emailMessage = '<!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -296,7 +297,11 @@ function getEmailMessage(
     foreach ($selectedAddons as $addonKey) {
         if (isset($addons[$addonKey])) {
             $rowNumber++;
-            $addonPrice = $addons[$addonKey]['price'];
+            $addonPrice = getPrice(
+                $addon_prices,
+                $addonKey,
+                $quantity
+            );
             $addonSum = $addonPrice * $quantity;
             $total += $addonSum;
 
@@ -347,6 +352,7 @@ function getResponsibleInvoice(
     string $orderNumber
 ): string {
 
+    global $addon_prices;
     $responsibleInvoice = '
 <div class="hide-on-mobile">';
     $responsibleInvoice .= getInvoice(
