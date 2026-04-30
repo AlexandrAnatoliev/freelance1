@@ -91,6 +91,95 @@ $addons = [
     ],
 ];
 
+function getPrice(
+    array $addons,
+    array $addon_prices,
+    string $addonName,
+    int $circulation
+): int {
+    $addon = $addons[$addonName];
+    $price = $addon['price1']['value'];
+
+    foreach ($addon as $prices) {
+        $price = $prices['value'];
+        if ($prices['circulation'] > $circulation) {
+            break;
+        }
+    }
+    return $price;
+}
+// ------------------------------------------------------------------
+// КОНФИГУРАЦИЯ ЦЕН НА ДОПОЛНИТЕЛЬНЫЕ УСЛУГИ
+// ------------------------------------------------------------------
+$addon_prices = [
+    'print_on_clip' => [
+        'price1' => [
+            'value'       => 46,
+            'circulation' => 100,
+        ],
+        'price2' => [
+            'value'       => 36,
+            'circulation' => 200,
+        ],
+        'price3' => [
+            'value'       => 34,
+            'circulation' => 300,
+        ],
+        'price4' => [
+            'value'       => 31,
+            'circulation' => 500,
+        ],
+        'price5' => [
+            'value'       => 28,
+            'circulation' => 1000,
+        ],
+    ],
+    'print_on_colored_case' => [
+        'price1' => [
+            'value'       => 43,
+            'circulation' => 100,
+        ],
+        'price2' => [
+            'value'       => 34,
+            'circulation' => 200,
+        ],
+        'price3' => [
+            'value'       => 31,
+            'circulation' => 300,
+        ],
+        'price4' => [
+            'value'       => 29,
+            'circulation' => 500,
+        ],
+        'price5' => [
+            'value'       => 26,
+            'circulation' => 1000,
+        ],
+    ],
+    'print_on_white_case' => [
+        'price1' => [
+            'value'       => 33,
+            'circulation' => 100,
+        ],
+        'price2' => [
+            'value'       => 26,
+            'circulation' => 200,
+        ],
+        'price3' => [
+            'value'       => 24,
+            'circulation' => 300,
+        ],
+        'price4' => [
+            'value'       => 22,
+            'circulation' => 500,
+        ],
+        'price5' => [
+            'value'       => 20,
+            'circulation' => 1000,
+        ],
+    ],
+];
+
 $_SESSION['items_session'] = $items;
 $_SESSION['addons_session'] = $addons;
 ?>
