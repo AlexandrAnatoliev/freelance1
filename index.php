@@ -7,7 +7,7 @@
  *
  * Как настраивать:
  *   См. массивы $items и $addons ниже. Изменяйте названия, цены,
- *   пути к картинкам. Ключ массива (например, 'standart') должен
+ *   пути к картинкам. Ключ массива (например, 'ocean_pen') должен
  *   быть уникальным и использоваться как value в radio/checkbox.
  *
  * Зависимости:
@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 // раскомментировать для вывода ошибок на экран
 require_once 'utils/debug.php';
+require_once 'utils/imagePath.php';
+require_once 'utils/selector.php';
 require_once 'captcha.php';
 
 // Генерируем капчу при загрузке страницы
@@ -32,7 +34,7 @@ $captcha = generateCaptcha();
 // Каждый элемент - это radio-кнопка в форме.
 //
 // СТРУКТУРА ОДНОГО ТАРИФА:
-//   Ключ массива (напр. 'standart') - уникальный идентификатор,
+//   Ключ массива (напр. 'ocean_pen') - уникальный идентификатор,
 //       используется в value radio-кнопки и для поиска цены
 //   'name'  - название тарифа (отображается пользователю)
 //   'price' - цена в рублях за 1 единицу (число, не строка)
@@ -47,9 +49,21 @@ $captcha = generateCaptcha();
 //   - Чтобы удалить тариф, удалите соответствующую строку
 // ------------------------------------------------------------------
 $items = [
-    'standart' => ['name' => 'Тариф Стандарт', 'price'  => 1000, 'img' => 'img/standart.jpg'],
-    'pro'      => ['name' => 'Тариф Про', 'price'       => 2500, 'img' => 'img/pro.jpg'],
-    'vip'      => ['name' => 'Тариф VIP', 'price'       => 5000, 'img' => 'img/vip.jpg'],
+    'ocean_pen' => [
+        'name'  => 'Ручка Океан',
+        'price' => 16,
+        'img'   => 'img/ocean_pen.jpg',
+    ],
+    'senator_pen' => [
+        'name'  => 'Ручка Сенатор',
+        'price' => 19,
+        'img'   => 'img/senator_pen.jpg',
+    ],
+    'lychee_pen' => [
+        'name'  => 'Ручка Личи',
+        'price' => 15,
+        'img'   => 'img/lychee_pen.jpg',
+    ],
 ];
 // ------------------------------------------------------------------
 // КОНФИГУРАЦИЯ ДОПОЛНИТЕЛЬНЫХ УСЛУГ (АДДОНЫ)
@@ -60,30 +74,25 @@ $items = [
 // КАК ИЗМЕНИТЬ / ДОБАВИТЬ АДДОН: аналогично тарифам выше.
 // ------------------------------------------------------------------
 $addons = [
-    'support' => ['name' => 'Поддержка 24/7', 'price'         => 500, 'img' => 'img/support.png'],
-    'backup'  => ['name' => 'Резервное копирование', 'price'  => 300, 'img' => 'img/backup.png'],
-    'seo'     => ['name' => 'SEO-аудит', 'price'              => 700, 'img' => 'img/seo.png'],
+    'print_on_clip'   => [
+        'name'  => 'Нанесение на клип',
+        'price' => 46,
+        'img'   => 'img/print_on_clip.png',
+    ],
+    'print_on_colored_case'    => [
+        'name'  => 'Нанесение на цветной корпус',
+        'price' => 43,
+        'img'   => 'img/print_on_colored_case.png',
+    ],
+    'print_on_white_case'       => [
+        'name'  => 'Нанесение на белый корпус',
+        'price' => 33,
+        'img'   => 'img/print_on_white_case.png',
+    ],
 ];
 
 $_SESSION['items_session'] = $items;
 $_SESSION['addons_session'] = $addons;
-
-/**
- * Проверяет, существует ли файл изображения на сервере.
- * Если файла нет — возвращает путь к заглушке (placeholder),
- * чтобы не показывать битую иконку в браузере.
- *
- * @param  $path        - путь к проверяемому изображению
- * @param  $placeholder - путь к заглушке (по умолчанию img/placeholder.jpg)
- * @return
- */
-function getImagePath(string $path, string $placeholder = 'img/placeholder.jpg'): string
-{
-    if (!empty($path) && file_exists($path)) {
-        return $path;
-    }
-    return $placeholder;
-}
 ?>
 
 <!DOCTYPE html>
@@ -99,11 +108,11 @@ function getImagePath(string $path, string $placeholder = 'img/placeholder.jpg')
         <form id="orderForm" action="checkout.php" method="post">
 
             <!-- Блок выбора основного тарифа (Радио) -->
-            <h2>1. Выберите тариф</h2>
+            <h2>1. Выберите сувенир</h2>
             <div class="radio-group">
                 <?php foreach ($items as $key => $item) : ?>
                 <label class="card">
-                    <input type="radio" name="tariff" value="<?= $key ?>" data-price="<?= $item['price'] ?>" data-name="<?= htmlspecialchars($item['name']) ?>" required>
+                    <input type="radio" name="itemName" value="<?= $key ?>" data-price="<?= $item['price'] ?>" data-name="<?= htmlspecialchars($item['name']) ?>" required>
                     <img src="<?= getImagePath($item['img']) ?>" alt="<?= $item['name'] ?>">
                     <span class="title"><?= $item['name'] ?></span>
                     <span class="price"><?= number_format($item['price'], 0, ',', ' ') ?> ₽</span>
@@ -111,8 +120,16 @@ function getImagePath(string $path, string $placeholder = 'img/placeholder.jpg')
                 <?php endforeach; ?>
             </div>
 
+            <!-- Количество / Срок -->
+            <h2>2. Нужное количество</h2>
+            <div class="quantity-block">
+              <select id="quantity" name="quantity" required>
+                <?= getSelector(min: 50, max: 1000, step: 50); ?>
+              </select>
+            </div>
+
             <!-- Блок дополнительных услуг (Чекбоксы) -->
-            <h2>2. Дополнительные услуги</h2>
+            <h2>3. Выберите нанесение</h2>
             <div class="checkbox-group">
                 <?php foreach ($addons as $key => $addon) : ?>
                 <label class="card small">
@@ -130,13 +147,6 @@ function getImagePath(string $path, string $placeholder = 'img/placeholder.jpg')
                 <ul class="selected-list" id="selectedList">
                     <li class="empty-selection">Ничего не выбрано</li>
                 </ul>
-            </div>
-
-            <!-- Количество / Срок -->
-            <h2>3. Нужное количество</h2>
-            <div class="quantity-block">
-                <input type="number" id="quantity" name="quantity" min="1" max="100" value="1" step="1" required>
-                <label for="quantity">шт.</label>
             </div>
 
             <!-- Итог -->
@@ -184,11 +194,11 @@ function updateSelectedItems() {
     const selectedItems = [];
     
     // Проверяем выбранный тариф
-    const tariffRadio = document.querySelector('input[name="tariff"]:checked');
-    if (tariffRadio) {
+    const itemNameRadio = document.querySelector('input[name="itemName"]:checked');
+    if (itemNameRadio) {
         selectedItems.push({
-            name: tariffRadio.dataset.name,
-            price: parseFloat(tariffRadio.dataset.price) || 0
+            name: itemNameRadio.dataset.name,
+            price: parseFloat(itemNameRadio.dataset.price) || 0
         });
     }
     
@@ -218,9 +228,9 @@ function calculateTotal() {
     let total = 0;
 
     // Тариф
-    const tariffRadio = document.querySelector('input[name="tariff"]:checked');
-    if (tariffRadio) {
-        total += parseFloat(tariffRadio.dataset.price) || 0;
+    const itemNameRadio = document.querySelector('input[name="itemName"]:checked');
+    if (itemNameRadio) {
+        total += parseFloat(itemNameRadio.dataset.price) || 0;
     }
 
     // Аддоны

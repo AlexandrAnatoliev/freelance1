@@ -43,7 +43,7 @@ if ($userAnswer !== $correctAnswer) {
 unset($_SESSION['captcha_answer'], $_SESSION['captcha_generated_at']);
 
 // Получаем данные из формы
-$tariffKey      = $_POST['tariff'] ?? null;
+$itemNameKey      = $_POST['itemName'] ?? null;
 $selectedAddons = $_POST['addons'] ?? [];
 $quantity       = (int) ($_POST['quantity'] ?? 1);
 $customerName   = htmlspecialchars($_POST['customer_name'] ?? '');
@@ -51,7 +51,7 @@ $customerEmail  = $_POST['customer_email'] ?? '';
 $customerPhone  = htmlspecialchars($_POST['customer_phone'] ?? '');
 
 // Проверка обязательных полей
-if (!$tariffKey) {
+if (!$itemNameKey) {
     die('Ошибка: Не выбран тариф.');
 }
 
@@ -69,7 +69,7 @@ $subject        = "Счет на оплату №{$orderNumber} от " . date('d
 
 // счет
 $fullInvoiceHTML = getInvoice(
-    $tariffKey,
+    $itemNameKey,
     $selectedAddons,
     $quantity,
     $customerName,
@@ -77,13 +77,13 @@ $fullInvoiceHTML = getInvoice(
     $orderNumber
 );
 $emailMessage = getEmailMessage(
-    $tariffKey,
+    $itemNameKey,
     $selectedAddons,
     $quantity,
     $orderNumber
 );
 $responsibleInvoice = getResponsibleInvoice(
-    $tariffKey,
+    $itemNameKey,
     $selectedAddons,
     $quantity,
     $customerName,

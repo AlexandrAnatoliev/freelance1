@@ -84,7 +84,6 @@ h2 {
   box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2); 
 }
 
-
 .quantity-block { 
   margin: 20px 0; 
   display: flex; 
@@ -92,8 +91,9 @@ h2 {
   gap: 15px; 
 }
 
-.quantity-block input { 
-  width: 80px; 
+.quantity-block select { 
+  min-width: 120px; 
+  width: 32%; 
   padding: 10px; 
   font-size: 1.2rem; 
   text-align: center; 
