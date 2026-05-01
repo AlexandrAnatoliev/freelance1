@@ -245,17 +245,18 @@ function getInvoice(
     $htmlInvoice .= '
   <div class="empty-line"></div>';
 
-    // Текущая дата + 3 дня
     $htmlInvoice .= '
-  <p>Оплатить не позднее ' . date('d.m.Y', strtotime('+3 days')) . '<br>
-  Оплата данного счета означает согласие с условиями поставки товара.<br>
-  Уведомление об оплате обязательно, в противном случае не гарантируется наличие товара на складе.<br>
-  Товар отпускается по факту прихода денег на р/с Поставщика, самовывозом, при наличии доверенности и паспорта.</p>
+
+  <p><b>Условия оплаты:</b></p>
 
   <div class="empty-line"></div>
-  <div class="divider"></div>
+  <div class="empty-line"></div>
 
-  <p><b>Предприниматель</b>______________________________________________' . $bankDetails['entrepreneurs_surname'] . '</p>
+  <p>Руководитель предприятия         __________________________(' . $bankDetails['entrepreneurs_surname'] . ')</p>
+
+  <div class="empty-line"></div>
+
+  <p>Бухгалтер                        __________________________' . $bankDetails['entrepreneurs_surname'] . '</p>
 </div>
 </body>
 </html>';
