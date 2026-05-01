@@ -188,6 +188,8 @@ function getInvoice(
 <div class="table-wrapper">';
 
     $htmlInvoice .= '
+  <div class="empty-line"></div>
+  
   <div class="invoice-header">
     Счет на оплату № ' . $orderNumber . ' от ' . getCurrentRussianDate() . '
   </div>
@@ -204,12 +206,33 @@ function getInvoice(
   <div class="empty-line"></div>';
 
     $htmlInvoice .= getMainTableHTML($bankDetails);
-    $htmlInvoice .= getMiddleTableHTML(
-        $bankDetails,
-        $orderNumber,
-        $customerPhone,
-        $customerName,
+
+    // '89261234567';
+    $phone = preg_replace('/\D/', '', $customerPhone);          // 89261234567
+    $phone = '+7' . substr($phone, 1);                     // +79261234567
+
+    $formatted = sprintf(
+        '+7 (%s) %s-%s-%s',
+        substr($phone, 2, 3),   // 926
+        substr($phone, 5, 3),   // 123
+        substr($phone, 8, 2),   // 45
+        substr($phone, 10, 2)   // 67
     );
+    // +7 (926) 123-45-67
+
+    $htmlInvoice .= '
+
+  <div class="empty-line"></div>
+
+  <table class="middle-table">
+    <tr>
+      <td><b>Покупатель:</b></td>
+      <td>' . $customerName . ', тел: ' . $formatted . '</td>
+    </tr>
+  </table>
+
+  <div class="empty-line"></div>';
+
     $htmlInvoice .= getItemsTableHTML(
         $items,
         $itemNameKey,
