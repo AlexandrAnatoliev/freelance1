@@ -187,13 +187,52 @@ function getInvoice(
 <body>
 <div class="table-wrapper">';
 
+    $htmlInvoice .= '
+  <div class="empty-line"></div>
+  
+  <div class="invoice-header">
+    Счет на оплату № ' . $orderNumber . ' от ' . getCurrentRussianDate() . '
+  </div>
+
+  <div class="empty-line"></div>
+
+  <table class="middle-table">
+    <tr>
+      <td><b>Поставщик:</b></td>
+      <td>' . $bankDetails['ip_full_name'] . '</td>
+    </tr>
+  </table>
+
+  <div class="empty-line"></div>';
+
     $htmlInvoice .= getMainTableHTML($bankDetails);
-    $htmlInvoice .= getMiddleTableHTML(
-        $bankDetails,
-        $orderNumber,
-        $customerPhone,
-        $customerName,
+
+    // '89261234567';
+    $phone = preg_replace('/\D/', '', $customerPhone);          // 89261234567
+    $phone = '+7' . substr($phone, 1);                     // +79261234567
+
+    $formatted = sprintf(
+        '+7 (%s) %s-%s-%s',
+        substr($phone, 2, 3),   // 926
+        substr($phone, 5, 3),   // 123
+        substr($phone, 8, 2),   // 45
+        substr($phone, 10, 2)   // 67
     );
+    // +7 (926) 123-45-67
+
+    $htmlInvoice .= '
+
+  <div class="empty-line"></div>
+
+  <table class="middle-table">
+    <tr>
+      <td><b>Покупатель:</b></td>
+      <td>' . $customerName . ', тел: ' . $formatted . '</td>
+    </tr>
+  </table>
+
+  <div class="empty-line"></div>';
+
     $htmlInvoice .= getItemsTableHTML(
         $items,
         $itemNameKey,
@@ -206,17 +245,27 @@ function getInvoice(
     $htmlInvoice .= '
   <div class="empty-line"></div>';
 
-    // Текущая дата + 3 дня
     $htmlInvoice .= '
-  <p>Оплатить не позднее ' . date('d.m.Y', strtotime('+3 days')) . '<br>
-  Оплата данного счета означает согласие с условиями поставки товара.<br>
-  Уведомление об оплате обязательно, в противном случае не гарантируется наличие товара на складе.<br>
-  Товар отпускается по факту прихода денег на р/с Поставщика, самовывозом, при наличии доверенности и паспорта.</p>
+
+  <p><b>Условия оплаты:</b></p>
 
   <div class="empty-line"></div>
-  <div class="divider"></div>
+  <div class="empty-line"></div>
 
-  <p><b>Предприниматель</b>______________________________________________' . $bankDetails['entrepreneurs_surname'] . '</p>
+  <table class="middle-table">
+    <tr>
+      <td>Руководитель предприятия</td>
+      <td>__________________________(' . $bankDetails['entrepreneurs_surname'] . ')</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Бухгалтер</td>
+      <td>__________________________</td>
+    </tr>
+  </table>
 </div>
 </body>
 </html>';
@@ -605,7 +654,7 @@ function getMainTableHTML(array $bankDetails): string
     <tr>
       <td class="cell-inn-kpp">
         <span class="inn-cell">ИНН ' . $bankDetails['inn'] . '</span>
-        <span class="kpp-cell">ОГРНИП ' . $bankDetails['kpp'] . '</span>
+        <span class="kpp-cell">КПП </span>
       </td>
       <td class="cell-account-label" style="vertical-align: top;" rowspan="2">Сч. №</td>
       <td class="cell-account-value" style="vertical-align: top;" rowspan="2">
@@ -678,11 +727,11 @@ function getItemsTableHTML(
     <thead>
       <tr>
         <th class="col-right">№</th>
-        <th class="col-left">Товары (работы, услуги)</th>
+        <th class="col-left">Наименование товаров, работ, услуг</th>
         <th class="col-right">Кол-во</th>
-        <th class="col-center">Ед.</th>
+        <th class="col-center">Ед. изм.</th>
         <th class="col-right">Цена</th>
-        <th class="col-right">Сумма</th>
+        <th class="col-right">Всего</th>
       </tr>
     </thead>
     <tbody>
@@ -725,16 +774,12 @@ function getItemsTableHTML(
     </tbody>
     <tfoot>
       <tr>
-        <td colspan="5" style="text-align:right; font-weight:bold;">Итого:</td>
+        <td colspan="5" style="text-align:right; font-weight:bold;">Итого к оплате:</td>
         <td class="col-right" style="font-weight:bold;">' . number_format($total, 2, ',', ' ') . '</td>
       </tr>
       <tr>
-        <td colspan="5" style="text-align:right; font-weight:bold;">В том числе НДС:</td>
+        <td colspan="5" style="text-align:right; font-weight:bold;">Без налога (НДС)</td>
         <td class="col-right" style="font-weight:bold;">—</td>
-      </tr>
-      <tr>
-        <td colspan="5" style="text-align:right; font-weight:bold;">Всего к оплате:</td>
-        <td class="col-right" style="font-weight:bold;">' . number_format($total, 2, ',', ' ') . '</td>
       </tr>
     </tfoot>
   </table>';
@@ -745,7 +790,7 @@ function getItemsTableHTML(
   <div class="empty-line"></div>
 
   <p>Всего наименований ' . $rowNumber . ', на сумму ' . number_format($total, 2, ',', ' ') . ' руб<br>
-  (<b>' . $totalInWords . '</b>)</p>';
+  <b>' . $totalInWords . '</b></p>';
 
     return $itemsTableHTML;
 }
