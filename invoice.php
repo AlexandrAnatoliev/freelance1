@@ -194,14 +194,14 @@ function getInvoice(
 
   <div class="empty-line"></div>
 
-  <div class="divider"></div>
-
   <table class="middle-table">
     <tr>
-      <td class="label-cell">Поставщик<br>(Исполнитель):</td>
-      <td class="value-cell">' . $bankDetails['ip_full_name'] . '</td>
+      <td><b>Поставщик:</b></td>
+      <td>' . $bankDetails['ip_full_name'] . '</td>
     </tr>
-  </table>';
+  </table>
+
+  <div class="empty-line"></div>';
 
     $htmlInvoice .= getMainTableHTML($bankDetails);
     $htmlInvoice .= getMiddleTableHTML(
