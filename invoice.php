@@ -764,16 +764,12 @@ function getItemsTableHTML(
     </tbody>
     <tfoot>
       <tr>
-        <td colspan="5" style="text-align:right; font-weight:bold;">Итого:</td>
+        <td colspan="5" style="text-align:right; font-weight:bold;">Итого к оплате:</td>
         <td class="col-right" style="font-weight:bold;">' . number_format($total, 2, ',', ' ') . '</td>
       </tr>
       <tr>
-        <td colspan="5" style="text-align:right; font-weight:bold;">В том числе НДС:</td>
+        <td colspan="5" style="text-align:right; font-weight:bold;">Без налога (НДС)</td>
         <td class="col-right" style="font-weight:bold;">—</td>
-      </tr>
-      <tr>
-        <td colspan="5" style="text-align:right; font-weight:bold;">Всего к оплате:</td>
-        <td class="col-right" style="font-weight:bold;">' . number_format($total, 2, ',', ' ') . '</td>
       </tr>
     </tfoot>
   </table>';
@@ -784,7 +780,7 @@ function getItemsTableHTML(
   <div class="empty-line"></div>
 
   <p>Всего наименований ' . $rowNumber . ', на сумму ' . number_format($total, 2, ',', ' ') . ' руб<br>
-  (<b>' . $totalInWords . '</b>)</p>';
+  <b>' . $totalInWords . '</b></p>';
 
     return $itemsTableHTML;
 }
