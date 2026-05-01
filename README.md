@@ -3,7 +3,7 @@
   <h1>Скрипт php: Калькулятор-заказа с отправкой счёта на оплату</h1>
 
   ![Stars](https://img.shields.io/github/stars/AlexandrAnatoliev/freelance1.svg?style=flat)
-  ![Version 0.1.44](https://img.shields.io/badge/Version-0.1.44-orange.svg)
+  ![Version 0.1.45](https://img.shields.io/badge/Version-0.1.45-orange.svg)
   ![Forks](https://img.shields.io/github/forks/AlexandrAnatoliev/freelance1.svg?style=flat)
   ![GitHub repo size](https://img.shields.io/github/repo-size/AlexandrAnatoliev/freelance1)
   
@@ -121,7 +121,7 @@
 
 * [x] **Капча (CAPTCHA):**
   * [x] Простой вариант (например, математический вопрос "Сколько будет 5 + 7? Введите цифрой").
-  * [ ] Rate Limiting (тайм-аут на отправку, например, 1 раз в минуту с одного IP).
+  * [x] Rate Limiting (тайм-аут на отправку, например, 1 раз в минуту с одного IP).
 
 #### 3. Безопасность и структура кода
 
@@ -371,6 +371,7 @@ composer require dompdf/dompdf
 ├── utils
 │   ├── debug.php
 │   ├── imagePath.php
+│   ├── rateLimit.php
 │   ├── selector.php
 │   └── session.php
 └── vendor

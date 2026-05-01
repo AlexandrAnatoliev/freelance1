@@ -5,6 +5,17 @@ declare(strict_types=1);
 // раскомментировать для вывода ошибок на экран
 require_once 'utils/debug.php';
 require_once 'utils/session.php';
+require_once 'utils/rateLimit.php';
+
+$clientIP = $_SERVER['REMOTE_ADDR'] ?? '127.0.0.1';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isIpRateLimited($clientIP, 30)) {
+        $_SESSION['error_message'] = 'Слишком много запросов. Пожалуйста, подождите 30 секунд и попробуйте снова.';
+        header('Location: index.php');
+        exit;
+    }
+}
 
 $location = 'Location: index.php';
 
