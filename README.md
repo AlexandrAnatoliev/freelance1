@@ -121,7 +121,7 @@
 
 * [x] **Капча (CAPTCHA):**
   * [x] Простой вариант (например, математический вопрос "Сколько будет 5 + 7? Введите цифрой").
-  * [ ] Rate Limiting (тайм-аут на отправку, например, 1 раз в минуту с одного IP).
+  * [x] Rate Limiting (тайм-аут на отправку, например, 1 раз в минуту с одного IP).
 
 #### 3. Безопасность и структура кода
 
@@ -371,6 +371,7 @@ composer require dompdf/dompdf
 ├── utils
 │   ├── debug.php
 │   ├── imagePath.php
+│   ├── rateLimit.php
 │   ├── selector.php
 │   └── session.php
 └── vendor
