@@ -64,7 +64,7 @@ require_once 'mailer.php';
 require_once 'configs/adminSettings.php';
 require_once 'generatePDF.php';
 
-$orderNumber    = 'Б-' . date('Ymd-His');
+$orderNumber    = date('Ymd-His');
 $subject        = "Счет на оплату №{$orderNumber} от " . date('d.m.Y');
 
 // счет
