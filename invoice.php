@@ -605,7 +605,7 @@ function getMainTableHTML(array $bankDetails): string
     <tr>
       <td class="cell-inn-kpp">
         <span class="inn-cell">ИНН ' . $bankDetails['inn'] . '</span>
-        <span class="kpp-cell">ОГРНИП ' . $bankDetails['kpp'] . '</span>
+        <span class="kpp-cell">КПП </span>
       </td>
       <td class="cell-account-label" style="vertical-align: top;" rowspan="2">Сч. №</td>
       <td class="cell-account-value" style="vertical-align: top;" rowspan="2">
