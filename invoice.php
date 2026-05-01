@@ -727,11 +727,11 @@ function getItemsTableHTML(
     <thead>
       <tr>
         <th class="col-right">№</th>
-        <th class="col-left">Товары (работы, услуги)</th>
+        <th class="col-left">Наименование товаров, работ, услуг</th>
         <th class="col-right">Кол-во</th>
-        <th class="col-center">Ед.</th>
+        <th class="col-center">Ед. изм.</th>
         <th class="col-right">Цена</th>
-        <th class="col-right">Сумма</th>
+        <th class="col-right">Всего</th>
       </tr>
     </thead>
     <tbody>
