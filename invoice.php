@@ -187,6 +187,22 @@ function getInvoice(
 <body>
 <div class="table-wrapper">';
 
+    $htmlInvoice .= '
+  <div class="invoice-header">
+    Счет на оплату № ' . $orderNumber . ' от ' . getCurrentRussianDate() . '
+  </div>
+
+  <div class="empty-line"></div>
+
+  <div class="divider"></div>
+
+  <table class="middle-table">
+    <tr>
+      <td class="label-cell">Поставщик<br>(Исполнитель):</td>
+      <td class="value-cell">' . $bankDetails['ip_full_name'] . '</td>
+    </tr>
+  </table>';
+
     $htmlInvoice .= getMainTableHTML($bankDetails);
     $htmlInvoice .= getMiddleTableHTML(
         $bankDetails,
