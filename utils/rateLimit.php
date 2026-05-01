@@ -8,10 +8,10 @@ declare(strict_types=1);
  * Использует простой JSON-файл в системной временной папке.
  * Запись выполняется атомарно через временный файл и rename.
  *
- * @param string      $ip         IP-адрес клиента (например, $_SERVER['REMOTE_ADDR'])
- * @param int         $interval   Минимальный интервал между запросами в секундах (по умолчанию 30)
- * @param string|null $storageFile Путь к файлу хранилища (если null — sys_get_temp_dir())
- * @return bool true — превышен лимит (запрос нужно заблокировать), false — можно продолжать
+ * @param $ip           IP-адрес клиента (например, $_SERVER['REMOTE_ADDR'])
+ * @param $interval     Минимальный интервал между запросами в секундах (по умолчанию 30)
+ * @param $storageFile  Путь к файлу хранилища (если null — sys_get_temp_dir())
+ * @return true         превышен лимит (запрос нужно заблокировать), false — можно продолжать
  */
 function isIpRateLimited(string $ip, int $interval = 30, ?string $storageFile = null): bool
 {
