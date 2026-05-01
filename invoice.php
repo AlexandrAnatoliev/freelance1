@@ -252,11 +252,20 @@ function getInvoice(
   <div class="empty-line"></div>
   <div class="empty-line"></div>
 
-  <p>Руководитель предприятия         __________________________(' . $bankDetails['entrepreneurs_surname'] . ')</p>
-
-  <div class="empty-line"></div>
-
-  <p>Бухгалтер                        __________________________' . $bankDetails['entrepreneurs_surname'] . '</p>
+  <table class="middle-table">
+    <tr>
+      <td>Руководитель предприятия</td>
+      <td>__________________________(' . $bankDetails['entrepreneurs_surname'] . ')</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Бухгалтер</td>
+      <td>__________________________</td>
+    </tr>
+  </table>
 </div>
 </body>
 </html>';
