@@ -178,6 +178,13 @@ $_SESSION['addon_prices_session'] = $addon_prices;
 </head>
 <body>
     <div class="calculator">
+      <?php if (isset($_SESSION['error_message'])) : ?>
+    <div style="color: red; border: 1px solid red; padding: 10px; margin-bottom: 15px; background: #fff5f5;">
+            <?= htmlspecialchars($_SESSION['error_message']) ?>
+    </div>
+            <?php unset($_SESSION['error_message']); ?>
+      <?php endif; ?>
+      
         <h1>Калькулятор услуг</h1>
         <form id="orderForm" action="checkout.php" method="post">
 
