@@ -3,7 +3,7 @@
   <h1>Скрипт php: Калькулятор-заказа с отправкой счёта на оплату</h1>
 
   ![Stars](https://img.shields.io/github/stars/AlexandrAnatoliev/freelance1.svg?style=flat)
-  ![Version 0.1.46](https://img.shields.io/badge/Version-0.1.46-orange.svg)
+  ![Version 0.1.47](https://img.shields.io/badge/Version-0.1.47-orange.svg)
   ![Forks](https://img.shields.io/github/forks/AlexandrAnatoliev/freelance1.svg?style=flat)
   ![GitHub repo size](https://img.shields.io/github/repo-size/AlexandrAnatoliev/freelance1)
   
@@ -645,6 +645,12 @@ cp .env.example .env
   <a id="hostia"></a>
   <h2>Хостинг на hostia</h2>
 </div>
+
+* Создание папку для архива проекта
+
+```
+mkdir releases
+```
 
 * Создание архива проекта
 
