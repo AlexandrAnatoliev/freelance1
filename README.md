@@ -3,7 +3,7 @@
   <h1>Скрипт php: Калькулятор-заказа с отправкой счёта на оплату</h1>
 
   ![Stars](https://img.shields.io/github/stars/AlexandrAnatoliev/freelance1.svg?style=flat)
-  ![Version 0.1.47](https://img.shields.io/badge/Version-0.1.47-orange.svg)
+  ![Version 1.0.0](https://img.shields.io/badge/Version-1.0.0-orange.svg)
   ![Forks](https://img.shields.io/github/forks/AlexandrAnatoliev/freelance1.svg?style=flat)
   ![GitHub repo size](https://img.shields.io/github/repo-size/AlexandrAnatoliev/freelance1)
   
@@ -59,9 +59,7 @@
 
 * [x] **Радиокнопки** для выбора основного товара/услуги.
 * [x] **Чекбоксы** для дополнительных опций.
-* [ ] **Картинки** товаров/опций (фикс. ширина ~100px? Уточнить адаптивность).
-  * [ ] Добавить **галочку/птичку/индикатор** в углу картинки при выборе опции (чтобы пользователи не путались).
-    * [x] Выбор опций пользователем выделяется изменением цвета поля опции и изменением списка выбранных опций внизу
+  * [x] Выбор опций пользователем выделяется изменением цвета поля опции и изменением списка выбранных опций внизу
 * [x] **Поле ввода количества:** 1000 шт максимум.
   * [x] Поле ввода количества заменить на кнопки `+` / `-`  (сделал селектор)
 * [ ] **Адаптивность:** Корректное отображение на мобильных и десктопе.
@@ -102,9 +100,9 @@
 * [x] Телефон.
 * [x] Email.
 * [x] Поле ввода количества товара.
-* [ ] **Валидация:**
-  * [ ] Проверка корректности Email.
-  * [ ] Проверка корректности Телефона.
+* [x] **Валидация:**
+  * [x] Проверка корректности Email.
+  * [x] Проверка корректности Телефона.
   * [x] Убрать лимит количества в 12 шт. (сделать "макс. 99" или без лимита).
 * [x] **Обязательные поля:**
   * [x] Название компании/организации
@@ -159,7 +157,6 @@
 
 ##### Админка (MVP)
 
-* [ ] В первой версии — «файловая админка».
 * [x] **Файл настроек `index.php`:** Комментированный код в начале файла (или отдельный простой конфиг), где администратор может сменить:
   * Картинки (пути).
   * Названия услуг.
@@ -657,7 +654,7 @@ mkdir releases
 * Создание архива проекта
 
 ```
- zip -r releases/v_0_1_46.zip .htaccess captcha.php checkout.php composer.json composer.lock configs/ generatePDF.php img/ index.php invoice.php mailer.php README.md styles/ utils/ vendor/
+ zip -r releases/v_1_0_0.zip .htaccess captcha.php checkout.php composer.json composer.lock configs/ generatePDF.php img/ index.php invoice.php mailer.php README.md styles/ utils/ vendor/
 ```
 
 * Копирование архива на хостинг
