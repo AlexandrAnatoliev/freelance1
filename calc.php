@@ -222,6 +222,11 @@ $_SESSION['addon_prices_session'] = $addon_prices;
                 <?php endforeach; ?>
             </div>
 
+            <!-- Предупреждение: нанесение без сувенира -->
+            <div id="souvenirWarning" class="warning-box">
+                ⚠️ Сначала выберите сувенир
+            </div>
+
             <!-- Блок "Выбрано:" -->
             <div class="selected-items">
                 <h3>📋 Выбрано:</h3>
