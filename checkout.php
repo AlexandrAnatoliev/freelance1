@@ -162,19 +162,9 @@ $resultAdmin = sendInvoiceEmail(
         <?php endif; ?>
 
         <div class="action-buttons">
-            <!-- Кнопка открытия PDF -->
-            <!-- <a href="data:application/pdf;base64,<?= base64_encode($pdfContent) ?>" -->
-              <!-- download="<?= $pdfFilename ?>" -->
-              <!-- class="btn btn-print"> -->
-                <!-- 📄 ОТКРЫТЬ СЧЕТ В PDF -->
-            <!-- </a> -->
             <a href="index.php" class="btn btn-back">
                 ← ВЕРНУТЬСЯ К КАЛЬКУЛЯТОРУ
             </a>
-        </div>
-
-        <div class="print-note">
-            <p>💡 Нажмите кнопку "ОТКРЫТЬ СЧЕТ В PDF", чтобы получить счет в PDF</p>
         </div>
 
         <div class="invoice-preview">
