@@ -183,56 +183,13 @@ function getInvoice(
   </style>
 </head>';
 
-    $htmlInvoice .= '
-<body>
-<div class="table-wrapper">';
-
-    $htmlInvoice .= '
-  <div class="empty-line"></div>
-  
-  <div class="invoice-header">
-    Счет на оплату № ' . $orderNumber . ' от ' . getCurrentRussianDate() . '
-  </div>
-
-  <div class="empty-line"></div>
-
-  <table class="middle-table">
-    <tr>
-      <td><b>Поставщик:</b></td>
-      <td>' . $bankDetails['ip_full_name'] . '</td>
-    </tr>
-  </table>
-
-  <div class="empty-line"></div>';
-
     $htmlInvoice .= getMainTableHTML($bankDetails);
-
-    // '89261234567';
-    $phone = preg_replace('/\D/', '', $customerPhone);          // 89261234567
-    $phone = '+7' . substr($phone, 1);                     // +79261234567
-
-    $formatted = sprintf(
-        '+7 (%s) %s-%s-%s',
-        substr($phone, 2, 3),   // 926
-        substr($phone, 5, 3),   // 123
-        substr($phone, 8, 2),   // 45
-        substr($phone, 10, 2)   // 67
+    $htmlInvoice .= getMiddleTableHTML(
+        $bankDetails,
+        $orderNumber,
+        $customerPhone,
+        $customerName,
     );
-    // +7 (926) 123-45-67
-
-    $htmlInvoice .= '
-
-  <div class="empty-line"></div>
-
-  <table class="middle-table">
-    <tr>
-      <td><b>Покупатель:</b></td>
-      <td>' . $customerName . ', тел: ' . $formatted . '</td>
-    </tr>
-  </table>
-
-  <div class="empty-line"></div>';
-
     $htmlInvoice .= getItemsTableHTML(
         $items,
         $itemNameKey,
@@ -245,25 +202,23 @@ function getInvoice(
     $htmlInvoice .= '
   <div class="empty-line"></div>';
 
+    $dateIn3Days = date('Y-m-d', strtotime('+3 days'));
+
     $htmlInvoice .= '
+  <p>Оплатить не позднее ' . $dateIn3Days . '</p>
 
-  <p><b>Условия оплаты:</b></p>
+  <p>Оплата данного счёта означает согласие с условиями поставки товара.<br>
+  Уведомление об оплате обязательно, в противном случае не гарантируется наличие товара на складе.<br>
+  Товар отпускается по факту прхода денег на р/с Поставщика, самовывозом, при наличии доверенности и паспорта.<p>
 
   <div class="empty-line"></div>
-  <div class="empty-line"></div>
 
+  <div class="divider"></div>
+  
   <table class="middle-table">
     <tr>
-      <td>Руководитель предприятия</td>
+      <td><b>Предприниматель</b></td>
       <td>__________________________(' . $bankDetails['entrepreneurs_surname'] . ')</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>Бухгалтер</td>
-      <td>__________________________</td>
     </tr>
   </table>
 </div>
@@ -790,7 +745,7 @@ function getItemsTableHTML(
   <div class="empty-line"></div>
 
   <p>Всего наименований ' . $rowNumber . ', на сумму ' . number_format($total, 2, ',', ' ') . ' руб<br>
-  <b>' . $totalInWords . '</b></p>';
+  <b>(' . $totalInWords . '</b>)</p>';
 
     return $itemsTableHTML;
 }
