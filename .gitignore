@@ -1,7 +1,7 @@
 *.swp
 vendor/
+releases/
 .env
-composer.json
 composer.lock
 .php-cs-fixer.cache
 .php-cs-fixer.dist.php

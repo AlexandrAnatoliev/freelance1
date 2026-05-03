@@ -3,7 +3,7 @@
   <h1>Скрипт php: Калькулятор-заказа с отправкой счёта на оплату</h1>
 
   ![Stars](https://img.shields.io/github/stars/AlexandrAnatoliev/freelance1.svg?style=flat)
-  ![Version 0.1.45](https://img.shields.io/badge/Version-0.1.45-orange.svg)
+  ![Version 0.1.46](https://img.shields.io/badge/Version-0.1.46-orange.svg)
   ![Forks](https://img.shields.io/github/forks/AlexandrAnatoliev/freelance1.svg?style=flat)
   ![GitHub repo size](https://img.shields.io/github/repo-size/AlexandrAnatoliev/freelance1)
   
@@ -22,10 +22,12 @@
 * [Техническое задание](#technical-specifications)
 * [Общая архитектура](#architecture)
 * [Требования к серверу](#requirements)
-* [Установка PHPMailer](#PHPMailer-install)
+* [Клонирование репозитория](#clone)
+* [Установка PHPMailer и зависимостей](#PHPMailer-install)
 * [Настройка почтового сервиса](#mail-service-setup)
 * [Настройки товаров](#index-setting)
 * [Переменные окружения](#env)
+* [Хостинг на hostia](#hostia)
 
 ---
 
@@ -37,7 +39,7 @@
 ```
 Нужен скрипт калькулятора-заказа на php с радиокнопками, чекбоксами, 
 картинками, полем ввода количества, расчётом итоговой суммы заказа 
-и отправкой готового счета на оплату(в pdf или html с возможностью 
+и отправкой готового счета на оплату (в pdf или html с возможностью 
 сохранения покупателем из письма в pdf) на почту покупателя и админа. 
 Проведение онлайн оплаты не нужно, только отправка.
 ```
@@ -180,22 +182,22 @@
 
 ##### Техническая реализация
 
-* [x] **Способ отправки:** Счёт в формате **PDF должен быть прикреплённым файлом** к письму (In-Reply-To/Attachment).
+* [x] **Способ отправки:** Счёт в формате **PDF должен быть прикреплённым файлом** к письму.
 * [x] **Конвертация:** Перед отправкой HTML-шаблон счёта преобразуется в PDF на сервере (чтобы рамки и стили сохранялись везде, включая мобильные почтовики).
 * [x] **Письмо:** Приходит и Покупателю, и Администратору.
 
 #### 5. Документация и развертывание
 
-* [ ] **README с инструкцией:** Как развернуть (в том числе на хостинге без SSH).
+* [x] **README с инструкцией:** Как развернуть (в том числе на хостинге без SSH).
 * [x] **Комментарии в коде:** Понятные пояснения на русском/английском в каждом PHP и HTML блоке.
 * [x] **Переносимость:** Скрипт легко скопировать и настроить под «другой товар» (минимальное количество правок в `index.php` / конфиге).
 * [x] **Скриншоты работы:** Актуальные скрины в репозитории (фронт, чек, письмо).
 
 #### 6. Технический долг / Баги
 
-* [x] Поправить отображение чеков в почтовых клиентах (сломанные стили/рамки без конвертации).
+* [x] Поправить отображение счетов в почтовых клиентах (сломанные стили/рамки без конвертации).
 * [x] Настроить корректное сохранение PDF из тела письма вручную (пока проблема на телефонах).
-* [ ] Протестировать на реальном хостинге Hostia (особенности файловой системы и почтового модуля).
+* [x] Протестировать на реальном хостинге Hostia (особенности файловой системы и почтового модуля).
 
 #### Реализовано
 
@@ -214,7 +216,7 @@
 </div>
 * Отправка письма на почту покупателю:
 <div align="center">
-  <img src="img/phone-mail.jpg" width=320>
+  <img src="img/phone_mail.jpg" width=320>
 </div>
 
 ---
@@ -308,6 +310,17 @@ extension=sockets
 ---
 
 <div align="center">
+  <a id="clone"></a>
+  <h2>Клонирование репозитория</h2>
+</div>
+
+```bash
+git clone https://github.com/AlexandrAnatoliev/freelance1.git
+```
+
+---
+
+<div align="center">
   <a id="PHPMailer-install"></a>
   <h2>Установка PHPMailer и зависимостей</h2>
 </div>
@@ -336,15 +349,7 @@ sudo apt install composer -y
 В корневой папке проекта выполнить:
 
 ```
-composer require phpmailer/phpmailer
-```
-
-```
-composer require vlucas/phpdotenv
-```
-
-```
-composer require dompdf/dompdf
+composer install
 ```
 
 После установки структура папок будет выглядеть:
@@ -375,10 +380,18 @@ composer require dompdf/dompdf
 │   ├── selector.php
 │   └── session.php
 └── vendor
-    ├── phpmailer/
-    ├── dompdf/
-    ├── phpdotenv/
-    └── autoload.php
+    ├── autoload.php
+    ├── bin
+    ├── composer
+    ├── dompdf
+    ├── graham-campbell
+    ├── masterminds
+    ├── phpmailer
+    ├── phpoption
+    ├── sabberworm
+    ├── symfony
+    ├── thecodingmachine
+    └── vlucas
 ```
 
 ---
@@ -625,3 +638,34 @@ cp .env.example .env
 # BANK_DETAILS_PAYMENT_BASIS='Основной договор'
 # BANK_DETAILS_ENTREPRENEURS_SURNAME='Иванов И.'
 ```
+
+---
+
+<div align="center">
+  <a id="hostia"></a>
+  <h2>Хостинг на hostia</h2>
+</div>
+
+* Создание архива проекта
+
+```
+ zip -r releases/v_0_1_46.zip .htaccess captcha.php checkout.php composer.json composer.lock configs/ generatePDF.php img/ index.php invoice.php mailer.php README.md styles/ utils/ vendor/
+```
+
+* Копирование архива на хостинг
+
+<div align="center">
+  <img src="img/copy-project-to-hostia.png" width=640>
+</div>
+
+* Распаковать архив с проектом
+
+<div align="center">
+  <img src="img/unzip-project.png" width=640>
+</div>
+
+* При необходимости - измените версию php на 8.1
+
+<div align="center">
+  <img src="img/change-php-version.png" width=640>
+</div>
