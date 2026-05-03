@@ -214,7 +214,7 @@
 </div>
 * Отправка письма на почту покупателю:
 <div align="center">
-  <img src="img/phone-mail.jpg" width=320>
+  <img src="img/phone_mail.jpg" width=320>
 </div>
 
 ---
