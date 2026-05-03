@@ -12,7 +12,7 @@
  *
  * Зависимости:
  *   - utils/debug.php (настройки вывода ошибок PHP)
- *   - styles/index.css (стили страницы)
+ *   - styles/calc.css (стили страницы)
  *   - img/* (изображения товаров)
  */
 
@@ -174,7 +174,7 @@ $_SESSION['addon_prices_session'] = $addon_prices;
 <head>
     <meta charset="UTF-8">
     <title>Калькулятор заказа</title>
-    <link rel="stylesheet" href="styles/index.css">
+    <link rel="stylesheet" href="styles/calc.css">
 </head>
 <body>
     <div class="calculator">
