@@ -163,11 +163,11 @@ $resultAdmin = sendInvoiceEmail(
 
         <div class="action-buttons">
             <!-- Кнопка открытия PDF -->
-            <a href="data:application/pdf;base64,<?= base64_encode($pdfContent) ?>"
-              download="<?= $pdfFilename ?>"
-              class="btn btn-print">
-                📄 ОТКРЫТЬ СЧЕТ В PDF
-            </a>
+            <!-- <a href="data:application/pdf;base64,<?= base64_encode($pdfContent) ?>" -->
+              <!-- download="<?= $pdfFilename ?>" -->
+              <!-- class="btn btn-print"> -->
+                <!-- 📄 ОТКРЫТЬ СЧЕТ В PDF -->
+            <!-- </a> -->
             <a href="index.php" class="btn btn-back">
                 ← ВЕРНУТЬСЯ К КАЛЬКУЛЯТОРУ
             </a>
