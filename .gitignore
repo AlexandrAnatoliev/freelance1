@@ -1,5 +1,6 @@
 *.swp
 vendor/
+releases/
 .env
 composer.lock
 .php-cs-fixer.cache
