@@ -27,6 +27,7 @@
 * [Настройка почтового сервиса](#mail-service-setup)
 * [Настройки товаров](#index-setting)
 * [Переменные окружения](#env)
+* [Хостинга на hostia](#hostia)
 
 ---
 
@@ -637,3 +638,34 @@ cp .env.example .env
 # BANK_DETAILS_PAYMENT_BASIS='Основной договор'
 # BANK_DETAILS_ENTREPRENEURS_SURNAME='Иванов И.'
 ```
+
+---
+
+<div align="center">
+  <a id="hostia"></a>
+  <h2>Хостинга на hostia</h2>
+</div>
+
+* Создание архива проекта
+
+```
+ zip -r releases/v_0_1_46.zip .htaccess captcha.php checkout.php composer.json composer.lock configs/ generatePDF.php img/ index.php invoice.php mailer.php README.md styles/ utils/ vendor/
+```
+
+* Копирование архива на хостинг
+
+<div align="center">
+  <img src="img/copy-project-to-hostia.png" width=640>
+</div>
+
+* Распаковать архив с проектом
+
+<div align="center">
+  <img src="img/unzip-project.png" width=640>
+</div>
+
+* При необходимости - измените версию php на 8.1
+
+<div align="center">
+  <img src="img/change-php-version.png" width=640>
+</div>
