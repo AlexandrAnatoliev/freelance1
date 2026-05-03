@@ -22,7 +22,8 @@
 * [Техническое задание](#technical-specifications)
 * [Общая архитектура](#architecture)
 * [Требования к серверу](#requirements)
-* [Установка PHPMailer](#PHPMailer-install)
+* [Клонирование репозитория](#clone)
+* [Установка PHPMailer и зависимостей](#PHPMailer-install)
 * [Настройка почтового сервиса](#mail-service-setup)
 * [Настройки товаров](#index-setting)
 * [Переменные окружения](#env)
@@ -308,6 +309,17 @@ extension=sockets
 ---
 
 <div align="center">
+  <a id="clone"></a>
+  <h2>Клонирование репозитория</h2>
+</div>
+
+```bash
+git clone https://github.com/AlexandrAnatoliev/freelance1.git
+```
+
+---
+
+<div align="center">
   <a id="PHPMailer-install"></a>
   <h2>Установка PHPMailer и зависимостей</h2>
 </div>
@@ -336,15 +348,7 @@ sudo apt install composer -y
 В корневой папке проекта выполнить:
 
 ```
-composer require phpmailer/phpmailer
-```
-
-```
-composer require vlucas/phpdotenv
-```
-
-```
-composer require dompdf/dompdf
+composer install
 ```
 
 После установки структура папок будет выглядеть:
@@ -375,10 +379,18 @@ composer require dompdf/dompdf
 │   ├── selector.php
 │   └── session.php
 └── vendor
-    ├── phpmailer/
-    ├── dompdf/
-    ├── phpdotenv/
-    └── autoload.php
+    ├── autoload.php
+    ├── bin
+    ├── composer
+    ├── dompdf
+    ├── graham-campbell
+    ├── masterminds
+    ├── phpmailer
+    ├── phpoption
+    ├── sabberworm
+    ├── symfony
+    ├── thecodingmachine
+    └── vlucas
 ```
 
 ---
