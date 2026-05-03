@@ -12,12 +12,12 @@ $clientIP = $_SERVER['REMOTE_ADDR'] ?? '127.0.0.1';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isIpRateLimited($clientIP, 30)) {
         $_SESSION['error_message'] = 'Слишком много запросов. Пожалуйста, подождите 30 секунд и попробуйте снова.';
-        header('Location: index.php');
+        header('Location: calc.php');
         exit;
     }
 }
 
-$location = 'Location: index.php';
+$location = 'Location: calc.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header($location);
@@ -162,7 +162,7 @@ $resultAdmin = sendInvoiceEmail(
         <?php endif; ?>
 
         <div class="action-buttons">
-            <a href="index.php" class="btn btn-back">
+            <a href="calc.php" class="btn btn-back">
                 ← ВЕРНУТЬСЯ К КАЛЬКУЛЯТОРУ
             </a>
         </div>

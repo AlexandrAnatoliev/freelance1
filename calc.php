@@ -2,7 +2,7 @@
 
 /**
  * =====================================================================
- * index.php - Главная страница "Калькулятор заказа"
+ * calc.php - Главная страница "Калькулятор заказа"
  * =====================================================================
  *
  * Как настраивать:
@@ -12,7 +12,7 @@
  *
  * Зависимости:
  *   - utils/debug.php (настройки вывода ошибок PHP)
- *   - styles/index.css (стили страницы)
+ *   - styles/calc.css (стили страницы)
  *   - img/* (изображения товаров)
  */
 
@@ -174,7 +174,7 @@ $_SESSION['addon_prices_session'] = $addon_prices;
 <head>
     <meta charset="UTF-8">
     <title>Калькулятор заказа</title>
-    <link rel="stylesheet" href="styles/index.css">
+    <link rel="stylesheet" href="styles/calc.css">
 </head>
 <body>
     <div class="calculator">
@@ -220,6 +220,11 @@ $_SESSION['addon_prices_session'] = $addon_prices;
                     <span class="price">+<?= number_format($addon['price'], 0, ',', ' ') ?> ₽</span>
                 </label>
                 <?php endforeach; ?>
+            </div>
+
+            <!-- Предупреждение: нанесение без сувенира -->
+            <div id="souvenirWarning" class="warning-box">
+                ⚠️ Сначала выберите сувенир
             </div>
 
             <!-- Блок "Выбрано:" -->
@@ -386,8 +391,32 @@ window.addEventListener('DOMContentLoaded', function() {
     calculateTotal();
 });
 
-// Валидация капчи перед отправкой
 form.addEventListener('submit', function(e) {
+    // --- Валидация Email ---
+    const emailInput = form.querySelector('input[name="customer_email"]');
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(emailInput.value.trim())) {
+        e.preventDefault();
+        emailInput.classList.add('error');
+        alert('Введите корректный Email адрес.');
+        emailInput.focus();
+        return false;
+    }
+    emailInput.classList.remove('error');
+
+    // --- Валидация Телефона ---
+    const phoneInput = form.querySelector('input[name="customer_phone"]');
+    const phoneDigits = phoneInput.value.replace(/\D/g, '');
+    if (phoneDigits.length < 10) {
+        e.preventDefault();
+        phoneInput.classList.add('error');
+        alert('Номер телефона должен содержать не менее 10 цифр.');
+        phoneInput.focus();
+        return false;
+    }
+    phoneInput.classList.remove('error');
+
+    // --- Проверка капчи
     const captchaInput = document.getElementById('captchaInput');
     const captchaValue = parseInt(captchaInput.value);
 

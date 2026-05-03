@@ -219,6 +219,13 @@ button:hover {
     outline: none;
 }
 
+input[type="text"].error,
+input[type="email"].error,
+input[type="tel"].error {
+    border-color: #dc3545;
+    background: #fff5f5;
+}
+
 .captcha-input.error {
     border-color: #dc3545;
     background: #fff5f5;
@@ -229,3 +236,25 @@ button:hover {
     color: #666;
     margin-top: 5px;
 }
+
+.warning-box {
+  display: block;
+  color: #d32f2f;
+  background: #fff3f3;
+  border: 1px solid #d32f2f;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin: 15px 0;
+  font-weight: bold;
+}
+
+/* Скрываем, если выбран сувенир */
+#orderForm:has(input[name="itemName"]:checked) #souvenirWarning {
+  display: none;
+}
+
+/* Скрываем, если НЕТ ни одного отмеченного нанесения */
+#orderForm:not(:has(input[name="addons[]"]:checked)) #souvenirWarning {
+  display: none;
+}
+
