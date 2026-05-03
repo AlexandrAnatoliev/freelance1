@@ -219,6 +219,13 @@ button:hover {
     outline: none;
 }
 
+input[type="text"].error,
+input[type="email"].error,
+input[type="tel"].error {
+    border-color: #dc3545;
+    background: #fff5f5;
+}
+
 .captcha-input.error {
     border-color: #dc3545;
     background: #fff5f5;
@@ -250,3 +257,4 @@ button:hover {
 #orderForm:not(:has(input[name="addons[]"]:checked)) #souvenirWarning {
   display: none;
 }
+

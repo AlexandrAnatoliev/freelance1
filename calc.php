@@ -391,8 +391,32 @@ window.addEventListener('DOMContentLoaded', function() {
     calculateTotal();
 });
 
-// Валидация капчи перед отправкой
 form.addEventListener('submit', function(e) {
+    // --- Валидация Email ---
+    const emailInput = form.querySelector('input[name="customer_email"]');
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(emailInput.value.trim())) {
+        e.preventDefault();
+        emailInput.classList.add('error');
+        alert('Введите корректный Email адрес.');
+        emailInput.focus();
+        return false;
+    }
+    emailInput.classList.remove('error');
+
+    // --- Валидация Телефона ---
+    const phoneInput = form.querySelector('input[name="customer_phone"]');
+    const phoneDigits = phoneInput.value.replace(/\D/g, '');
+    if (phoneDigits.length < 10) {
+        e.preventDefault();
+        phoneInput.classList.add('error');
+        alert('Номер телефона должен содержать не менее 10 цифр.');
+        phoneInput.focus();
+        return false;
+    }
+    phoneInput.classList.remove('error');
+
+    // --- Проверка капчи
     const captchaInput = document.getElementById('captchaInput');
     const captchaValue = parseInt(captchaInput.value);
 
