@@ -128,7 +128,7 @@
 ```mermaid
 classDiagram
   
-  class index.php {
+  class calc.php {
   }
 
   class captcha.php {
@@ -146,7 +146,7 @@ classDiagram
   class SMTP-сервер {
   }
 
-  index.php --> captcha.php
+  calc.php --> captcha.php
   captcha.php --> checkout.php
   checkout.php --> generatePDF.php
   checkout.php --> mailer.php
@@ -265,13 +265,13 @@ composer install
 │   └── mailerSettings.php
 ├── generatePDF.php
 ├── img/
-├── index.php
+├── calc.php
 ├── invoice.php
 ├── mailer.php
 ├── README.md
 ├── styles/
 │   ├── checkout.css
-│   └── index.css
+│   └── calc.css
 ├── utils
 │   ├── debug.php
 │   ├── imagePath.php
@@ -378,7 +378,7 @@ composer install
 </div>
 
 Добавление / удаление товаров, изменение цен, картинок производится редактированием
-соответствующих значений в массиве `items` в файле  `index.php`.
+соответствующих значений в массиве `items` в файле  `calc.php`.
 
 ```
 $items = [
@@ -545,7 +545,7 @@ cp .env.example .env
   <h2>Хостинг на hostia</h2>
 </div>
 
-* Создание папку для архива проекта
+* Создание папки для архива проекта
 
 ```
 mkdir releases
@@ -554,7 +554,7 @@ mkdir releases
 * Создание архива проекта
 
 ```
- zip -r releases/v_1_0_0.zip .htaccess captcha.php checkout.php composer.json composer.lock configs/ generatePDF.php img/ index.php invoice.php mailer.php README.md styles/ utils/ vendor/
+ zip -r releases/v_1_0_0.zip .htaccess captcha.php checkout.php composer.json composer.lock configs/ generatePDF.php img/ calc.php invoice.php mailer.php README.md styles/ utils/ vendor/
 ```
 
 * Копирование архива на хостинг
