@@ -559,7 +559,7 @@ mkdir releases
 * Создание архива проекта
 
 ```
- zip -r releases/v_1_0_0.zip .htaccess captcha.php checkout.php composer.json composer.lock configs/ generatePDF.php img/ calc.php invoice.php mailer.php README.md styles/ utils/ vendor/
+ zip -r releases/v_1_0_1.zip .htaccess captcha.php checkout.php composer.json composer.lock configs/ generatePDF.php img/ calc.php invoice.php mailer.php README.md styles/ utils/ vendor/
 ```
 
 * Копирование архива на хостинг
