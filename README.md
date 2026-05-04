@@ -3,7 +3,7 @@
   <h1>Скрипт php: Калькулятор-заказа с отправкой счёта на оплату</h1>
 
   ![Stars](https://img.shields.io/github/stars/AlexandrAnatoliev/freelance1.svg?style=flat)
-  ![Version 1.0.0](https://img.shields.io/badge/Version-1.0.0-orange.svg)
+  ![Version 1.0.1](https://img.shields.io/badge/Version-1.0.1-orange.svg)
   ![Forks](https://img.shields.io/github/forks/AlexandrAnatoliev/freelance1.svg?style=flat)
   ![GitHub repo size](https://img.shields.io/github/repo-size/AlexandrAnatoliev/freelance1)
   
@@ -536,6 +536,11 @@ cp .env.example .env
 # BANK_DETAILS_IP_FULL_NAME='ИП Иванов Иван, ИНН 123456789876, 123456, Ивановская область, г.о. Ивановский, г Иваново, ул Ивановская, д. 12, кв./оф. 34, тел: +7 (123) 456-78-90'
 # BANK_DETAILS_PAYMENT_BASIS='Основной договор'
 # BANK_DETAILS_ENTREPRENEURS_SURNAME='Иванов И.'
+
+# ============================================
+# Settings.php
+# ============================================
+# DEBUG=true
 ```
 
 ---
