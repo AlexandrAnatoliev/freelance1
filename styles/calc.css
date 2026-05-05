@@ -258,3 +258,6 @@ input[type="tel"].error {
   display: none;
 }
 
+#quantityWarning {
+  display: none;
+}
