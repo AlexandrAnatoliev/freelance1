@@ -3,7 +3,7 @@
   <h1>Скрипт php: Калькулятор-заказа с отправкой счёта на оплату</h1>
 
   ![Stars](https://img.shields.io/github/stars/AlexandrAnatoliev/freelance1.svg?style=flat)
-  ![Version 1.0.1](https://img.shields.io/badge/Version-1.0.1-orange.svg)
+  ![Version 1.0.2](https://img.shields.io/badge/Version-1.0.2-orange.svg)
   ![Forks](https://img.shields.io/github/forks/AlexandrAnatoliev/freelance1.svg?style=flat)
   ![GitHub repo size](https://img.shields.io/github/repo-size/AlexandrAnatoliev/freelance1)
   
@@ -262,7 +262,8 @@ composer install
 │   ├── .env.example
 │   ├── adminSettings.php
 │   ├── bankDetailsSettings.php
-│   └── mailerSettings.php
+│   ├── mailerSettings.php
+│   └── settings.php
 ├── generatePDF.php
 ├── img/
 ├── calc.php

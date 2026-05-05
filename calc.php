@@ -205,7 +205,7 @@ $_SESSION['addon_prices_session'] = $addon_prices;
             <h2>2. Нужное количество</h2>
             <div class="quantity-block">
               <select id="quantity" name="quantity" required>
-                <?= getSelector(min: 50, max: 1000, step: 50); ?>
+                <?= getSelector(min: 0, max: 1000, step: 50); ?>
               </select>
             </div>
 
@@ -225,6 +225,11 @@ $_SESSION['addon_prices_session'] = $addon_prices;
             <!-- Предупреждение: нанесение без сувенира -->
             <div id="souvenirWarning" class="warning-box">
                 ⚠️ Сначала выберите сувенир
+            </div>
+
+            <!-- Предупреждение: нанесение без количества -->
+            <div id="quantityWarning" class="warning-box">
+                ⚠️ Сначала выберите количество! Цена нанесения зависит от количества.
             </div>
 
             <!-- Блок "Выбрано:" -->
@@ -364,6 +369,15 @@ function calculateTotal() {
     document.getElementById('totalPrice').textContent = new Intl.NumberFormat('ru-RU').format(total);
 }
 
+function updateQuantityWarning() {
+    const qty = parseInt(document.getElementById('quantity').value) || 0;
+    const hasAddons = document.querySelectorAll('input[name="addons[]"]:checked').length > 0;
+    const warning = document.getElementById('quantityWarning');
+    if (warning) {
+        warning.style.display = (hasAddons && qty === 0) ? 'block' : 'none';
+    }
+}
+
 // Обработчики событий
 const form      = document.getElementById('orderForm');
 const qtySelect = document.getElementById('quantity');
@@ -376,12 +390,16 @@ form.addEventListener('change', function(e) {
     if (e.target && e.target.id === 'quantity') {
         updateAddonPricesDisplay();
     }
+    // Проверка количества
+    updateQuantityWarning();
 });
 
 qtySelect.addEventListener('change', function() {
     updateAddonPricesDisplay();
     updateSelectedItems();
     calculateTotal();
+    // Проверка количества
+    updateQuantityWarning();
 });
 
 // Инициализация при загрузке
@@ -389,6 +407,8 @@ window.addEventListener('DOMContentLoaded', function() {
     updateAddonPricesDisplay();
     updateSelectedItems();
     calculateTotal();
+    // Проверка количества
+    updateQuantityWarning();
 });
 
 form.addEventListener('submit', function(e) {
