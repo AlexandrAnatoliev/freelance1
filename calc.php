@@ -205,7 +205,7 @@ $_SESSION['addon_prices_session'] = $addon_prices;
             <h2>2. Нужное количество</h2>
             <div class="quantity-block">
               <select id="quantity" name="quantity" required>
-                <?= getSelector(min: 50, max: 1000, step: 50); ?>
+                <?= getSelector(min: 0, max: 1000, step: 50); ?>
               </select>
             </div>
 
